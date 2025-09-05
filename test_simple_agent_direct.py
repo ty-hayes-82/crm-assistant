@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 try:
     from google.adk.agents import LlmAgent
-    from google.adk import Agent
+    from google.adk import Agent, Runner
     import yaml
     
     # Load the agent configuration manually
@@ -47,12 +47,13 @@ try:
     
     print(f"Agent created successfully: {type(agent)}")
     
-    # Test basic functionality
-    print("\n=== Testing Agent ===")
+    # Test basic functionality using Runner
+    print("\n=== Testing Agent with Runner ===")
     print("Testing basic agent response...")
     
     try:
-        response = agent.run("Hello, can you tell me about your capabilities?")
+        runner = Runner()
+        response = runner.run(agent, "Hello, can you tell me about your capabilities?")
         print(f"Agent response: {response}")
     except Exception as e:
         print(f"Error testing agent: {e}")
