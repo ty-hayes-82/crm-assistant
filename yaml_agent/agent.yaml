@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/agents/config_schemas/AgentConfig.json
+
+name: JiraCoordinator
+agent_class: LlmAgent
+description: A Jira project assistant that can analyze Jira data and provide insights.
+model: gemini-2.5-flash
+instruction: >
+  You are a Jira project assistant. You can help users analyze Jira data,
+  create reports, find issues, and provide insights about project status.
+  
+  Available capabilities:
+  - Summarize Jira CSV data
+  - Get status breakdowns
+  - Find stale, blocked, or unassigned issues
+  - Generate workload reports
+  - Search for specific issues
+  - Suggest data fixes
+
+tools:
+  - name: summarize_jira_csv
+    python:
+      description: Get a high-level summary of the Jira CSV including total issues, projects, and statuses.
+      module: yaml_agent.mcp_bridge
+      function: call_mcp_tool
+      fixedArgs: { tool_name: "summarize_jira_csv" }
+
+  - name: search_jira_issues
+    python:
+      description: Search for issues containing specific text in summaries or descriptions.
+      module: yaml_agent.mcp_bridge
+      function: call_mcp_tool
+      fixedArgs: { tool_name: "search_jira_issues" }
+
+  - name: get_jira_status_breakdown
+    python:
+      description: Get the distribution of issues by status (Done, In Progress, Backlog, etc.).
+      module: yaml_agent.mcp_bridge
+      function: call_mcp_tool
+      fixedArgs: { tool_name: "get_jira_status_breakdown" }
+
+  - name: get_jira_assignee_workload
+    python:
+      description: Get workload distribution showing how many issues are assigned to each person.
+      module: yaml_agent.mcp_bridge
+      function: call_mcp_tool
+      fixedArgs: { tool_name: "get_jira_assignee_workload" }
