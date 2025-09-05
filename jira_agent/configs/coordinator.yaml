@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/google/adk-python/refs/heads/main/src/google/adk/agents/config_schemas/AgentConfig.json
+name: jira_coordinator
+description: Multi-agent coordinator for Jira operations with intelligent routing
+instruction: Route user requests to specialized Jira agents based on intent and domain
+author: ADK Multi-Agent System
+tools:
+  - type: adk.python_module
+    module: jira_agent.coordinator_main
+    object: coordinator_agent

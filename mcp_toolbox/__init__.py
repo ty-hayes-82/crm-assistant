@@ -1,1 +1,0 @@
-# MCP Toolbox for Jira CSV Analysis 

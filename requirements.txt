@@ -1,4 +1,10 @@
-mcp>=1.0.0
-pydantic>=2.0.0
-pandas>=2.0.0
-fastmcp>=0.1.0
+google-adk
+pandas
+mcp
+apache-beam # mcp dependency
+fastapi # mcp dependency
+uvicorn # mcp dependency
+python-dotenv # mcp dependency
+pygments # mcp dependency
+pyarrow
+fastparquet
