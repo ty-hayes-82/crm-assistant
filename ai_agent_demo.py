@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Demo AI Agent that uses our HubSpot MCP Server
-This shows how your internal AI agent team can interact with HubSpot data.
+Simple AI Agent Demo for HubSpot MCP Server
+Shows basic integration with HubSpot CRM data via the MCP server.
 """
 
 import requests
@@ -115,8 +115,10 @@ class HubSpotAgent:
 
 def main():
     """Demo the HubSpot AI Agent"""
-    print("🤖 HubSpot AI Agent Demo")
+    print("🤖 Simple HubSpot AI Agent Demo")
     print("=" * 50)
+    print("This demo shows basic HubSpot CRM integration.")
+    print("For advanced company analysis, use: python company_intelligence_demo.py")
     
     # Create agent
     agent = HubSpotAgent()
@@ -130,15 +132,14 @@ def main():
         agent.get_account_summary()
         
         print("\n" + "=" * 50)
-        print("🎉 Demo completed successfully!")
-        print("\nYour AI agent team can now:")
-        print("• Query HubSpot contacts, companies, and deals")
-        print("• Get account information")
-        print("• Integrate HubSpot data into AI workflows")
-        print("• Build custom automations and reports")
+        print("🎉 Basic demo completed successfully!")
+        print("\n💡 Next steps:")
+        print("• Try advanced company analysis: python company_intelligence_demo.py")
+        print("• Test company intelligence: python test_company_intelligence.py")
+        print("• See production examples: python production_agent_example.py")
     else:
         print("❌ Could not connect to HubSpot MCP server")
-        print("Make sure the server is running on http://localhost:8081")
+        print("💡 Make sure the server is running: python mcp_wrapper/simple_hubspot_server.py")
 
 if __name__ == "__main__":
     main()

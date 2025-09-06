@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Test script for company intelligence functionality.
-Tests the MCP server endpoints for company analysis.
+Test Suite for Company Intelligence System
+Tests all MCP server endpoints for comprehensive company analysis.
 """
 
 import requests
@@ -211,12 +211,16 @@ if __name__ == "__main__":
         success = test_mcp_server()
         
         if success:
+            print("\n✅ All tests passed!")
             print("\n💡 Next steps:")
             print("  1. Try the interactive demo: python company_intelligence_demo.py")
             print("  2. See usage examples: python test_company_intelligence.py --examples")
             print("  3. Test with real company data in your HubSpot account")
+            print("  4. Try production examples: python production_agent_example.py")
         else:
+            print("\n❌ Some tests failed!")
             print("\n🔧 Troubleshooting:")
             print("  1. Make sure the server is running: python mcp_wrapper/simple_hubspot_server.py")
             print("  2. Check your .env file has PRIVATE_APP_ACCESS_TOKEN configured")
             print("  3. Verify your HubSpot token has the required scopes")
+            print("  4. Check server logs for detailed error information")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Production AI Agent Template for HubSpot Integration
-Use this as a starting point for your internal AI agent team.
+Shows how to build production-ready agents using the company intelligence MCP server.
 """
 
 import requests
@@ -104,8 +104,66 @@ class HubSpotProductionAgent:
         print(f"🎯 Found {len(high_value_companies)} high-value companies")
         return high_value_companies
 
+    def analyze_company_portfolio(self):
+        """Example: Analyze company portfolio using company intelligence"""
+        print(f"🤖 {self.agent_name}: Analyzing company portfolio...")
+        
+        # Get companies
+        companies = self._call_hubspot_tool("get_companies", {"limit": 10})
+        if not companies or "results" not in companies:
+            return {"error": "No companies found"}
+        
+        portfolio_analysis = {
+            "total_companies": len(companies["results"]),
+            "companies_analyzed": 0,
+            "high_value_companies": [],
+            "needs_attention": []
+        }
+        
+        # Analyze each company
+        for company in companies["results"][:5]:  # Analyze first 5
+            company_id = company["id"]
+            company_name = company.get("properties", {}).get("name", "Unknown")
+            
+            print(f"  📊 Analyzing {company_name}...")
+            
+            # Generate company report
+            report = self._call_hubspot_tool("generate_company_report", {"company_id": company_id})
+            
+            if report and "analysis" in report:
+                analysis = report["analysis"]
+                
+                # Classify company
+                if "deal_summary" in analysis:
+                    deal_summary = analysis["deal_summary"]
+                    total_value = deal_summary.get("total_deal_value", 0)
+                    
+                    if total_value > 10000:  # High value threshold
+                        portfolio_analysis["high_value_companies"].append({
+                            "name": company_name,
+                            "id": company_id,
+                            "deal_value": total_value
+                        })
+                
+                # Check data quality
+                if "company_profile" in analysis:
+                    profile = analysis["company_profile"]
+                    completeness = profile.get("data_completeness", 0)
+                    
+                    if completeness < 50:  # Needs attention threshold
+                        portfolio_analysis["needs_attention"].append({
+                            "name": company_name,
+                            "id": company_id,
+                            "completeness": completeness
+                        })
+                
+                portfolio_analysis["companies_analyzed"] += 1
+        
+        print(f"📈 Portfolio analysis complete: {portfolio_analysis['companies_analyzed']} companies analyzed")
+        return portfolio_analysis
+
     def generate_daily_report(self):
-        """Example: Generate a daily CRM report"""
+        """Example: Generate a daily CRM report with company intelligence"""
         print(f"🤖 {self.agent_name}: Generating daily report...")
         
         # Get account info
@@ -114,18 +172,18 @@ class HubSpotProductionAgent:
         # Analyze deals
         deal_analysis = self.analyze_recent_deals()
         
-        # Find high-value contacts
-        high_value = self.find_high_value_contacts()
+        # Analyze company portfolio
+        portfolio_analysis = self.analyze_company_portfolio()
         
         report = {
             "report_date": datetime.now().strftime("%Y-%m-%d"),
             "agent": self.agent_name,
             "account_id": account.get("portalId") if account else "Unknown",
             "deal_analysis": deal_analysis,
-            "high_value_companies": len(high_value),
+            "portfolio_analysis": portfolio_analysis,
             "recommendations": [
-                "Focus on deals in early stages",
-                f"Prioritize outreach to {len(high_value)} large companies",
+                f"Focus on {len(portfolio_analysis.get('high_value_companies', []))} high-value companies",
+                f"Improve data quality for {len(portfolio_analysis.get('needs_attention', []))} companies",
                 "Review stalled deals for follow-up opportunities"
             ]
         }
@@ -158,12 +216,13 @@ def main():
     report = sales_agent.generate_daily_report()
     
     print("\n🎉 AI Agent Team execution complete!")
-    print("\nYour agents can now:")
-    print("• Run automated analysis on HubSpot data")
-    print("• Generate insights and recommendations") 
-    print("• Identify high-value prospects")
-    print("• Create daily/weekly reports")
-    print("• Scale to handle multiple workflows simultaneously")
+    print("\nYour production agents can now:")
+    print("• Run automated company portfolio analysis")
+    print("• Generate comprehensive company intelligence reports")
+    print("• Identify high-value companies and data quality issues") 
+    print("• Create daily/weekly reports with strategic insights")
+    print("• Scale to handle multiple company analysis workflows")
+    print("\n💡 This demonstrates how to use the company intelligence tools in production!")
 
 if __name__ == "__main__":
     main()
