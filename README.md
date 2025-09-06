@@ -1,321 +1,120 @@
-# Jira Multi-Agent System
+# CRM Assistant - Multi-Agent Company Intelligence and Data Quality
 
-A comprehensive multi-agent system for analyzing Jira data using Google's Agent Development Kit (ADK). This system implements advanced multi-agent patterns including Coordinator/Dispatcher, Sequential Pipeline, and Parallel Fan-Out/Gather for intelligent Jira data analysis and management.
+A production-ready team of AI agents and tools that help you:
+- Ask questions about any company in HubSpot and get a complete answer
+- Pull all associated contacts and deals
+- Analyze pipelines and generate insights
+- Audit data quality, find gaps, and recommend fixes
 
-## 🚀 Quick Start
+## Quick Start
 
-### Prerequisites
-- Python 3.8+
-- Conda environment management
-- Google ADK framework
-- Jira CSV export files
-
-### Installation
-
-1. **Clone and Setup Environment**
-   ```bash
-   git clone <repository-url>
-   cd yaml
-   conda create -n adk python=3.9
-   conda activate adk
-   pip install -r requirements.txt
-   ```
-
-2. **Place Jira Data**
-   ```bash
-   # Export your Jira data as CSV and place in:
-   docs/jira_exports/Jira_YYYY-MM-DD_HH_MM_SS-TZ.csv
-   
-   # The system automatically finds and loads the most recent CSV file
-   ```
-
-3. **Run the Agent**
-   ```bash
-   # Simple agent (recommended for beginners)
-   adk run jira_agent
-   
-   # Multi-agent coordinator (advanced features)
-   adk run jira_agent.coordinator_main
-   
-   # Web interface
-   adk web jira_agent
-   ```
-
-## 🎯 What You Can Do
-
-### Immediate Capabilities
-- **📊 Data Analysis**: Status breakdowns, assignee workloads, priority distributions
-- **🔍 Smart Search**: Find issues by keywords, status, assignee, or custom criteria
-- **📈 Project Health**: Risk assessments, stale issue detection, blocked item analysis
-- **🔧 Data Quality**: Missing field detection, automated fix suggestions
-- **📋 Professional Reports**: Executive summaries, team dashboards, comprehensive overviews
-
-### Example Queries
-```bash
-# After running adk run jira_agent:
-"Show me all unassigned issues"
-"Generate a project health report"
-"Find issues that haven't been updated in 30 days"
-"What's the status breakdown for this project?"
-"Create an executive summary report"
-"Find all blocked issues"
-"Analyze data quality issues"
+1) Configure your HubSpot Private App token in `.env` at repo root:
+```
+PRIVATE_APP_ACCESS_TOKEN=your_hubspot_token
 ```
 
-## 🏗️ Architecture Overview
-
-This system implements a sophisticated multi-agent architecture with three main layers:
-
-### 1. **Coordinator Layer**
-- **JiraCoordinator**: Central routing agent that delegates tasks to specialized agents
-- **ClarificationAgent**: Handles ambiguous requests by asking clarifying questions
-
-### 2. **Specialized Agents**
-- **QueryAgent**: Data queries, searches, and issue lookups
-- **AnalysisAgent**: Metrics calculation, breakdowns, and insights
-- **ReportingAgent**: Professional reports and summaries
-- **DataQualityAgent**: Data validation and cleanup operations
-
-### 3. **Workflow Agents** (Advanced)
-- **RiskAssessmentPipeline**: Sequential workflow for comprehensive risk analysis
-- **DataQualityWorkflow**: Multi-step data improvement with human approval
-- **ProjectHealthDashboard**: Parallel data gathering with comprehensive reporting
-
-## 🛠️ Key Features
-
-### ✨ Automatic Data Loading
-- **Smart Discovery**: Automatically finds and loads the most recent Jira CSV file
-- **Caching**: Uses Parquet files for fast subsequent loads
-- **Zero Configuration**: No need to specify file paths manually
-
-### 🧠 Intelligent Agent Routing
-- **Context-Aware**: Understands user intent and routes to the best agent
-- **Fallback Handling**: Uses ClarificationAgent for ambiguous requests
-- **State Management**: Agents share data through typed session state
-
-### 🔧 Advanced Capabilities
-- **Multi-Step Workflows**: Complex operations using Sequential and Parallel agents
-- **Human-in-the-Loop**: Approval workflows for data modifications
-- **Error Recovery**: Graceful handling of failures with helpful suggestions
-
-### 🎨 Clean Output
-- **Warning Suppression**: Clean interface without experimental feature warnings
-- **Professional Formatting**: Well-structured reports and analysis
-- **Actionable Insights**: Clear recommendations and next steps
-
-## 📁 Project Structure
-
+2) Start the MCP server (provides HubSpot tools):
 ```
-jira_agent/                 # Main agent system
-├── core/                   # Base classes and factories
-│   ├── base_agents.py     # Common agent base classes
-│   ├── factory.py         # Agent registry and creation
-│   └── state_models.py    # Typed state management
-├── agents/                 # Specialized agent implementations
-│   ├── specialized/       # Domain-specific agents
-│   └── workflows/         # Multi-step workflow agents
-├── coordination/           # Main coordination layer
-│   ├── coordinator.py     # Central coordinator agent
-│   └── main.py           # Simple agent entry point
-├── utils/                  # Utilities and helpers
-│   ├── warning_suppression.py  # Clean output management
-│   └── startup.py         # Initialization utilities
-└── configs/               # Configuration files
-
-jira_fastmcp_server/       # MCP server with enhanced tools
-├── server.py             # FastMCP server setup
-└── tools.py              # 15+ specialized Jira analysis tools
-
-docs/                      # Documentation and data
-├── jira_exports/         # Place your Jira CSV files here
-├── PHASED_DEVELOPMENT_STRATEGY.md  # Development roadmap
-└── MULTI_AGENT_ARCHITECTURE.md     # Detailed architecture guide
-
-tests/                     # Test suite
-└── test_enhanced_system.py  # System validation tests
+python mcp_wrapper/simple_hubspot_server.py
 ```
 
-## 🔍 Available Tools & Capabilities
-
-### Core Data Operations
-- `load_jira_csv()` - Auto-load most recent CSV file
-- `list_jira_issues()` - Browse issues with pagination
-- `get_issue_details()` - Detailed issue information
-- `search_issues()` - Flexible search across fields
-
-### Analysis & Reporting
-- `summarize_jira_csv()` - High-level project overview
-- `get_jira_status_breakdown()` - Status distribution analysis
-- `get_jira_assignee_workload()` - Team workload analysis
-- `get_status_summary()` - Quick status counts
-- `get_assignee_summary()` - Assignee distribution
-
-### Risk & Quality Management
-- `find_stale_issues_in_project()` - Identify neglected issues
-- `find_blocked_issues_in_project()` - Detect blocked work
-- `find_due_soon_issues_in_project()` - Upcoming deadlines
-- `find_unassigned_issues_in_project()` - Work without owners
-- `find_issues_with_missing_fields()` - Data quality audit
-- `suggest_data_fixes()` - Automated improvement recommendations
-- `apply_bulk_jira_updates()` - Batch data modifications (with approval)
-
-## 🎭 Agent Personalities & Specializations
-
-### Simple Agent (Default)
-**Best for**: First-time users, basic queries, general exploration
-- Automatically loads data on startup
-- Provides helpful suggestions
-- Handles all basic operations
-
-### QueryAgent
-**Best for**: Finding specific issues, complex searches
-- Optimized for data retrieval
-- Advanced search capabilities
-- Saves results for other agents
-
-### AnalysisAgent  
-**Best for**: Understanding project metrics, identifying trends
-- Statistical analysis
-- Breakdown reports
-- Pattern identification
-
-### ReportingAgent
-**Best for**: Professional presentations, executive summaries
-- Executive-ready formatting
-- Comprehensive overviews
-- Actionable insights
-
-### Coordinator (Advanced)
-**Best for**: Complex workflows, multi-step operations
-- Intelligent request routing
-- Orchestrates multiple agents
-- Handles ambiguous requests
-
-## 📊 Example Use Cases
-
-### 1. Project Health Check
+3) Call tools directly (curl examples):
 ```
-User: "How is the project doing?"
-→ Coordinator routes to AnalysisAgent
-→ Generates comprehensive health metrics
-→ Provides risk assessment and recommendations
+# Search for a company
+curl -s -X POST http://localhost:8081/mcp -H 'Content-Type: application/json' -d '{
+  "jsonrpc":"2.0","id":1,
+  "method":"call_tool",
+  "params":{"name":"search_companies","arguments":{"query":"HubSpot","limit":5}}
+}' | jq
+
+# Generate a comprehensive report by domain
+curl -s -X POST http://localhost:8081/mcp -H 'Content-Type: application/json' -d '{
+  "jsonrpc":"2.0","id":2,
+  "method":"call_tool",
+  "params":{"name":"generate_company_report","arguments":{"domain":"hubspot.com"}}
+}' | jq
 ```
 
-### 2. Risk Assessment
-```
-User: "Show me project risks"
-→ Coordinator routes to RiskAssessmentPipeline
-→ Sequential agents find: stale issues → blocked issues → due soon
-→ Synthesizes comprehensive risk report with priorities
-```
+## Core Capabilities
 
-### 3. Data Quality Audit
-```
-User: "Clean up our data"
-→ Coordinator routes to DataQualityWorkflow
-→ Identifies issues → suggests fixes → awaits approval → applies changes
-→ Provides before/after quality metrics
-```
+- Company Intelligence
+  - Find a company by name/domain (`search_companies`)
+  - Get full profile + all associated contacts and deals (`get_company_details`)
+  - Generate an insight-rich report (`generate_company_report`)
+- CRM Operations
+  - Create/update contacts and companies (`create_contact`, `update_contact`, `create_company`)
+  - Create tasks and deals (`create_task`, `create_deal`)
+  - Send emails (`send_email`)
+- Data Quality Intelligence
+  - Gap detection across companies/contacts
+  - Format validation (email, phone, domain)
+  - Prioritized cleanup recommendations
 
-## 🚦 Getting Started Guide
+## Using the Agents
 
-### Step 1: Basic Exploration
-1. Run `adk run jira_agent`
-2. Try: `"list the first 10 issues"`
-3. Try: `"show me a project summary"`
+We provide specialized agents and workflows under `crm_agent/`:
+- `CompanyIntelligenceAgent` – Comprehensive company Q&A
+- `DataQualityIntelligenceAgent` – Scrutinizes data quality and highlights gaps
+- Workflows: `crm_agent/agents/workflows/`
+  - `crm_enrichment.py` – Full enrichment pipeline
+  - `data_quality_workflow.py` – Assessment and monitoring
 
-### Step 2: Analysis & Insights
-1. Try: `"what's the status breakdown?"`
-2. Try: `"show me assignee workloads"`
-3. Try: `"find all unassigned issues"`
+You can instantiate a system-level agent via `crm_agent/coordinator.py`:
+```python
+from crm_agent.coordinator import get_crm_agent
 
-### Step 3: Advanced Operations
-1. Switch to: `adk run jira_agent.coordinator_main`
-2. Try: `"perform a risk assessment"`
-3. Try: `"generate an executive report"`
-
-## 🔧 Configuration
-
-### Environment Variables
-```bash
-# Optional: Customize default behavior
-export JIRA_CSV_PATH="path/to/your/csv"
-export ADK_LOG_LEVEL="INFO"
+agent = get_crm_agent(agent_type="coordinator")
+# Provide your prompt and session state using your LLM driver (Google ADK)
 ```
 
-### Agent Configuration
-Agents can be customized through the factory pattern in `jira_agent/core/factory.py`. The system uses programmatic configuration (Python) rather than YAML for better IDE support and type safety.
+## Programmatic Examples (Python)
 
-## 🧪 Testing
+Minimal helper to call a tool via MCP:
+```python
+import requests, json
+MCP_URL = "http://localhost:8081/mcp"
 
-```bash
-# Run the test suite
-python -m pytest tests/
+def call_tool(name, arguments=None):
+    payload = {"jsonrpc":"2.0","id":1,"method":"call_tool","params":{"name":name,"arguments":arguments or {}}}
+    r = requests.post(MCP_URL, json=payload)
+    r.raise_for_status()
+    content = r.json()["result"]["content"][0]["text"]
+    return json.loads(content)
 
-# Validate system components
-python tests/test_enhanced_system.py
+# 1) Find company
+matches = call_tool("search_companies", {"query":"Idle Hour","limit":5})
 
-# Test specific agents
-adk run jira_agent.coordination.main
-# Then try the example queries from the development strategy
+# 2) Pick first result and get report
+if matches.get("results"):
+    company_id = matches["results"][0]["id"]
+    report = call_tool("generate_company_report", {"company_id": company_id})
+    print(report)
 ```
 
-## 🤝 Contributing
+## Data Quality – What You Get
 
-This system is designed to be extensible. To add new capabilities:
+The Data Quality Intelligence exposes:
+- Overall health score (GOOD/FAIR/POOR)
+- Average completeness for companies and contacts
+- Critical issues (missing key fields, invalid emails)
+- High/medium priority cleanup opportunities
+- Process improvement suggestions
 
-1. **New Tools**: Add functions to `jira_fastmcp_server/tools.py`
-2. **New Agents**: Create specialized agents in `jira_agent/agents/specialized/`
-3. **New Workflows**: Build multi-step processes in `jira_agent/agents/workflows/`
-4. **Register**: Add to the factory in `jira_agent/core/factory.py`
+To integrate this in your own runner, use `crm_agent/agents/specialized/data_quality_intelligence_agent.py` or call MCP tools and apply your own scoring.
 
-See `docs/MULTI_AGENT_ARCHITECTURE.md` for detailed implementation patterns.
+## Tool Catalog (from MCP server)
 
-## 📚 Documentation
+- search_companies, get_company_details, generate_company_report
+- get_contacts, get_companies, get_deals
+- create_contact, update_contact, create_company, create_deal, create_task
+- send_email, get_custom_properties, create_webhook
+- get_account_info
 
-- **[Architecture Guide](docs/MULTI_AGENT_ARCHITECTURE.md)** - Detailed system design and patterns
-- **[Development Strategy](docs/PHASED_DEVELOPMENT_STRATEGY.md)** - Implementation roadmap and phases
-- **[API Reference](jira_fastmcp_server/tools.py)** - All available tools and functions
+## Troubleshooting
 
-## 🐛 Troubleshooting
+- Health check: `curl http://localhost:8081/health`
+- Token missing → ensure `.env` contains `PRIVATE_APP_ACCESS_TOKEN`
+- Empty results → verify the company exists in your HubSpot portal and the token scopes include read access
 
-### Common Issues
-
-**Data not loading?**
-- Ensure CSV files are in `docs/jira_exports/`
-- Check file naming: `Jira_YYYY-MM-DD_*.csv`
-- Try: `list_available_jira_csvs()` to see available files
-
-**Agent not responding?**
-- Check ADK environment: `conda activate adk`
-- Verify installation: `pip install -r requirements.txt`
-- Check logs in temp directory (path shown at startup)
-
-**Warnings appearing?**
-- Should be automatically suppressed
-- If persisting, check `jira_agent/utils/warning_suppression.py`
-
-### Getting Help
-
-1. **Check the logs**: ADK provides detailed logging (path shown at startup)
-2. **Try the simple agent first**: `adk run jira_agent` for basic functionality
-3. **Use built-in help**: Ask agents "what can you do?" or "help me get started"
-
-## 🎯 Next Steps
-
-After getting familiar with the basic functionality:
-
-1. **Explore Advanced Agents**: Try the coordinator for complex workflows
-2. **Customize for Your Data**: Modify tools in `jira_fastmcp_server/tools.py`
-3. **Build New Workflows**: Create domain-specific multi-agent processes
-4. **Integrate with Your Systems**: Extend the MCP server for your tools
-
-## 📄 License
-
-This project demonstrates advanced multi-agent patterns using Google ADK. Refer to individual component licenses for specific terms.
-
----
-
-**Built with ❤️ using Google ADK and the power of multi-agent collaboration**
-
-*Ready to transform your Jira data analysis? Start with `adk run jira_agent` and discover what your data has been trying to tell you!*
+## License
+MIT

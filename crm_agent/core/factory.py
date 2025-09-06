@@ -83,9 +83,25 @@ class CRMAgentRegistry(AgentRegistry):
             create_crm_updater,
             create_crm_data_quality_agent
         )
+        from ..agents.specialized.company_intelligence_agent import create_company_intelligence_agent
+        from ..agents.specialized.contact_intelligence_agent import create_contact_intelligence_agent
         from ..agents.workflows.crm_enrichment import create_crm_workflows
         # Note: CRM data quality workflow is created in the CRM workflows module
         
+        # Company Intelligence Agent
+        self.register("company_intelligence", create_company_intelligence_agent, {
+            "description": "Provides comprehensive company analysis and intelligence.",
+            "domain": "company_intelligence",
+            "tools": ["search_companies", "get_company_details", "generate_company_report", "web_search", "get_company_metadata"]
+        })
+
+        # Contact Intelligence Agent
+        self.register("contact_intelligence", create_contact_intelligence_agent, {
+            "description": "Provides comprehensive contact analysis and intelligence.",
+            "domain": "contact_intelligence",
+            "tools": ["search_contacts", "get_contact_details", "generate_contact_report", "web_search"]
+        })
+
         # CRM Query Builder Agent
         self.register("crm_query_builder", create_crm_query_builder, {
             "description": "Crafts precise queries for web/LinkedIn/company sources from CRM gaps",
@@ -203,6 +219,16 @@ def create_crm_web_retriever(**kwargs) -> BaseAgent:
 def create_crm_enrichment_pipeline(**kwargs) -> BaseAgent:
     """Create a CRM Enrichment Pipeline workflow."""
     return crm_agent_registry.create_agent("crm_enrichment_pipeline", **kwargs)
+
+
+def create_company_intelligence_agent(**kwargs) -> BaseAgent:
+    """Create a Company Intelligence agent."""
+    return crm_agent_registry.create_agent("company_intelligence", **kwargs)
+
+
+def create_contact_intelligence_agent(**kwargs) -> BaseAgent:
+    """Create a Contact Intelligence agent."""
+    return crm_agent_registry.create_agent("contact_intelligence", **kwargs)
 
 
 # Export the main CRM agent creation function
