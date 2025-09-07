@@ -33,6 +33,11 @@ def create_crm_coordinator() -> LlmAgent:
         model='gemini-2.5-flash'
     )
     
+    # Create intelligence agents for company and contact analysis
+    company_intelligence = crm_agent_registry.create_agent("company_intelligence")
+    contact_intelligence = crm_agent_registry.create_agent("contact_intelligence")
+    crm_enrichment = crm_agent_registry.create_agent("crm_enrichment")
+    
     # Create all specialized CRM agents using the CRM registry
     query_builder = crm_agent_registry.create_agent("crm_query_builder")
     web_retriever = crm_agent_registry.create_agent("crm_web_retriever")
@@ -42,7 +47,6 @@ def create_crm_coordinator() -> LlmAgent:
     summarizer = crm_agent_registry.create_agent("crm_summarizer")
     entity_resolver = crm_agent_registry.create_agent("crm_entity_resolver")
     crm_updater = crm_agent_registry.create_agent("crm_updater")
-    data_quality_agent = crm_agent_registry.create_agent("crm_data_quality")
     
     # Create workflow agents using the CRM registry
     enrichment_pipeline = crm_agent_registry.create_agent("crm_enrichment_pipeline")
@@ -71,16 +75,25 @@ def create_crm_coordinator() -> LlmAgent:
        - Specific fields to enrich (industry, size, etc.)
        - Quality vs. enrichment focus
     
-    3. **INTELLIGENT ROUTING**:
+    3. **INTELLIGENT ROUTING** - HUBSPOT FIRST PRINCIPLE:
     
+    🏆 **CORE RULE: ALWAYS CHECK HUBSPOT FIRST** - Before any web searches or external enrichment, 
+    always start by checking what data we already have in HubSpot CRM.
+    
+    **For ALL COMPANY QUESTIONS** ("Does Louisville Country Club use Jonas?", "tell me about ACME Corp", "what's the status of XYZ company"):
+    → Route to: **CompanyIntelligenceAgent** (ALWAYS starts by searching HubSpot, then provides comprehensive analysis)
+    
+    **For ALL CONTACT QUESTIONS** ("tell me about John Doe", "what's the status of john@acme.com", "contact analysis"):
+    → Route to: **ContactIntelligenceAgent** (ALWAYS starts by searching HubSpot, then provides comprehensive analysis)
+    
+    **For specific ENRICHMENT requests** ("find the website for ACME Corp", "what is the address for ExampleCorp"):
+    → Route to: **CompanyIntelligenceAgent** FIRST to check existing HubSpot data, then **CrmEnrichmentAgent** if needed
+
     **For ENRICHMENT requests** ("enrich ACME Corp", "update John's profile", "find missing data"):
     → Route to: **CRMEnrichmentPipeline** (complete 8-step workflow)
     
     **For QUICK LOOKUPS** ("what do we know about ACME?", "summarize John Doe"):
     → Route to: **CRMQuickLookupWorkflow** (fast summary generation)
-    
-    **For DATA QUALITY** ("check data quality", "find missing fields", "clean up records"):
-    → Route to: **CRMDataQualityWorkflow** (comprehensive quality assessment)
     
     **For SPECIFIC UPDATES** ("update industry to Software", "change company size"):
     → Route to: **CRMUpdaterAgent** (direct update with approval)
@@ -93,32 +106,44 @@ def create_crm_coordinator() -> LlmAgent:
        - Session state is initialized with available context
        - User intent is clearly documented in routing decision
     
-    5. **ROUTING EXAMPLES**:
+    5. **ROUTING EXAMPLES** - HUBSPOT FIRST:
+    
+    User: "Does Louisville Country Club use Jonas?"
+    → Route to: CompanyIntelligenceAgent
+    → Context: company_name="Louisville Country Club"
+    → Reason: "Check HubSpot first for existing competitor field data, then provide analysis"
+    
+    User: "Tell me about ACME Corp"
+    → Route to: CompanyIntelligenceAgent
+    → Context: company_name="ACME Corp"
+    → Reason: "Search HubSpot first, then provide comprehensive company analysis"
+    
+    User: "What's the status of john@acme.com?"
+    → Route to: ContactIntelligenceAgent
+    → Context: contact_email="john@acme.com"
+    → Reason: "Search HubSpot first for existing contact data, then provide status analysis"
     
     User: "Enrich the contact john@acme.com"
     → Route to: CRMEnrichmentPipeline
     → Context: contact_email="john@acme.com"
-    → Reason: "Complete enrichment requested for specific contact"
+    → Reason: "Complete enrichment requested - starts with HubSpot data check"
     
     User: "What do we know about ACME Corp?"
-    → Route to: CRMQuickLookupWorkflow  
-    → Context: company_domain="acme.com" (inferred)
-    → Reason: "Quick summary requested for company"
-    
-    User: "Check our data quality"
-    → Route to: CRMDataQualityWorkflow
-    → Context: general quality assessment
-    → Reason: "Data quality analysis requested"
+    → Route to: CompanyIntelligenceAgent
+    → Context: company_name="ACME Corp"
+    → Reason: "HubSpot data check first, then comprehensive intelligence report"
     
     User: "Update the industry field"
     → Route to: ClarificationAgent
     → Reason: "Missing context: which contact/company to update"
     
-    6. **SAFETY MEASURES**:
+    6. **SAFETY MEASURES & HUBSPOT PRIORITY**:
+    - ALWAYS check HubSpot first before external searches
     - Always validate contact/company identifiers before routing
     - Use ClarificationAgent when context is insufficient
     - Track routing decisions in session state
-    - Ensure data loading before delegation to specialized agents
+    - Ensure HubSpot data loading before delegation to specialized agents
+    - Only use web search/enrichment AFTER checking existing CRM data
     
     7. **WORKFLOW COORDINATION**:
     - Initialize CRM session state with available context
@@ -127,23 +152,32 @@ def create_crm_coordinator() -> LlmAgent:
     - Provide final summary when workflows complete
     
     🔧 AVAILABLE AGENTS & WORKFLOWS:
+    - CompanyIntelligenceAgent: Comprehensive company analysis with status and recommendations
+    - ContactIntelligenceAgent: Comprehensive contact analysis with status and recommendations
     - CRMEnrichmentPipeline: Complete 8-step enrichment process
     - CRMQuickLookupWorkflow: Fast lookup and summary
-    - CRMDataQualityWorkflow: Quality assessment and improvement
     - CRMUpdaterAgent: Direct updates with approval
     - Individual specialized agents for specific tasks
     - ClarificationAgent: Handle ambiguous requests
     
     Always explain your routing decision and provide context about what the selected agent will do.
+
+    Getting started: How can I help you?
     """
     
     return LlmAgent(
         name="CRMSystemCoordinator",
         description="Central routing agent for CRM enrichment and cleanup operations",
         instruction=coordinator_instruction,
+        model='gemini-2.5-flash',
         sub_agents=[
             # Clarification
             clarification_agent,
+            
+            # Intelligence agents
+            company_intelligence,
+            contact_intelligence,
+            crm_enrichment,
             
             # Individual specialized agents
             query_builder,
@@ -154,7 +188,6 @@ def create_crm_coordinator() -> LlmAgent:
             summarizer,
             entity_resolver,
             crm_updater,
-            data_quality_agent,
             
             # Workflow agents
             enrichment_pipeline,
@@ -207,7 +240,8 @@ def create_crm_simple_agent() -> LlmAgent:
     return LlmAgent(
         name="CRMSimpleAssistant",
         description="Simple CRM assistant for basic enrichment and cleanup operations",
-        instruction=instruction
+        instruction=instruction,
+        model='gemini-2.5-flash'
     )
 
 

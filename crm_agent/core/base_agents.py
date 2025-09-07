@@ -48,7 +48,7 @@ class BaseAgent(LlmAgent):
                 connection_params=StdioConnectionParams(
                     server_params=StdioServerParameters(
                         command='python',
-                        args=['-m', 'crm_fastmcp_server'],
+                        args=['-m', 'crm_fastmcp_server.stdio_server'],
                     ),
                     timeout=30,
                 ),

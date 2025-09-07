@@ -28,3 +28,21 @@ if __name__ == "__main__":
     print("\nAvailable sub-agents:")
     for agent in coordinator.sub_agents:
         print(f"  - {agent.name}: {getattr(agent, 'description', 'No description')}")
+
+    print("\nEnter your questions for the CRM Coordinator below (type 'exit' to quit).")
+    while True:
+        try:
+            question = input("> ")
+            if question.lower() == 'exit':
+                break
+            if question:
+                response = coordinator.run(question)
+                print("\nAssistant:")
+                print(response)
+                print("-" * 20)
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            break
+    print("\nExiting CRM Coordinator.")

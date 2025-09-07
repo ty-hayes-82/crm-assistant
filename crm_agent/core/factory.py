@@ -81,13 +81,20 @@ class CRMAgentRegistry(AgentRegistry):
             create_crm_summarizer,
             create_crm_entity_resolver,
             create_crm_updater,
-            create_crm_data_quality_agent
         )
         from ..agents.specialized.company_intelligence_agent import create_company_intelligence_agent
         from ..agents.specialized.contact_intelligence_agent import create_contact_intelligence_agent
-        from ..agents.workflows.crm_enrichment import create_crm_workflows
+        from ..agents.specialized.crm_enrichment_agent import create_agent as create_crm_enrichment_agent
+        from ..agents.specialized.field_enrichment_manager_agent import FieldEnrichmentManagerAgent
         # Note: CRM data quality workflow is created in the CRM workflows module
         
+        # Crm Enrichment Agent
+        self.register("crm_enrichment", create_crm_enrichment_agent, {
+            "description": "Enriches CRM data by filling in gaps using grounded web searches.",
+            "domain": "crm_data_enrichment",
+            "tools": ["web_search", "fetch_url"]
+        })
+
         # Company Intelligence Agent
         self.register("company_intelligence", create_company_intelligence_agent, {
             "description": "Provides comprehensive company analysis and intelligence.",
@@ -100,6 +107,13 @@ class CRMAgentRegistry(AgentRegistry):
             "description": "Provides comprehensive contact analysis and intelligence.",
             "domain": "contact_intelligence",
             "tools": ["search_contacts", "get_contact_details", "generate_contact_report", "web_search"]
+        })
+
+        # Field Enrichment Manager Agent
+        self.register("field_enrichment_manager", lambda **kwargs: FieldEnrichmentManagerAgent(**kwargs), {
+            "description": "Manages systematic field enrichment, validation, and quality improvement for top 10 Swoop sales fields",
+            "domain": "field_enrichment_management",
+            "tools": ["search_companies", "search_contacts", "generate_company_report", "generate_contact_report", "web_search", "get_company_metadata"]
         })
 
         # CRM Query Builder Agent
@@ -158,47 +172,46 @@ class CRMAgentRegistry(AgentRegistry):
             "tools": ["query_hubspot_crm", "get_hubspot_contact", "get_hubspot_company", "await_human_approval", "notify_slack"]
         })
         
-        # CRM Data Quality Agent
-        self.register("crm_data_quality", create_crm_data_quality_agent, {
-            "description": "Validates CRM data quality and proposes improvements",
-            "domain": "crm_data_quality",
-            "tools": ["get_hubspot_contact", "get_hubspot_company"]
-        })
-        
-        # CRM Workflows
-        workflows = create_crm_workflows()
+        # CRM Workflows - Import workflow creation functions
+        from ..agents.workflows.crm_enrichment import (
+            create_crm_enrichment_pipeline,
+            create_crm_parallel_retrieval_workflow,
+            create_crm_quick_lookup_workflow,
+        )
         
         # CRM Enrichment Pipeline
-        def create_crm_enrichment_pipeline(**kwargs):
-            return workflows["enrichment_pipeline"]
-        
         self.register("crm_enrichment_pipeline", create_crm_enrichment_pipeline, {
             "description": "Complete CRM enrichment pipeline with gap detection, retrieval, synthesis, and updates",
             "domain": "crm_workflows",
-            "tools": ["all_crm_tools"]
+            "tools": ["hubspot_tools"]
         })
         
         # CRM Parallel Retrieval
-        def create_crm_parallel_retrieval(**kwargs):
-            return workflows["parallel_retrieval"]
-        
-        self.register("crm_parallel_retrieval", create_crm_parallel_retrieval, {
+        self.register("crm_parallel_retrieval", create_crm_parallel_retrieval_workflow, {
             "description": "Parallel execution of web, LinkedIn, company data, and email verification",
             "domain": "crm_workflows",
             "tools": ["retrieval_tools"]
         })
         
         # CRM Quick Lookup
-        def create_crm_quick_lookup(**kwargs):
-            return workflows["quick_lookup"]
-        
-        self.register("crm_quick_lookup", create_crm_quick_lookup, {
+        self.register("crm_quick_lookup", create_crm_quick_lookup_workflow, {
             "description": "Quick CRM record lookup and summary generation",
             "domain": "crm_workflows",
             "tools": ["hubspot_tools"]
         })
         
-        # Note: CRM Data Quality Workflow would be added here if needed
+        # Field Enrichment Workflows
+        from ..agents.workflows.field_enrichment_workflow import (
+            create_field_enrichment_workflow,
+        )
+        
+        # Comprehensive Field Enrichment Workflow
+        self.register("field_enrichment_workflow", create_field_enrichment_workflow, {
+            "description": "Complete field enrichment workflow combining sequential, parallel, and loop patterns",
+            "domain": "field_enrichment_workflows",
+            "tools": ["all_enrichment_tools"]
+        })
+        
 
 
 # Global CRM registry instance
@@ -229,6 +242,16 @@ def create_company_intelligence_agent(**kwargs) -> BaseAgent:
 def create_contact_intelligence_agent(**kwargs) -> BaseAgent:
     """Create a Contact Intelligence agent."""
     return crm_agent_registry.create_agent("contact_intelligence", **kwargs)
+
+
+def create_crm_enrichment_agent(**kwargs) -> BaseAgent:
+    """Create a CRM Enrichment agent."""
+    return crm_agent_registry.create_agent("crm_enrichment", **kwargs)
+
+
+def create_field_enrichment_manager_agent(**kwargs) -> BaseAgent:
+    """Create a Field Enrichment Manager agent."""
+    return crm_agent_registry.create_agent("field_enrichment_manager", **kwargs)
 
 
 # Export the main CRM agent creation function

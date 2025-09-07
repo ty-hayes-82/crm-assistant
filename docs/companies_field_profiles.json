@@ -1,0 +1,3018 @@
+[
+  {
+    "field_name": "Record ID",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "int64",
+    "unique_values": 12725,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      36735120213,
+      36653138699,
+      36618496596,
+      36563797801,
+      36550888459
+    ],
+    "min_value": 6080595341,
+    "max_value": 36735120213,
+    "mean_value": 15630352648.28,
+    "median_value": 15537393563.0,
+    "analysis": "NUMERIC FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Annual Revenue",
+    "total_records": 12725,
+    "non_null_count": "9037",
+    "null_count": "3688",
+    "null_percentage": 28.98,
+    "data_type": "float64",
+    "unique_values": 9,
+    "unique_percentage": 0.1,
+    "sample_values": [
+      100000000.0,
+      10000000000.0,
+      100000000.0,
+      10000000000.0,
+      10000000000.0
+    ],
+    "min_value": 1000000.0,
+    "max_value": 10000000000.0,
+    "mean_value": 130037291.14,
+    "median_value": 10000000.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "10000000.0": "3841",
+      "1000000.0": "3487",
+      "50000000.0": "1188",
+      "100000000.0": "173",
+      "1000000000.0": "124",
+      "250000000.0": "98",
+      "10000000000.0": "89",
+      "500000000.0": "36",
+      "50000001.0": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Apify Flag",
+    "total_records": 12725,
+    "non_null_count": "5813",
+    "null_count": "6912",
+    "null_percentage": 54.32,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "Y",
+      "Y",
+      "Y",
+      "Y",
+      "Y"
+    ],
+    "min_length": 1,
+    "max_length": 1,
+    "avg_length": 1.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Y": "5813"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (54.3%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Campaign of last booking in meetings tool",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "City",
+    "total_records": 12725,
+    "non_null_count": "12086",
+    "null_count": "639",
+    "null_percentage": 5.02,
+    "data_type": "object",
+    "unique_values": 5379,
+    "unique_percentage": 44.51,
+    "sample_values": [
+      "Austin",
+      "Bentonville",
+      "Far Hills",
+      "Mountain View",
+      "Los Angeles"
+    ],
+    "min_length": 3,
+    "max_length": 42,
+    "avg_length": 8.98,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Close Date",
+    "total_records": 12725,
+    "non_null_count": "4",
+    "null_count": "12721",
+    "null_percentage": 99.97,
+    "data_type": "object",
+    "unique_values": 4,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "2025-03-24 08:52",
+      "2025-03-24 08:51",
+      "2025-03-24 08:48",
+      "2024-08-07 18:11"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (4 records)",
+      "DATE_STRING (4 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "2025-03-24 08:52": "1",
+      "2025-03-24 08:51": "1",
+      "2025-03-24 08:48": "1",
+      "2024-08-07 18:11": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)"
+    ]
+  },
+  {
+    "field_name": "Club Info",
+    "total_records": 12725,
+    "non_null_count": "12001",
+    "null_count": "724",
+    "null_percentage": 5.69,
+    "data_type": "object",
+    "unique_values": 12000,
+    "unique_percentage": 99.99,
+    "sample_values": [
+      "Trump Golf in None, None, has an unknown type of facility with no information available on the number of holes, the presence of a pool, or the availability of tennis facilities.",
+      "DocHub in TX is a public course that offers tennis facilities, as it is known to have tennis courts. However, it does not have any golf holes, with the number of holes being zero. Information regarding the presence of a pool at DocHub is currently unknown.",
+      "FedEx, located in Tennessee, is a well-known corporation primarily recognized for its shipping and logistics services. However, the provided data does not specify the type of facility FedEx operates in Tennessee, nor does it indicate the presence of any recreational amenities such as a pool or tennis courts. Additionally, there is no information available regarding the number of holes, which is typically associated with golf courses, suggesting that this particular detail may not be relevant to FedEx's operations in Tennessee.",
+      "ZoomInfo in WA is a location with an unknown type of facility. It has no holes, and it is not known whether it has a pool or tennis facilities.",
+      "Upwork in San Francisco, CA, is a public golf course classified as a high daily fee facility. It features an 18-hole course, catering to golfers looking for a comprehensive playing experience. Information regarding the availability of a pool or tennis facilities at Upwork is currently unknown."
+    ],
+    "min_length": 89,
+    "max_length": 935,
+    "avg_length": 293.6,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Club Type",
+    "total_records": 12725,
+    "non_null_count": "12088",
+    "null_count": "637",
+    "null_percentage": 5.01,
+    "data_type": "object",
+    "unique_values": 11,
+    "unique_percentage": 0.09,
+    "sample_values": [
+      "Unknown",
+      "Public Course",
+      "Unknown",
+      "Unknown",
+      "Public - High Daily Fee"
+    ],
+    "min_length": 6,
+    "max_length": 23,
+    "avg_length": 16.77,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Public - Low Daily Fee": "5714",
+      "Country Club": "2957",
+      "Private": "1014",
+      "Public - High Daily Fee": "872",
+      "Resort": "627",
+      "Municipal Course": "452",
+      "Unknown": "419",
+      "Public Course": "13",
+      "Resort Course": "13",
+      "Management Company": "6"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Company Domain Name",
+    "total_records": 12725,
+    "non_null_count": "11524",
+    "null_count": "1201",
+    "null_percentage": 9.44,
+    "data_type": "object",
+    "unique_values": 11524,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "s.factor75.com",
+      "emsoftprimary.com",
+      "c.factor75.com",
+      "h.factor75.com",
+      "textron.com"
+    ],
+    "min_length": 5,
+    "max_length": 43,
+    "avg_length": 17.81,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Company Keywords",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Company name",
+    "total_records": 12725,
+    "non_null_count": "12714",
+    "null_count": "11",
+    "null_percentage": 0.09,
+    "data_type": "object",
+    "unique_values": 12670,
+    "unique_percentage": 99.65,
+    "sample_values": [
+      "Factor _",
+      "Factor _",
+      "Factor _",
+      "Textron",
+      "Anthropic"
+    ],
+    "min_length": 2,
+    "max_length": 142,
+    "avg_length": 23.44,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Company owner",
+    "total_records": 12725,
+    "non_null_count": "137",
+    "null_count": "12588",
+    "null_percentage": 98.92,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.73,
+    "sample_values": [
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes"
+    ],
+    "min_length": 8,
+    "max_length": 8,
+    "avg_length": 8.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Ty Hayes": "137"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (98.9%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Company Short Name",
+    "total_records": 12725,
+    "non_null_count": "11615",
+    "null_count": "1110",
+    "null_percentage": 8.72,
+    "data_type": "object",
+    "unique_values": 10179,
+    "unique_percentage": 87.64,
+    "sample_values": [
+      "Trump Golf",
+      "DocHub",
+      "FedEx  (Hypothetical)",
+      "ZoomInfo",
+      "Upwork"
+    ],
+    "min_length": 2,
+    "max_length": 81,
+    "avg_length": 11.82,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Company Type",
+    "total_records": 12725,
+    "non_null_count": "205",
+    "null_count": "12520",
+    "null_percentage": 98.39,
+    "data_type": "object",
+    "unique_values": 9,
+    "unique_percentage": 4.39,
+    "sample_values": [
+      "Other",
+      "Public Course",
+      "Public Course",
+      "Municipal Course",
+      "Public Course"
+    ],
+    "min_length": 5,
+    "max_length": 18,
+    "avg_length": 13.2,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Public Course": "87",
+      "Management Company": "45",
+      "Partner": "29",
+      "Private Course": "22",
+      "Municipal Course": "8",
+      "Golf Club": "6",
+      "Other": "3",
+      "Golf Course": "3",
+      "Country Club": "2"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (98.4%)"
+    ]
+  },
+  {
+    "field_name": "Competitor",
+    "total_records": 12725,
+    "non_null_count": "11194",
+    "null_count": "1531",
+    "null_percentage": 12.03,
+    "data_type": "object",
+    "unique_values": 13,
+    "unique_percentage": 0.12,
+    "sample_values": [
+      "Club Essentials",
+      "Unknown",
+      "Unknown",
+      "Unknown",
+      "Unknown"
+    ],
+    "min_length": 5,
+    "max_length": 16,
+    "avg_length": 7.34,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Unknown": "10544",
+      "Club Essentials": "507",
+      "Jonas": "123",
+      "Not Sure": "4",
+      "Arcis": "3",
+      "In-House App": "3",
+      "ForeTees": "2",
+      "Callus": "2",
+      "Pacesetter": "2",
+      "Club App": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "competitor_presence",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Country/Region",
+    "total_records": 12725,
+    "non_null_count": "10468",
+    "null_count": "2257",
+    "null_percentage": 17.74,
+    "data_type": "object",
+    "unique_values": 16,
+    "unique_percentage": 0.15,
+    "sample_values": [
+      "United States",
+      "United States",
+      "United States",
+      "United States",
+      "United States"
+    ],
+    "min_length": 5,
+    "max_length": 24,
+    "avg_length": 12.99,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "United States": "10424",
+      "United Kingdom": "13",
+      "Canada": "11",
+      "Israel": "4",
+      "Brazil": "2",
+      "Korea, Republic of": "2",
+      "France": "2",
+      "Australia": "2",
+      "Malaysia": "1",
+      "New Zealand": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Country/Region Code",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Create Date",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "object",
+    "unique_values": 631,
+    "unique_percentage": 4.96,
+    "sample_values": [
+      "2025-07-24 20:10",
+      "2025-07-23 12:50",
+      "2025-07-22 13:44",
+      "2025-07-21 20:33",
+      "2025-07-21 14:25"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (12725 records)",
+      "DATE_STRING (12725 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Created by user ID",
+    "total_records": 12725,
+    "non_null_count": "10575",
+    "null_count": "2150",
+    "null_percentage": 16.9,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes"
+    ],
+    "min_length": 8,
+    "max_length": 12,
+    "avg_length": 8.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Ty Hayes": "10573",
+      "Ryan Donovan": "2"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Date of last meeting booked in meetings tool",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Days to Close",
+    "total_records": 12725,
+    "non_null_count": "4",
+    "null_count": "12721",
+    "null_percentage": 99.97,
+    "data_type": "float64",
+    "unique_values": 4,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      701.0,
+      1305.0,
+      1338.0,
+      1178.0
+    ],
+    "min_value": 701.0,
+    "max_value": 1338.0,
+    "mean_value": 1130.5,
+    "median_value": 1241.5,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "701.0": "1",
+      "1305.0": "1",
+      "1338.0": "1",
+      "1178.0": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)"
+    ]
+  },
+  {
+    "field_name": "Delete Flag",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Description",
+    "total_records": 12725,
+    "non_null_count": "10502",
+    "null_count": "2223",
+    "null_percentage": 17.47,
+    "data_type": "object",
+    "unique_values": 10408,
+    "unique_percentage": 99.1,
+    "sample_values": [
+      "Atmosphere provides businesses with a cable TV alternative by offering free monthly streaming entertainment through curated channels that promote engagement and conversation among guests.",
+      "Walmart is a multinational retail corporation that operates discount department stores and warehouse stores. Founded with the goal of saving people money to help them live better, Walmart continues to prioritize customer satisfaction and affordability through its wide range of products and services, including pharmacy, grocery, and household items.",
+      "The USGA is a nonprofit organization governing global golf rules, conducting major championships like the U.S. Open, and leading in sustainable golf course management.",
+      "Intuit provides a comprehensive suite of financial management solutions, including TurboTax for tax preparation, QuickBooks for business management, Credit Karma for credit monitoring, and Mailchimp for marketing, aimed at empowering individuals and small businesses to achieve financial confidence and prosperity.",
+      "Disney+ offers a streaming service that provides access to a vast library of movies, TV series, and original content, allowing subscribers to enjoy unlimited entertainment for a monthly fee."
+    ],
+    "min_length": 1,
+    "max_length": 1923,
+    "avg_length": 239.93,
+    "detected_patterns": [
+      "URL (10 records)",
+      "PHONE (143 records)",
+      "DATE_STRING (2 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "email_pattern",
+    "total_records": 12725,
+    "non_null_count": "1198",
+    "null_count": "11527",
+    "null_percentage": 90.59,
+    "data_type": "object",
+    "unique_values": 22,
+    "unique_percentage": 1.84,
+    "sample_values": [
+      "firstinitiallastname",
+      "firstinitiallastname",
+      "firstinitiallastname",
+      "firstname.lastname",
+      "firstname.lastname"
+    ],
+    "min_length": 8,
+    "max_length": 25,
+    "avg_length": 18.04,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (90.6%)"
+    ]
+  },
+  {
+    "field_name": "Employee range",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "End Month",
+    "total_records": 12725,
+    "non_null_count": "11648",
+    "null_count": "1077",
+    "null_percentage": 8.46,
+    "data_type": "float64",
+    "unique_values": 6,
+    "unique_percentage": 0.05,
+    "sample_values": [
+      10.0,
+      9.0,
+      9.0,
+      9.0,
+      12.0
+    ],
+    "min_value": 0.0,
+    "max_value": 12.0,
+    "mean_value": 10.55,
+    "median_value": 10.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "10.0": "6320",
+      "12.0": "2752",
+      "11.0": "2022",
+      "9.0": "496",
+      "0.0": "57",
+      "2.0": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Facebook Company Page",
+    "total_records": 12725,
+    "non_null_count": "5863",
+    "null_count": "6862",
+    "null_percentage": 53.93,
+    "data_type": "object",
+    "unique_values": 5613,
+    "unique_percentage": 95.74,
+    "sample_values": [
+      "https://facebook.com/walmart",
+      "https://facebook.com/usga",
+      "https://facebook.com/intuit",
+      "https://facebook.com/disney",
+      "https://facebook.com/zapierapp"
+    ],
+    "min_length": 23,
+    "max_length": 323,
+    "avg_length": 39.3,
+    "detected_patterns": [
+      "URL (5863 records)",
+      "PHONE (1839 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (53.9%)"
+    ]
+  },
+  {
+    "field_name": "Facebook Fans",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Facility Complexity",
+    "total_records": 12725,
+    "non_null_count": "12089",
+    "null_count": "636",
+    "null_percentage": 5.0,
+    "data_type": "object",
+    "unique_values": 4,
+    "unique_percentage": 0.03,
+    "sample_values": [
+      "Unknown",
+      "Standard",
+      "Unknown",
+      "Unknown",
+      "Standard"
+    ],
+    "min_length": 7,
+    "max_length": 13,
+    "avg_length": 8.28,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Standard": "10516",
+      "Unknown": "649",
+      "Multi-Course": "542",
+      "Single-Course": "382"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "First Contact Create Date",
+    "total_records": 12725,
+    "non_null_count": "4836",
+    "null_count": "7889",
+    "null_percentage": 62.0,
+    "data_type": "object",
+    "unique_values": 773,
+    "unique_percentage": 15.98,
+    "sample_values": [
+      "2025-07-24 20:09",
+      "2025-07-23 12:50",
+      "2025-07-22 13:44",
+      "2025-07-21 20:32",
+      "2025-07-21 14:25"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (4836 records)",
+      "DATE_STRING (4836 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (62.0%)"
+    ]
+  },
+  {
+    "field_name": "First Conversion",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "First Conversion Date",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "First Deal Created Date",
+    "total_records": 12725,
+    "non_null_count": "1",
+    "null_count": "12724",
+    "null_percentage": 99.99,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "2025-02-05 13:21"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (1 records)",
+      "DATE_STRING (1 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "2025-02-05 13:21": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "First Touch Converting Campaign",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Full Address",
+    "total_records": 12725,
+    "non_null_count": "1",
+    "null_count": "12724",
+    "null_percentage": 99.99,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "6775 Irongate Dr, Fayetteville, NC 28306"
+    ],
+    "min_length": 40,
+    "max_length": 40,
+    "avg_length": 40.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "6775 Irongate Dr, Fayetteville, NC 28306": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Geographic Seasonality",
+    "total_records": 12725,
+    "non_null_count": "12089",
+    "null_count": "636",
+    "null_percentage": 5.0,
+    "data_type": "object",
+    "unique_values": 7,
+    "unique_percentage": 0.06,
+    "sample_values": [
+      "Standard Season",
+      "Short Summer Season",
+      "Short Summer Season",
+      "Short Summer Season",
+      "Year-Round"
+    ],
+    "min_length": 7,
+    "max_length": 19,
+    "avg_length": 14.34,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Standard Season": "6792",
+      "Year-Round": "3070",
+      "Short Summer Season": "1974",
+      "Seasonal": "94",
+      "Year-Round Golf": "81",
+      "Peak Summer Season": "70",
+      "Unknown": "8"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Google Plus Page",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Has been enriched",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Has Pool",
+    "total_records": 12725,
+    "non_null_count": "12089",
+    "null_count": "636",
+    "null_percentage": 5.0,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "No",
+      "No",
+      "No",
+      "No",
+      "No"
+    ],
+    "min_length": 2,
+    "max_length": 3,
+    "avg_length": 2.09,
+    "detected_patterns": [
+      "BOOLEAN_LIKE (12089 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "No": "11055",
+      "Yes": "1034"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Has Tennis Courts",
+    "total_records": 12725,
+    "non_null_count": "12089",
+    "null_count": "636",
+    "null_percentage": 5.0,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "No",
+      "Yes",
+      "No",
+      "No",
+      "No"
+    ],
+    "min_length": 2,
+    "max_length": 3,
+    "avg_length": 2.18,
+    "detected_patterns": [
+      "BOOLEAN_LIKE (12089 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "No": "9938",
+      "Yes": "2151"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "HubSpot Team",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Ideal Customer Profile Tier",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Industry",
+    "total_records": 12725,
+    "non_null_count": "8999",
+    "null_count": "3726",
+    "null_percentage": 29.28,
+    "data_type": "object",
+    "unique_values": 76,
+    "unique_percentage": 0.84,
+    "sample_values": [
+      "Broadcast Media",
+      "Education Management",
+      "Computer Software",
+      "Computer Software",
+      "Computer Software"
+    ],
+    "min_length": 6,
+    "max_length": 36,
+    "avg_length": 23.64,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Industry group",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Is Public",
+    "total_records": 12725,
+    "non_null_count": "10475",
+    "null_count": "2250",
+    "null_percentage": 17.68,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    "min_length": 4,
+    "max_length": 5,
+    "avg_length": 4.99,
+    "detected_patterns": [
+      "BOOLEAN_LIKE (10475 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "false": "10360",
+      "true": "115"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Last Activity Date",
+    "total_records": 12725,
+    "non_null_count": "1921",
+    "null_count": "10804",
+    "null_percentage": 84.9,
+    "data_type": "object",
+    "unique_values": 1417,
+    "unique_percentage": 73.76,
+    "sample_values": [
+      "2025-07-24 20:09",
+      "2025-07-23 12:49",
+      "2025-07-22 13:44",
+      "2025-07-21 20:33",
+      "2025-07-25 13:00"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (1921 records)",
+      "DATE_STRING (1921 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (84.9%)"
+    ]
+  },
+  {
+    "field_name": "Last Booked Meeting Date",
+    "total_records": 12725,
+    "non_null_count": "33",
+    "null_count": "12692",
+    "null_percentage": 99.74,
+    "data_type": "object",
+    "unique_values": 33,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "2025-07-25 13:00",
+      "2025-03-31 10:00",
+      "2025-02-21 18:00",
+      "2025-04-04 09:00",
+      "2025-04-28 10:00"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (33 records)",
+      "DATE_STRING (33 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.7%)"
+    ]
+  },
+  {
+    "field_name": "Last Contacted",
+    "total_records": 12725,
+    "non_null_count": "1728",
+    "null_count": "10997",
+    "null_percentage": 86.42,
+    "data_type": "object",
+    "unique_values": 1218,
+    "unique_percentage": 70.49,
+    "sample_values": [
+      "2025-07-25 13:00",
+      "2025-03-31 10:00",
+      "2025-03-26 16:55",
+      "2025-04-02 15:03",
+      "2025-05-04 13:20"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (1728 records)",
+      "DATE_STRING (1728 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (86.4%)"
+    ]
+  },
+  {
+    "field_name": "Last Engagement Date",
+    "total_records": 12725,
+    "non_null_count": "156",
+    "null_count": "12569",
+    "null_percentage": 98.77,
+    "data_type": "object",
+    "unique_values": 142,
+    "unique_percentage": 91.03,
+    "sample_values": [
+      "2023-08-29 06:07",
+      "2023-08-25 13:00",
+      "2023-08-24 13:12",
+      "2024-02-20 01:42",
+      "2023-08-23 17:06"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (156 records)",
+      "DATE_STRING (156 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (98.8%)"
+    ]
+  },
+  {
+    "field_name": "Last Logged Call Date",
+    "total_records": 12725,
+    "non_null_count": "11",
+    "null_count": "12714",
+    "null_percentage": 99.91,
+    "data_type": "object",
+    "unique_values": 11,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "2023-06-08 11:34",
+      "2023-06-07 12:17",
+      "2022-02-10 16:38",
+      "2023-08-17 15:55",
+      "2023-06-09 10:01"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (11 records)",
+      "DATE_STRING (11 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "2023-06-08 11:34": "1",
+      "2023-06-07 12:17": "1",
+      "2022-02-10 16:38": "1",
+      "2023-08-17 15:55": "1",
+      "2023-06-09 10:01": "1",
+      "2023-06-07 12:15": "1",
+      "2023-08-17 12:42": "1",
+      "2021-09-07 16:22": "1",
+      "2022-03-31 10:09": "1",
+      "2021-09-07 16:07": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.9%)"
+    ]
+  },
+  {
+    "field_name": "Last Logged Outgoing Email Date",
+    "total_records": 12725,
+    "non_null_count": "1720",
+    "null_count": "11005",
+    "null_percentage": 86.48,
+    "data_type": "object",
+    "unique_values": 1207,
+    "unique_percentage": 70.17,
+    "sample_values": [
+      "2025-03-26 16:55",
+      "2025-04-02 15:03",
+      "2025-05-04 13:20",
+      "2025-04-09 10:19",
+      "2025-04-03 09:30"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (1720 records)",
+      "DATE_STRING (1720 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (86.5%)"
+    ]
+  },
+  {
+    "field_name": "Last Modified Date",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "object",
+    "unique_values": 2176,
+    "unique_percentage": 17.1,
+    "sample_values": [
+      "2025-07-24 20:11",
+      "2025-07-23 13:55",
+      "2025-07-22 13:45",
+      "2025-07-21 20:34",
+      "2025-07-25 13:00"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (12725 records)",
+      "DATE_STRING (12725 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Last Open Task Date",
+    "total_records": 12725,
+    "non_null_count": "4",
+    "null_count": "12721",
+    "null_percentage": 99.97,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 50.0,
+    "sample_values": [
+      "2024-12-09 10:00",
+      "2024-12-09 10:00",
+      "2025-01-29 10:00",
+      "2024-12-09 10:00"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (4 records)",
+      "DATE_STRING (4 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "2024-12-09 10:00": "3",
+      "2025-01-29 10:00": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)"
+    ]
+  },
+  {
+    "field_name": "Last Touch Converting Campaign",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "last_competitor_check_date",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Latest Traffic Source",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources"
+    ],
+    "min_length": 15,
+    "max_length": 15,
+    "avg_length": 15.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Offline Sources": "4990"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Latest Traffic Source Data 1",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 8,
+    "unique_percentage": 0.16,
+    "sample_values": [
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS"
+    ],
+    "min_length": 5,
+    "max_length": 13,
+    "avg_length": 8.39,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "IMPORT": "2599",
+      "INTEGRATION": "2259",
+      "CONVERSATIONS": "76",
+      "EXTENSION": "21",
+      "SALES": "11",
+      "MOBILE_IOS": "11",
+      "CRM_UI": "7",
+      "CONTACTS": "6"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)"
+    ]
+  },
+  {
+    "field_name": "Latest Traffic Source Data 2",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 17,
+    "unique_percentage": 0.34,
+    "sample_values": [
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail"
+    ],
+    "min_length": 7,
+    "max_length": 32,
+    "avg_length": 12.59,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Mailchimp Sync": "1565",
+      "Book1.csv": "1208",
+      "gms.csv": "1014",
+      "Seamless.AI": "537",
+      "enriched_contacts_for_upload.csv": "338",
+      "ZoomInfo by DiscoverOrg": "154",
+      "ConversationsEmail": "76",
+      "Final Leads List": "38",
+      "Ty Hayes": "31",
+      "business-card-scanner": "11"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)"
+    ]
+  },
+  {
+    "field_name": "Latest Traffic Source Timestamp",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 768,
+    "unique_percentage": 15.39,
+    "sample_values": [
+      "2025-07-24 20:09",
+      "2025-07-23 12:50",
+      "2025-07-22 13:44",
+      "2025-07-21 20:32",
+      "2025-07-21 14:25"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (4990 records)",
+      "DATE_STRING (4990 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)"
+    ]
+  },
+  {
+    "field_name": "Lead Status",
+    "total_records": 12725,
+    "non_null_count": "4",
+    "null_count": "12721",
+    "null_percentage": 99.97,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 25.0,
+    "sample_values": [
+      "Not Interested",
+      "Not Interested",
+      "Not Interested",
+      "Not Interested"
+    ],
+    "min_length": 14,
+    "max_length": 14,
+    "avg_length": 14.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Not Interested": "4"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Lifecycle Stage",
+    "total_records": 12725,
+    "non_null_count": "11544",
+    "null_count": "1181",
+    "null_percentage": 9.28,
+    "data_type": "object",
+    "unique_values": 7,
+    "unique_percentage": 0.06,
+    "sample_values": [
+      "Subscriber",
+      "Subscriber",
+      "Subscriber",
+      "Subscriber",
+      "Subscriber"
+    ],
+    "min_length": 4,
+    "max_length": 24,
+    "avg_length": 10.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Subscriber": "11455",
+      "Lead": "55",
+      "Marketing Qualified Lead": "22",
+      "Partner": "5",
+      "Customer": "4",
+      "Other": "2",
+      "Unsubscribed": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "LinkedIn Bio",
+    "total_records": 12725,
+    "non_null_count": "10215",
+    "null_count": "2510",
+    "null_percentage": 19.72,
+    "data_type": "object",
+    "unique_values": 10128,
+    "unique_percentage": 99.15,
+    "sample_values": [
+      "Atmosphere provides businesses with a cable TV alternative by offering free monthly streaming entertainment through curated channels that promote engagement and conversation among guests.",
+      "Walmart is a multinational retail corporation that operates discount department stores and warehouse stores. Founded with the goal of saving people money to help them live better, Walmart continues to prioritize customer satisfaction and affordability through its wide range of products and services, including pharmacy, grocery, and household items.",
+      "The USGA is a nonprofit organization governing global golf rules, conducting major championships like the U.S. Open, and leading in sustainable golf course management.",
+      "Intuit provides a comprehensive suite of financial management solutions, including TurboTax for tax preparation, QuickBooks for business management, Credit Karma for credit monitoring, and Mailchimp for marketing, aimed at empowering individuals and small businesses to achieve financial confidence and prosperity.",
+      "Disney+ offers a streaming service that provides access to a vast library of movies, TV series, and original content, allowing subscribers to enjoy unlimited entertainment for a monthly fee."
+    ],
+    "min_length": 95,
+    "max_length": 1923,
+    "avg_length": 247.42,
+    "detected_patterns": [
+      "URL (8 records)",
+      "PHONE (137 records)",
+      "DATE_STRING (1 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "LinkedIn Company Page",
+    "total_records": 12725,
+    "non_null_count": "7917",
+    "null_count": "4808",
+    "null_percentage": 37.78,
+    "data_type": "object",
+    "unique_values": 7758,
+    "unique_percentage": 97.99,
+    "sample_values": [
+      "https://www.linkedin.com/company/atmospheretv",
+      "https://www.linkedin.com/company/hudson-office-solutions-inc",
+      "https://www.linkedin.com/company/united-states-golf-association",
+      "https://www.linkedin.com/company/intuit",
+      "https://www.linkedin.com/company/disneyplus2"
+    ],
+    "min_length": 36,
+    "max_length": 99,
+    "avg_length": 55.2,
+    "detected_patterns": [
+      "URL (7917 records)",
+      "PHONE (111 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Linkedin handle",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Logo URL",
+    "total_records": 12725,
+    "non_null_count": "571",
+    "null_count": "12154",
+    "null_percentage": 95.51,
+    "data_type": "object",
+    "unique_values": 566,
+    "unique_percentage": 99.12,
+    "sample_values": [
+      "https://na1.hubspot-logos.com/39bf6bdd-23f1-4b40-a6c1-30cf16da722a",
+      "https://na1.hubspot-logos.com/39bf6bdd-23f1-4b40-a6c1-30cf16da722a",
+      "https://na1.hubspot-logos.com/39bf6bdd-23f1-4b40-a6c1-30cf16da722a",
+      "https://na1.hubspot-logos.com/80ff4756-5f68-4724-ac5f-c85d23162636",
+      "https://na1.hubspot-logos.com/0d191e13-7b8a-4bd6-94c6-ba4ed2385bee"
+    ],
+    "min_length": 32,
+    "max_length": 92,
+    "avg_length": 58.29,
+    "detected_patterns": [
+      "URL (571 records)",
+      "PHONE (203 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (95.5%)"
+    ]
+  },
+  {
+    "field_name": "Management Company",
+    "total_records": 12725,
+    "non_null_count": "2",
+    "null_count": "12723",
+    "null_percentage": 99.98,
+    "data_type": "object",
+    "unique_values": 2,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "Troon",
+      "Thompson Group"
+    ],
+    "min_length": 5,
+    "max_length": 14,
+    "avg_length": 9.5,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Troon": "1",
+      "Thompson Group": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)"
+    ]
+  },
+  {
+    "field_name": "Market",
+    "total_records": 12725,
+    "non_null_count": "10431",
+    "null_count": "2294",
+    "null_percentage": 18.03,
+    "data_type": "object",
+    "unique_values": 243,
+    "unique_percentage": 2.33,
+    "sample_values": [
+      "Atlanta",
+      "Rochester",
+      "Doral",
+      "Saint Louis",
+      "Iowa"
+    ],
+    "min_length": 4,
+    "max_length": 15,
+    "avg_length": 8.67,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Medium of last booking in meetings tool",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Merged Company IDs",
+    "total_records": 12725,
+    "non_null_count": "4",
+    "null_count": "12721",
+    "null_percentage": 99.97,
+    "data_type": "object",
+    "unique_values": 4,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      "8359297654",
+      "8357871941",
+      "8375227247; 7036943971",
+      "6627430204; 26626283531"
+    ],
+    "min_length": 10,
+    "max_length": 23,
+    "avg_length": 16.25,
+    "detected_patterns": [
+      "PHONE (4 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "8359297654": "1",
+      "8357871941": "1",
+      "8375227247; 7036943971": "1",
+      "6627430204; 26626283531": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)"
+    ]
+  },
+  {
+    "field_name": "Next Activity Date",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "NGF Category",
+    "total_records": 12725,
+    "non_null_count": "121",
+    "null_count": "12604",
+    "null_percentage": 99.05,
+    "data_type": "object",
+    "unique_values": 4,
+    "unique_percentage": 3.31,
+    "sample_values": [
+      "Just Golf",
+      "Just Golf",
+      "Just Golf",
+      "Resort",
+      "Resort & Real Estate Development"
+    ],
+    "min_length": 6,
+    "max_length": 32,
+    "avg_length": 16.49,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Real Estate Development": "55",
+      "Just Golf": "42",
+      "Resort": "16",
+      "Resort & Real Estate Development": "8"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.0%)"
+    ]
+  },
+  {
+    "field_name": "Number of Associated Contacts",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 38,
+    "unique_percentage": 0.3,
+    "sample_values": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "min_value": 0.0,
+    "max_value": 119.0,
+    "mean_value": 0.9,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Number of Associated Deals",
+    "total_records": 12725,
+    "non_null_count": "1",
+    "null_count": "12724",
+    "null_percentage": 99.99,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      1.0
+    ],
+    "min_value": 1.0,
+    "max_value": 1.0,
+    "mean_value": 1.0,
+    "median_value": 1.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "1.0": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of blockers",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.01,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "12725"
+    },
+    "quality_issues": [
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of child companies",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 8,
+    "unique_percentage": 0.06,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 24.0,
+    "mean_value": 0.01,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "12695",
+      "1.0": "14",
+      "2.0": "7",
+      "3.0": "3",
+      "4.0": "2",
+      "5.0": "2",
+      "24.0": "1",
+      "7.0": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Number of contacts with a buying role",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.01,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "12725"
+    },
+    "quality_issues": [
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of decision makers",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.01,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "12725"
+    },
+    "quality_issues": [
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of Employees",
+    "total_records": 12725,
+    "non_null_count": "9013",
+    "null_count": "3712",
+    "null_percentage": 29.17,
+    "data_type": "float64",
+    "unique_values": 14,
+    "unique_percentage": 0.16,
+    "sample_values": [
+      1000.0,
+      100000.0,
+      1000.0,
+      50000.0,
+      50.0
+    ],
+    "min_value": 1.0,
+    "max_value": 100000.0,
+    "mean_value": 543.36,
+    "median_value": 50.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "10.0": "3896",
+      "50.0": "2599",
+      "250.0": "895",
+      "200.0": "611",
+      "25.0": "376",
+      "1000.0": "278",
+      "5000.0": "134",
+      "500.0": "109",
+      "10000.0": "72",
+      "50000.0": "23"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Number of Form Submissions",
+    "total_records": 12725,
+    "non_null_count": "4713",
+    "null_count": "8012",
+    "null_percentage": 62.96,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "4713"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (63.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of Holes",
+    "total_records": 12725,
+    "non_null_count": "12089",
+    "null_count": "636",
+    "null_percentage": 5.0,
+    "data_type": "float64",
+    "unique_values": 15,
+    "unique_percentage": 0.12,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      18.0
+    ],
+    "min_value": 0.0,
+    "max_value": 108.0,
+    "mean_value": 17.23,
+    "median_value": 18.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "18.0": "10353",
+      "0.0": "810",
+      "9.0": "463",
+      "36.0": "313",
+      "27.0": "77",
+      "54.0": "28",
+      "72.0": "23",
+      "45.0": "11",
+      "108.0": "4",
+      "81.0": "2"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Number of open deals",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "float64",
+    "unique_values": 2,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "12724",
+      "1.0": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Number of Pageviews",
+    "total_records": 12725,
+    "non_null_count": "4836",
+    "null_count": "7889",
+    "null_percentage": 62.0,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "4836"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (62.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of Sessions",
+    "total_records": 12725,
+    "non_null_count": "4836",
+    "null_count": "7889",
+    "null_percentage": 62.0,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "min_value": 0.0,
+    "max_value": 0.0,
+    "mean_value": 0.0,
+    "median_value": 0.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "0.0": "4836"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (62.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Number of times contacted",
+    "total_records": 12725,
+    "non_null_count": "1925",
+    "null_count": "10800",
+    "null_percentage": 84.87,
+    "data_type": "float64",
+    "unique_values": 15,
+    "unique_percentage": 0.78,
+    "sample_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "min_value": 0.0,
+    "max_value": 1816.0,
+    "mean_value": 2.67,
+    "median_value": 1.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "1.0": "825",
+      "2.0": "560",
+      "0.0": "197",
+      "3.0": "184",
+      "4.0": "82",
+      "5.0": "31",
+      "6.0": "23",
+      "8.0": "6",
+      "9.0": "5",
+      "7.0": "5"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (84.9%)"
+    ]
+  },
+  {
+    "field_name": "Original Traffic Source",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.02,
+    "sample_values": [
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources",
+      "Offline Sources"
+    ],
+    "min_length": 15,
+    "max_length": 15,
+    "avg_length": 15.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Offline Sources": "4990"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Original Traffic Source Drill-Down 1",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 8,
+    "unique_percentage": 0.16,
+    "sample_values": [
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS",
+      "CONVERSATIONS"
+    ],
+    "min_length": 5,
+    "max_length": 13,
+    "avg_length": 8.5,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "IMPORT": "2494",
+      "INTEGRATION": "2376",
+      "CONVERSATIONS": "68",
+      "EXTENSION": "19",
+      "MOBILE_IOS": "13",
+      "CRM_UI": "7",
+      "CONTACTS": "7",
+      "SALES": "6"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)"
+    ]
+  },
+  {
+    "field_name": "Original Traffic Source Drill-Down 2",
+    "total_records": 12725,
+    "non_null_count": "4990",
+    "null_count": "7735",
+    "null_percentage": 60.79,
+    "data_type": "object",
+    "unique_values": 18,
+    "unique_percentage": 0.36,
+    "sample_values": [
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail",
+      "ConversationsEmail"
+    ],
+    "min_length": 7,
+    "max_length": 32,
+    "avg_length": 10.7,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "gms.csv": "1432",
+      "Mailchimp Sync": "1156",
+      "Seamless.AI": "1141",
+      "Book1.csv": "929",
+      "Final Leads List": "91",
+      "ZoomInfo by DiscoverOrg": "77",
+      "ConversationsEmail": "68",
+      "enriched_contacts_for_upload.csv": "36",
+      "Ty Hayes": "27",
+      "business-card-scanner": "11"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.8%)"
+    ]
+  },
+  {
+    "field_name": "Owner assigned date",
+    "total_records": 12725,
+    "non_null_count": "137",
+    "null_count": "12588",
+    "null_percentage": 98.92,
+    "data_type": "object",
+    "unique_values": 108,
+    "unique_percentage": 78.83,
+    "sample_values": [
+      "2025-06-16 23:17",
+      "2025-05-23 17:37",
+      "2025-06-18 16:12",
+      "2025-06-24 17:13",
+      "2025-06-20 11:26"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (137 records)",
+      "DATE_STRING (137 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (98.9%)"
+    ]
+  },
+  {
+    "field_name": "Parent Company",
+    "total_records": 12725,
+    "non_null_count": "86",
+    "null_count": "12639",
+    "null_percentage": 99.32,
+    "data_type": "float64",
+    "unique_values": 30,
+    "unique_percentage": 34.88,
+    "sample_values": [
+      15537524523.0,
+      15537530537.0,
+      15537524523.0,
+      15537524523.0,
+      15537481121.0
+    ],
+    "min_value": 8348376206.0,
+    "max_value": 15537534254.0,
+    "mean_value": 15453851827.03,
+    "median_value": 15537498493.0,
+    "analysis": "NUMERIC FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.3%)"
+    ]
+  },
+  {
+    "field_name": "Peak Season End Month",
+    "total_records": 12725,
+    "non_null_count": "11649",
+    "null_count": "1076",
+    "null_percentage": 8.46,
+    "data_type": "float64",
+    "unique_values": 9,
+    "unique_percentage": 0.08,
+    "sample_values": [
+      9.0,
+      8.0,
+      8.0,
+      8.0,
+      12.0
+    ],
+    "min_value": 0.0,
+    "max_value": 12.0,
+    "mean_value": 9.6,
+    "median_value": 9.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "9.0": "6288",
+      "10.0": "2244",
+      "12.0": "1543",
+      "11.0": "818",
+      "8.0": "528",
+      "5.0": "217",
+      "4.0": "6",
+      "0.0": "3",
+      "2.0": "2"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Peak Season Start Month",
+    "total_records": 12725,
+    "non_null_count": "11649",
+    "null_count": "1076",
+    "null_percentage": 8.46,
+    "data_type": "float64",
+    "unique_values": 10,
+    "unique_percentage": 0.09,
+    "sample_values": [
+      5.0,
+      6.0,
+      6.0,
+      6.0,
+      1.0
+    ],
+    "min_value": 0.0,
+    "max_value": 12.0,
+    "mean_value": 4.4,
+    "median_value": 5.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "5.0": "4836",
+      "4.0": "2244",
+      "6.0": "1976",
+      "1.0": "1547",
+      "3.0": "818",
+      "10.0": "217",
+      "12.0": "3",
+      "11.0": "3",
+      "0.0": "3",
+      "2.0": "2"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Phone Number",
+    "total_records": 12725,
+    "non_null_count": "11451",
+    "null_count": "1274",
+    "null_percentage": 10.01,
+    "data_type": "object",
+    "unique_values": 11413,
+    "unique_percentage": 99.67,
+    "sample_values": [
+      "818.860.1352",
+      "484.653.7530",
+      " +1 512-527-3506",
+      " +1 501-273-4000",
+      " +1 908-234-2300"
+    ],
+    "min_length": 10,
+    "max_length": 26,
+    "avg_length": 13.79,
+    "detected_patterns": [
+      "PHONE (11290 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Postal Code",
+    "total_records": 12725,
+    "non_null_count": "10479",
+    "null_count": "2246",
+    "null_percentage": 17.65,
+    "data_type": "object",
+    "unique_values": 7152,
+    "unique_percentage": 68.25,
+    "sample_values": [
+      "78704",
+      "72716",
+      "07931",
+      "94043",
+      "94086"
+    ],
+    "min_length": 4,
+    "max_length": 9,
+    "avg_length": 5.0,
+    "detected_patterns": [
+      "PHONE (3 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Public Private Flag",
+    "total_records": 12725,
+    "non_null_count": "11886",
+    "null_count": "839",
+    "null_percentage": 6.59,
+    "data_type": "object",
+    "unique_values": 5,
+    "unique_percentage": 0.04,
+    "sample_values": [
+      "Unknown",
+      "Public",
+      "Unknown",
+      "Unknown",
+      "Unknown"
+    ],
+    "min_length": 6,
+    "max_length": 12,
+    "avg_length": 6.41,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Public": "7373",
+      "Private": "3890",
+      "Unknown": "473",
+      "Municipal": "149",
+      "Semi-Private": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Quick context",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Recent Conversion",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Recent Conversion Date",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Recent Deal Amount",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Recent Deal Close Date",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Record source",
+    "total_records": 12725,
+    "non_null_count": "12725",
+    "null_count": "0",
+    "null_percentage": 0.0,
+    "data_type": "object",
+    "unique_values": 6,
+    "unique_percentage": 0.05,
+    "sample_values": [
+      "CRM Setting",
+      "CRM Setting",
+      "CRM Setting",
+      "CRM Setting",
+      "CRM Setting"
+    ],
+    "min_length": 6,
+    "max_length": 18,
+    "avg_length": 7.3,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Import": "10555",
+      "CRM Setting": "1311",
+      "HubSpot Processing": "823",
+      "CRM UI": "18",
+      "Integration": "16",
+      "Mobile iOS": "2"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "Record source detail 1",
+    "total_records": 12725,
+    "non_null_count": "691",
+    "null_count": "12034",
+    "null_percentage": 94.57,
+    "data_type": "object",
+    "unique_values": 4,
+    "unique_percentage": 0.58,
+    "sample_values": [
+      "\"Create and associate companies with contacts\" setting",
+      "\"Create and associate companies with contacts\" setting",
+      "\"Create and associate companies with contacts\" setting",
+      "\"Create and associate companies with contacts\" setting",
+      "\"Create and associate companies with contacts\" setting"
+    ],
+    "min_length": 10,
+    "max_length": 54,
+    "avg_length": 52.99,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "\"Create and associate companies with contacts\" setting": "675",
+      "SuperSales": "13",
+      "Seamless.AI": "2",
+      "Mailchimp Sync": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (94.6%)"
+    ]
+  },
+  {
+    "field_name": "Record source detail 2",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Record source detail 3",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Revenue range",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Source of last booking in meetings tool",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Start Month",
+    "total_records": 12725,
+    "non_null_count": "11648",
+    "null_count": "1077",
+    "null_percentage": 8.46,
+    "data_type": "float64",
+    "unique_values": 6,
+    "unique_percentage": 0.05,
+    "sample_values": [
+      4.0,
+      5.0,
+      5.0,
+      5.0,
+      1.0
+    ],
+    "min_value": 0.0,
+    "max_value": 5.0,
+    "mean_value": 3.27,
+    "median_value": 4.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "4.0": "4838",
+      "1.0": "2756",
+      "3.0": "2022",
+      "5.0": "1974",
+      "0.0": "57",
+      "2.0": "1"
+    },
+    "quality_issues": []
+  },
+  {
+    "field_name": "State/Region",
+    "total_records": 12725,
+    "non_null_count": "12095",
+    "null_count": "630",
+    "null_percentage": 4.95,
+    "data_type": "object",
+    "unique_values": 74,
+    "unique_percentage": 0.61,
+    "sample_values": [
+      "TX",
+      "AR",
+      "NJ",
+      "CA",
+      "CA"
+    ],
+    "min_length": 2,
+    "max_length": 33,
+    "avg_length": 2.02,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "State/Region Code",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Street Address",
+    "total_records": 12725,
+    "non_null_count": "12052",
+    "null_count": "673",
+    "null_percentage": 5.29,
+    "data_type": "object",
+    "unique_values": 11923,
+    "unique_percentage": 98.93,
+    "sample_values": [
+      "2043 South Lamar Boulevard",
+      "702 Southwest 8th Street",
+      "77 Liberty Corner Road",
+      "2700 Coast Avenue",
+      "243 Buena Vista Avenue"
+    ],
+    "min_length": 4,
+    "max_length": 70,
+    "avg_length": 18.09,
+    "detected_patterns": [
+      "PHONE (356 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Street Address 2",
+    "total_records": 12725,
+    "non_null_count": "378",
+    "null_count": "12347",
+    "null_percentage": 97.03,
+    "data_type": "object",
+    "unique_values": 243,
+    "unique_percentage": 64.29,
+    "sample_values": [
+      "508",
+      "100",
+      "301",
+      "1550",
+      "3rd 1021"
+    ],
+    "min_length": 1,
+    "max_length": 40,
+    "avg_length": 5.4,
+    "detected_patterns": [
+      "PHONE (1 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (97.0%)"
+    ]
+  },
+  {
+    "field_name": "Target Account",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Time First Seen",
+    "total_records": 12725,
+    "non_null_count": "4836",
+    "null_count": "7889",
+    "null_percentage": 62.0,
+    "data_type": "object",
+    "unique_values": 773,
+    "unique_percentage": 15.98,
+    "sample_values": [
+      "2025-07-24 20:09",
+      "2025-07-23 12:50",
+      "2025-07-22 13:44",
+      "2025-07-21 20:32",
+      "2025-07-21 14:25"
+    ],
+    "min_length": 16,
+    "max_length": 16,
+    "avg_length": 16.0,
+    "detected_patterns": [
+      "PHONE (4836 records)",
+      "DATE_STRING (4836 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (62.0%)"
+    ]
+  },
+  {
+    "field_name": "Time Last Seen",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Time of First Session",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Time of Last Session",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Time Zone",
+    "total_records": 12725,
+    "non_null_count": "10423",
+    "null_count": "2302",
+    "null_percentage": 18.09,
+    "data_type": "object",
+    "unique_values": 40,
+    "unique_percentage": 0.38,
+    "sample_values": [
+      "America/Chicago",
+      "America/Chicago",
+      "America/New_York",
+      "America/Los_Angeles",
+      "America/Los_Angeles"
+    ],
+    "min_length": 10,
+    "max_length": 30,
+    "avg_length": 16.16,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "top_lead_flag",
+    "total_records": 12725,
+    "non_null_count": "125",
+    "null_count": "12600",
+    "null_percentage": 99.02,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.8,
+    "sample_values": [
+      "Y",
+      "Y",
+      "Y",
+      "Y",
+      "Y"
+    ],
+    "min_length": 1,
+    "max_length": 1,
+    "avg_length": 1.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Y": "125"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Total Money Raised",
+    "total_records": 12725,
+    "non_null_count": "75",
+    "null_count": "12650",
+    "null_percentage": 99.41,
+    "data_type": "object",
+    "unique_values": 63,
+    "unique_percentage": 84.0,
+    "sample_values": [
+      "213700000",
+      "2560000",
+      "94800000",
+      "8700000000",
+      "54400000"
+    ],
+    "min_length": 2,
+    "max_length": 10,
+    "avg_length": 6.17,
+    "detected_patterns": [
+      "PHONE (39 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (99.4%)"
+    ]
+  },
+  {
+    "field_name": "Total open deal value",
+    "total_records": 12725,
+    "non_null_count": "1",
+    "null_count": "12724",
+    "null_percentage": 99.99,
+    "data_type": "float64",
+    "unique_values": 1,
+    "unique_percentage": 100.0,
+    "sample_values": [
+      2000.0
+    ],
+    "min_value": 2000.0,
+    "max_value": 2000.0,
+    "mean_value": 2000.0,
+    "median_value": 2000.0,
+    "analysis": "NUMERIC FIELD",
+    "top_values": {
+      "2000.0": "1"
+    },
+    "quality_issues": [
+      "HIGH_NULL_RATE (100.0%)",
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Total Revenue",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Twitter Bio",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Twitter Followers",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Twitter Handle",
+    "total_records": 12725,
+    "non_null_count": "6094",
+    "null_count": "6631",
+    "null_percentage": 52.11,
+    "data_type": "object",
+    "unique_values": 5885,
+    "unique_percentage": 96.57,
+    "sample_values": [
+      "Walmart",
+      "USGA",
+      "Intuit",
+      "DisneyPlusHS",
+      "zapier"
+    ],
+    "min_length": 3,
+    "max_length": 15,
+    "avg_length": 12.06,
+    "detected_patterns": [
+      "PHONE (5 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (52.1%)"
+    ]
+  },
+  {
+    "field_name": "Type",
+    "total_records": 12725,
+    "non_null_count": "0",
+    "null_count": "12725",
+    "null_percentage": 100.0,
+    "data_type": "float64",
+    "unique_values": 0,
+    "unique_percentage": 0,
+    "analysis": "COMPLETELY EMPTY FIELD"
+  },
+  {
+    "field_name": "Updated by user ID",
+    "total_records": 12725,
+    "non_null_count": "12173",
+    "null_count": "552",
+    "null_percentage": 4.34,
+    "data_type": "object",
+    "unique_values": 1,
+    "unique_percentage": 0.01,
+    "sample_values": [
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes",
+      "Ty Hayes"
+    ],
+    "min_length": 8,
+    "max_length": 8,
+    "avg_length": 8.0,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "top_values": {
+      "Ty Hayes": "12173"
+    },
+    "quality_issues": [
+      "SINGLE_VALUE_ONLY"
+    ]
+  },
+  {
+    "field_name": "Web Technologies",
+    "total_records": 12725,
+    "non_null_count": "10380",
+    "null_count": "2345",
+    "null_percentage": 18.43,
+    "data_type": "object",
+    "unique_values": 6940,
+    "unique_percentage": 66.86,
+    "sample_values": [
+      "Youtube; AWS Lambda; Pipedrive; Atlassian JIRA; Facebook Advertiser; Salesforce; Mode; The Trade Desk; Java; Datadog; Slack; Looker; Recaptcha; Stripe; Cloud Flare; Intercom; Bing Ads; Snowflake; Pardot; Hotjar; Nginx; Facebook Custom Audience; SAP Concur; Facebook Workplace; Google Tag Manager; Greenhouse; Lever; ADP; Sendgrid; Kaltura; NetSuite; Apache Spark; Zendesk; Tableau; Salesforce Marketing Cloud; Omniture (Adobe Analytics); Microsoft Office 365; Google Cloud; Facebook Conversion Tracking; Google Analytics; LinkedIn Advertiser; Google Apps; Okta; DoubleClick Ads",
+      "Microsoft Exchange Online; Salesforce; Woo Commerce; App Nexus; Stripe; Piwik; Akamai DNS; Dstillery; Google Analytics; HubSpot; Adobe Dynamic Tag Management; Google Tag Manager; Zendesk; Microsoft Office 365; MediaMath; Outlook",
+      "Microsoft Exchange Online; Salesforce; Microsoft Office 365; Outlook",
+      "Route 53; Aweber; Mailjet; Wistia; Unbounce; Olark; Emma; Java; App Nexus; Slack; Looker; GetResponse; Bing Ads; GitHub; Mailchimp; Google Adwords; Disqus; Zuora; MicroStrategy; Google Cloud; Google Analytics; Twilio; Mixpanel; Typeform; Postmark; SAP CRM; Apache Hadoop; Atlassian JIRA; Sharepoint; Microsoft Azure; SAP Human Capital Management; Qualtrics; Datadog; Google Adsense; Google Tag Manager; Optimizely; RabbitMQ; Omniture (Adobe Analytics); Microsoft Office 365; Google Remarketing; DB2; LinkedIn Advertiser; Okta; DoubleClick Ads; Trello; Wordpress; Apache Cassandra; ASP.Net; Salesforce; Microsoft Teams; Apache; Apache Tomcat; Stripe; QuickBooks; Pentaho; MySQL; Contentful; Quantcast; Nginx; Facebook Custom Audience; Facebook Workplace; Ubuntu; Facebook Social Plugins; Joomla; ADP; Mailgun; Help Scout; Twitter Advertiser; Amazon S3; Dropbox; Drupal; Marketo; Socket.io; Facebook Conversion Tracking; PubMatic; Basecamp; Rubicon Project; GitLab; Twitter Button; Google Apps; Formstack; HubSpot; Unix; CouchDB; Youtube; New Relic; Clicktale; UserVoice; Mandrill; Microsoft SQL Server; Cloudinary; Apache Kafka; Google Maps; PostgreSQL; Ruby On Rails; AWS Redshift; Heroku; Recaptcha; SAP Business Objects; Intercom; Amazon Web Services; Heap; AWS IAM; MongoDB; HBase; Magento; GoToMeeting; Fullstory; Akamai; Wufoo; Zendesk; Tableau; Workable; Django; Vimeo; Fedora; Fullcontact; IBM Lotus Domino; BambooHR",
+      "Amazon Simple Email Service; Zendesk; Ruby On Rails; Google Tag Manager; Facebook Connect; Cloud Flare; Google Analytics; Google Apps; Bing Advertiser"
+    ],
+    "min_length": 5,
+    "max_length": 1465,
+    "avg_length": 99.52,
+    "detected_patterns": [],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Website URL",
+    "total_records": 12725,
+    "non_null_count": "12344",
+    "null_count": "381",
+    "null_percentage": 2.99,
+    "data_type": "object",
+    "unique_values": 12343,
+    "unique_percentage": 99.99,
+    "sample_values": [
+      "s.factor75.com",
+      "emsoftprimary.com",
+      "c.factor75.com",
+      "h.factor75.com",
+      "textron.com"
+    ],
+    "min_length": 5,
+    "max_length": 125,
+    "avg_length": 20.25,
+    "detected_patterns": [
+      "URL (824 records)",
+      "PHONE (336 records)"
+    ],
+    "analysis": "TEXT/STRING FIELD",
+    "quality_issues": []
+  },
+  {
+    "field_name": "Year Founded",
+    "total_records": 12725,
+    "non_null_count": "5066",
+    "null_count": "7659",
+    "null_percentage": 60.19,
+    "data_type": "float64",
+    "unique_values": 236,
+    "unique_percentage": 4.66,
+    "sample_values": [
+      1894.0,
+      1983.0,
+      2011.0,
+      1973.0,
+      2000.0
+    ],
+    "min_value": 1614.0,
+    "max_value": 2023.0,
+    "mean_value": 1963.44,
+    "median_value": 1978.0,
+    "analysis": "NUMERIC FIELD",
+    "quality_issues": [
+      "HIGH_NULL_RATE (60.2%)"
+    ]
+  }
+]
