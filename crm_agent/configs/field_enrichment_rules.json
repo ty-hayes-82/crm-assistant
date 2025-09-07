@@ -1,0 +1,154 @@
+{
+  "field_enrichment_rules": {
+    "description": "Business rules and purposes for CRM field enrichment at Swoop Golf",
+    "last_updated": "2025-01-09",
+    "version": "1.0",
+    
+    "company_fields": {
+      "management_company": {
+        "purpose": "Identify the management company operating the golf course",
+        "business_value": "Helps understand decision-making hierarchy and potential partnership opportunities",
+        "data_source": "Internal database of golf course management companies",
+        "validation_rules": [
+          "Must match against known management companies (Troon, ClubCorp, etc.)",
+          "Use fuzzy matching with 85%+ confidence threshold"
+        ],
+        "examples": ["Troon", "ClubCorp", "Kemper Sports", "JC Golf", "Billy Casper Golf"]
+      },
+      
+      "competitor": {
+        "purpose": "Track if this golf club uses a competitor of Swoop Golf's technology solutions",
+        "business_value": "Critical for sales strategy - identifies prospects already using competing solutions vs. greenfield opportunities",
+        "swoop_competitors": [
+          "Club Essentials", "Jonas", "ForeTees", "Lightspeed Golf", "ClubProphet", 
+          "Supreme Golf", "Northstar", "Club Systems International", "PGA Tour Superstores",
+          "Golf Genius", "Club Prophet", "Callus", "Pacesetter", "Club App"
+        ],
+        "data_interpretation": {
+          "Unknown": "No current technology solution identified - HIGH PRIORITY PROSPECT",
+          "In-House App": "Custom solution - may be open to upgrade",
+          "Competitor_Name": "Using competing solution - requires competitive sales approach"
+        },
+        "sales_priority": {
+          "Unknown": "High - no existing solution to replace",
+          "In-House App": "Medium - may be dissatisfied with custom solution",
+          "Competitor": "Low-Medium - requires competitive positioning"
+        }
+      },
+      
+      "email_pattern": {
+        "purpose": "Identify the email address pattern/format used by employees at this golf club",
+        "business_value": "Enables accurate email prospecting and contact discovery for sales outreach",
+        "pattern_examples": [
+          "firstname.lastname@domain.com", "firstinitiallastname@domain.com",
+          "flastname@domain.com"
+        ],
+        "usage": "Sales team uses this to guess email addresses of key contacts (GM, Director of Golf, F&B Manager)",
+        "validation": "Should match the domain pattern of known contacts at this club"
+      },
+      
+      "company_type": {
+        "purpose": "Classify the type of golf facility for targeted marketing and sales approach",
+        "business_value": "Different facility types have different needs, budgets, and decision-making processes",
+        "valid_options": [
+          "Golf Club", "Country Club", "Resort", "Municipal Course", 
+          "Daily Fee Course", "Semi-Private Club"
+        ],
+        "sales_implications": {
+          "Country Club": "Higher budget, member-focused, premium service expectations",
+          "Daily Fee Course": "Revenue-focused, high volume, cost-conscious",
+          "Resort": "Guest experience focused, seasonal considerations",
+          "Municipal Course": "Budget constraints, public accountability"
+        }
+      },
+      
+      "ngf_category": {
+        "purpose": "National Golf Foundation category classification for market segmentation",
+        "business_value": "Industry-standard classification helps with competitive analysis and market positioning",
+        "valid_categories": [
+          "Daily Fee", "Private Club", "Resort", "Municipal", "Semi-Private"
+        ],
+        "market_insights": {
+          "Daily Fee": "Revenue-driven, focus on volume and efficiency",
+          "Private Club": "Member experience focused, premium positioning",
+          "Resort": "Guest satisfaction critical, seasonal revenue patterns"
+        }
+      },
+      
+      "description": {
+        "purpose": "Comprehensive description of the golf facility for context and qualification",
+        "business_value": "Helps sales team understand facility scope, prestige level, and potential fit for Swoop solutions",
+        "should_include": [
+          "Course designer (if notable)", "Number of holes", "Key features",
+          "Location context", "Target market", "Unique selling points"
+        ],
+        "sales_usage": "Provides conversation starters and context for initial outreach"
+      },
+      
+      "club_info": {
+        "purpose": "Detailed facility information including amenities and services",
+        "business_value": "Identifies additional revenue streams and service complexity that Swoop can support",
+        "key_elements": [
+          "Dining facilities", "Event spaces", "Practice facilities",
+          "Pro shop", "Additional amenities", "Service offerings"
+        ],
+        "revenue_indicators": "More amenities = more revenue streams = higher potential Swoop value"
+      },
+      
+      "has_pool": {
+        "purpose": "Track pool amenity availability",
+        "business_value": "Indicates facility scope and potential for F&B service expansion beyond golf",
+        "valid_values": ["Yes", "No", "Unknown"],
+        "sales_relevance": "Pool areas often have separate F&B service points that Swoop can enhance"
+      },
+      
+      "has_tennis_courts": {
+        "purpose": "Track tennis court availability", 
+        "business_value": "Indicates multi-sport facility with broader member services and F&B opportunities",
+        "valid_values": ["Yes", "No", "Unknown"],
+        "sales_relevance": "Tennis areas may have pro shops and F&B that benefit from Swoop solutions"
+      },
+      
+      "state": {
+        "purpose": "Geographic location for territory management and market analysis",
+        "business_value": "Enables territory assignment, regional market analysis, and travel planning",
+        "format": "Two-letter state code (e.g., 'NY', 'CA', 'FL')",
+        "sales_usage": "Territory routing and regional market penetration analysis"
+      }
+    },
+    
+    "enrichment_priorities": {
+      "critical_fields": [
+        "competitor", "management_company", "company_type", "email_pattern"
+      ],
+      "high_value_fields": [
+        "ngf_category", "description", "club_info"
+      ],
+      "supplementary_fields": [
+        "has_pool", "has_tennis_courts", "state"
+      ]
+    },
+    
+    "data_quality_standards": {
+      "competitor_field": {
+        "unknown_threshold": "If >90% of records show 'Unknown', prioritize competitive intelligence research",
+        "validation": "Cross-reference with known technology vendors in golf industry"
+      },
+      "email_pattern_field": {
+        "accuracy_requirement": "Must be validated against known employee emails when available",
+        "format_standards": "Should follow common business email patterns"
+      },
+      "management_company_field": {
+        "confidence_threshold": "85% fuzzy match confidence minimum",
+        "validation_source": "Internal management company database"
+      }
+    },
+    
+    "business_context": {
+      "swoop_golf_mission": "Provide technology solutions that enhance golf club operations and member/guest experiences",
+      "target_customers": "Golf clubs, country clubs, and resorts seeking to improve F&B operations, member services, and operational efficiency",
+      "competitive_landscape": "Competing against established golf management software providers and custom in-house solutions",
+      "sales_process": "Relationship-based sales requiring understanding of club operations, decision makers, and current technology stack"
+    }
+  }
+}

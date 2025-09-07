@@ -482,5 +482,48 @@ print(r.json())
 "
 ```
 
+## 📁 Project Structure
+
+```
+crm_assistant/
+├── crm_agent/              # Core CRM agent system
+│   ├── agents/             # Specialized agents
+│   │   └── specialized/    # Individual agent implementations
+│   ├── configs/            # Business rules and configuration
+│   ├── core/               # Base classes and factory
+│   ├── workflows/          # Agent workflows
+│   └── utils/              # Utility functions
+├── crm_fastmcp_server/     # MCP server for HubSpot integration
+├── demos/                  # Organized demo scripts
+│   ├── agents/             # Individual agent demos
+│   ├── enrichment/         # Data enrichment demos
+│   └── project_manager/    # A2A communication demos
+├── docs/                   # Comprehensive documentation
+├── project_manager_agent/  # A2A Project Manager system
+├── scripts/                # Utility scripts
+└── tests/                  # Organized test suite
+    ├── agents/             # Agent unit tests
+    ├── enrichment/         # Enrichment process tests
+    ├── infrastructure/     # MCP and tool tests
+    └── project_manager/    # A2A communication tests
+```
+
+## 🚀 Quick Start Demos
+
+### Business Rules & Field Validation
+```bash
+python demos/enrichment/business_rules_enrichment_demo.py
+```
+
+### Company Management Agent
+```bash
+python demos/agents/demo_company_management_enrichment.py
+```
+
+### A2A Communication
+```bash
+python demos/project_manager/interactive_project_manager.py
+```
+
 ## License
 MIT

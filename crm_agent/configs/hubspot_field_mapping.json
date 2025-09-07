@@ -1,0 +1,343 @@
+{
+  "hubspot_field_mapping": {
+    "version": "1.0",
+    "last_updated": "2025-01-09",
+    "description": "Comprehensive mapping of HubSpot company fields with enrichment metadata",
+    
+    "company_fields": {
+      "name": {
+        "display_name": "Company name",
+        "hubspot_internal_name": "name",
+        "data_type": "text",
+        "null_percentage": 0.09,
+        "enrichment_priority": "CRITICAL",
+        "purpose": "Primary company identifier",
+        "business_value": "Essential for all CRM operations and identification",
+        "auto_populate": false,
+        "validation_rules": ["required", "min_length:2"],
+        "sample_values": ["The Golf Club at Mansion Ridge", "Austin Country Club"]
+      },
+      
+      "domain": {
+        "display_name": "Company Domain Name", 
+        "hubspot_internal_name": "domain",
+        "data_type": "text",
+        "null_percentage": 9.44,
+        "enrichment_priority": "CRITICAL",
+        "purpose": "Primary domain for email pattern inference and web research",
+        "business_value": "Critical for contact discovery and email pattern analysis",
+        "auto_populate": true,
+        "validation_rules": ["domain_format"],
+        "sample_values": ["mansionridgegc.com", "austingolfclub.com"]
+      },
+      
+      "website": {
+        "display_name": "Website URL",
+        "hubspot_internal_name": "website",
+        "data_type": "text", 
+        "null_percentage": 2.99,
+        "enrichment_priority": "HIGH",
+        "purpose": "Official company website for research and validation",
+        "business_value": "Primary source for company information and contact research",
+        "auto_populate": true,
+        "validation_rules": ["url_format"],
+        "sample_values": ["https://mansionridgegc.com", "https://austingolfclub.com"]
+      },
+      
+      "phone": {
+        "display_name": "Phone Number",
+        "hubspot_internal_name": "phone", 
+        "data_type": "text",
+        "null_percentage": 10.01,
+        "enrichment_priority": "HIGH",
+        "purpose": "Primary contact number for sales outreach",
+        "business_value": "Direct contact method for sales and support",
+        "auto_populate": true,
+        "validation_rules": ["phone_format"],
+        "sample_values": ["(845) 782-7888", "+1 512-555-0123"]
+      },
+      
+      "city": {
+        "display_name": "City",
+        "hubspot_internal_name": "city",
+        "data_type": "text",
+        "null_percentage": 5.02,
+        "enrichment_priority": "HIGH",
+        "purpose": "Geographic location for territory management",
+        "business_value": "Territory assignment and regional market analysis",
+        "auto_populate": true,
+        "validation_rules": ["min_length:2"],
+        "sample_values": ["Monroe", "Austin", "Dallas"]
+      },
+      
+      "state": {
+        "display_name": "State/Region",
+        "hubspot_internal_name": "state",
+        "data_type": "text",
+        "null_percentage": 4.95,
+        "enrichment_priority": "HIGH", 
+        "purpose": "State/region for territory management and market analysis",
+        "business_value": "Territory routing and regional market penetration analysis",
+        "auto_populate": true,
+        "validation_rules": ["state_format"],
+        "sample_values": ["NY", "TX", "CA", "New York"]
+      },
+      
+      "country": {
+        "display_name": "Country/Region",
+        "hubspot_internal_name": "country",
+        "data_type": "text",
+        "null_percentage": 17.74,
+        "enrichment_priority": "MEDIUM",
+        "purpose": "Country for international market analysis",
+        "business_value": "International territory management and compliance",
+        "auto_populate": true,
+        "validation_rules": ["country_format"],
+        "sample_values": ["United States", "Canada", "United Kingdom"]
+      },
+      
+      "description": {
+        "display_name": "Description",
+        "hubspot_internal_name": "description",
+        "data_type": "text",
+        "null_percentage": 17.47,
+        "enrichment_priority": "HIGH",
+        "purpose": "Comprehensive company description for context and qualification",
+        "business_value": "Provides conversation starters and context for sales outreach",
+        "auto_populate": true,
+        "validation_rules": ["min_length:50"],
+        "sample_values": ["18-hole championship golf course designed by Jack Nicklaus..."]
+      },
+      
+      "industry": {
+        "display_name": "Industry",
+        "hubspot_internal_name": "industry",
+        "data_type": "text",
+        "null_percentage": 29.28,
+        "enrichment_priority": "HIGH",
+        "purpose": "Industry classification for market segmentation",
+        "business_value": "Market analysis and competitive positioning",
+        "auto_populate": true,
+        "validation_rules": ["industry_standard"],
+        "sample_values": ["Recreation Services", "Hospitality", "Golf & Country Clubs"]
+      },
+      
+      "annualrevenue": {
+        "display_name": "Annual Revenue",
+        "hubspot_internal_name": "annualrevenue",
+        "data_type": "number",
+        "null_percentage": 28.98,
+        "enrichment_priority": "HIGH",
+        "purpose": "Revenue classification for deal sizing and qualification",
+        "business_value": "Deal sizing and sales strategy determination",
+        "auto_populate": true,
+        "validation_rules": ["positive_number"],
+        "sample_values": [10000000, 50000000, 1000000]
+      },
+      
+      "company_type": {
+        "display_name": "Company Type",
+        "hubspot_internal_name": "company_type",
+        "data_type": "text",
+        "null_percentage": 98.39,
+        "enrichment_priority": "HIGH",
+        "purpose": "Classify the type of golf facility for targeted sales approach",
+        "business_value": "Different facility types have different needs and budgets",
+        "auto_populate": true,
+        "validation_rules": ["enum:Golf Club,Country Club,Resort,Municipal Course,Daily Fee Course"],
+        "sample_values": ["Golf Club", "Country Club", "Resort", "Municipal Course"]
+      },
+      
+      "club_type": {
+        "display_name": "Club Type",
+        "hubspot_internal_name": "club_type",
+        "data_type": "text",
+        "null_percentage": 5.01,
+        "enrichment_priority": "HIGH",
+        "purpose": "Detailed club classification for market segmentation",
+        "business_value": "Pricing strategy and service offering alignment",
+        "auto_populate": true,
+        "validation_rules": ["enum:Public - Low Daily Fee,Public - High Daily Fee,Private,Country Club,Resort,Municipal Course"],
+        "sample_values": ["Public - High Daily Fee", "Private", "Country Club", "Resort"]
+      },
+      
+      "ngf_category": {
+        "display_name": "NGF Category", 
+        "hubspot_internal_name": "ngf_category",
+        "data_type": "text",
+        "null_percentage": 99.05,
+        "enrichment_priority": "MEDIUM",
+        "purpose": "National Golf Foundation category for industry-standard classification",
+        "business_value": "Industry benchmarking and competitive analysis",
+        "auto_populate": true,
+        "validation_rules": ["enum:Daily Fee,Private Club,Resort,Municipal,Semi-Private"],
+        "sample_values": ["Daily Fee", "Private Club", "Resort", "Municipal"]
+      },
+      
+      "competitor": {
+        "display_name": "Competitor",
+        "hubspot_internal_name": "competitor",
+        "data_type": "text",
+        "null_percentage": 12.03,
+        "enrichment_priority": "CRITICAL",
+        "purpose": "Track competitor technology solutions for sales strategy",
+        "business_value": "Critical for competitive positioning and sales approach",
+        "auto_populate": true,
+        "validation_rules": ["competitor_list"],
+        "sample_values": ["ClubCorp", "Club Essentials", "Jonas", "Unknown"]
+      },
+      
+      "management_company": {
+        "display_name": "Management Company",
+        "hubspot_internal_name": "management_company", 
+        "data_type": "text",
+        "null_percentage": 99.98,
+        "enrichment_priority": "HIGH",
+        "purpose": "Identify the management company operating the golf course",
+        "business_value": "Understanding decision-making hierarchy and partnership opportunities",
+        "auto_populate": true,
+        "validation_rules": ["management_company_list"],
+        "sample_values": ["Troon", "ClubCorp", "Kemper Sports", "JC Golf"]
+      },
+      
+      "email_pattern": {
+        "display_name": "email_pattern",
+        "hubspot_internal_name": "email_pattern",
+        "data_type": "text",
+        "null_percentage": 90.59,
+        "enrichment_priority": "CRITICAL",
+        "purpose": "Email address pattern for contact discovery and prospecting",
+        "business_value": "Enables accurate email prospecting for key contacts",
+        "auto_populate": true,
+        "validation_rules": ["email_pattern_format"],
+        "sample_values": ["first.last", "firstinitiallastname", "firstname.lastname"]
+      },
+      
+      "market": {
+        "display_name": "Market",
+        "hubspot_internal_name": "market",
+        "data_type": "text", 
+        "null_percentage": 18.03,
+        "enrichment_priority": "MEDIUM",
+        "purpose": "Regional market designation for territory management",
+        "business_value": "Regional market analysis and territory planning",
+        "auto_populate": true,
+        "validation_rules": ["min_length:3"],
+        "sample_values": ["Hudson Valley", "Austin", "Dallas-Fort Worth", "Atlanta"]
+      },
+      
+      "club_info": {
+        "display_name": "Club Info",
+        "hubspot_internal_name": "club_info",
+        "data_type": "text",
+        "null_percentage": 5.69,
+        "enrichment_priority": "MEDIUM",
+        "purpose": "Detailed facility information including amenities and services",
+        "business_value": "Identifies revenue streams and service complexity",
+        "auto_populate": true,
+        "validation_rules": ["min_length:100"],
+        "sample_values": ["18-hole Jack Nicklaus designed championship course..."]
+      },
+      
+      "has_pool": {
+        "display_name": "Has Pool",
+        "hubspot_internal_name": "has_pool",
+        "data_type": "text",
+        "null_percentage": 5.0,
+        "enrichment_priority": "LOW",
+        "purpose": "Track pool amenity for F&B service expansion opportunities",
+        "business_value": "Additional F&B service points that Swoop can enhance",
+        "auto_populate": true,
+        "validation_rules": ["enum:Yes,No,Unknown"],
+        "sample_values": ["Yes", "No", "Unknown"]
+      },
+      
+      "has_tennis_courts": {
+        "display_name": "Has Tennis Courts", 
+        "hubspot_internal_name": "has_tennis_courts",
+        "data_type": "text",
+        "null_percentage": 5.0,
+        "enrichment_priority": "LOW",
+        "purpose": "Track tennis facilities for multi-sport service opportunities",
+        "business_value": "Tennis pro shops and F&B that benefit from Swoop solutions",
+        "auto_populate": true,
+        "validation_rules": ["enum:Yes,No,Unknown"],
+        "sample_values": ["Yes", "No", "Unknown"]
+      },
+      
+      "lifecyclestage": {
+        "display_name": "Lifecycle Stage",
+        "hubspot_internal_name": "lifecyclestage",
+        "data_type": "text",
+        "null_percentage": 9.28,
+        "enrichment_priority": "HIGH",
+        "purpose": "Track prospect/customer lifecycle stage",
+        "business_value": "Sales process management and lead qualification",
+        "auto_populate": false,
+        "validation_rules": ["enum:Subscriber,Lead,Marketing Qualified Lead,Customer,Partner"],
+        "sample_values": ["Subscriber", "Lead", "Marketing Qualified Lead", "Customer"]
+      },
+      
+      "hs_lead_status": {
+        "display_name": "Lead Status",
+        "hubspot_internal_name": "hs_lead_status", 
+        "data_type": "text",
+        "null_percentage": 99.97,
+        "enrichment_priority": "MEDIUM",
+        "purpose": "Detailed lead qualification status",
+        "business_value": "Granular sales process tracking and qualification",
+        "auto_populate": false,
+        "validation_rules": ["lead_status_enum"],
+        "sample_values": ["New", "In Progress", "Open Deal", "Unqualified", "Not Interested"]
+      }
+    },
+    
+    "deprecated_fields": {
+      "state_region": {
+        "reason": "Use 'state' instead - correct HubSpot property name",
+        "replacement": "state"
+      },
+      "state_region_code": {
+        "reason": "Field is completely empty (100% null rate) - appears unused in this HubSpot instance",
+        "replacement": null
+      }
+    },
+    
+    "enrichment_rules": {
+      "critical_fields": [
+        "name", "domain", "competitor", "email_pattern"
+      ],
+      "high_priority_fields": [
+        "website", "phone", "city", "state", "description", "industry", 
+        "annualrevenue", "company_type", "club_type", "management_company", "lifecyclestage"
+      ],
+      "medium_priority_fields": [
+        "country", "ngf_category", "market", "club_info", "hs_lead_status"
+      ],
+      "low_priority_fields": [
+        "has_pool", "has_tennis_courts"
+      ]
+    },
+    
+    "validation_rules": {
+      "domain_format": "^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\\.[a-zA-Z]{2,}$",
+      "url_format": "^https?://.*",
+      "phone_format": "^[\\+]?[1-9]?[0-9]{7,15}$",
+      "email_pattern_format": "^[a-zA-Z0-9._-]+$",
+      "state_format": "^[A-Z]{2}$|^[A-Za-z\\s]{3,}$",
+      "country_format": "^[A-Za-z\\s]{3,}$"
+    },
+    
+    "auto_population_sources": {
+      "domain": ["website", "email_analysis"],
+      "website": ["domain_construction", "web_search"],
+      "description": ["website_extraction", "ai_summarization"],
+      "club_info": ["web_search", "facility_research"],
+      "email_pattern": ["contact_analysis", "domain_research"],
+      "management_company": ["web_search", "industry_database"],
+      "competitor": ["market_research", "technology_analysis"],
+      "industry": ["ai_classification", "business_directory"],
+      "market": ["geographic_analysis", "city_state_mapping"]
+    }
+  }
+}

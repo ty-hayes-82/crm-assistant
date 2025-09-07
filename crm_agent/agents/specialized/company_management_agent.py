@@ -73,6 +73,49 @@ class CompanyManagementAgent(SpecializedAgent):
             print(f"⚠️ Error fetching management companies from HubSpot: {e}")
             return {}
 
+    def call_mcp_tool(self, tool_name: str, arguments: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Call a tool via the MCP server."""
+        import requests
+        import json
+        
+        payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "call_tool",
+            "params": {
+                "name": tool_name,
+                "arguments": arguments or {}
+            }
+        }
+        
+        try:
+            # Use the MCP server endpoint
+            mcp_url = "http://localhost:8081/mcp"  # MCP server URL
+            
+            response = requests.post(mcp_url, json=payload, timeout=30)
+            response.raise_for_status()
+            
+            result = response.json()
+            
+            if "error" in result:
+                return {"error": result["error"]}
+            
+            # Extract the actual content from MCP response format
+            mcp_result = result.get("result", {})
+            if "content" in mcp_result and mcp_result["content"]:
+                # MCP returns content as array with text field
+                content_text = mcp_result["content"][0].get("text", "{}")
+                try:
+                    return json.loads(content_text)
+                except json.JSONDecodeError:
+                    return {"raw_text": content_text}
+            
+            return mcp_result
+            
+        except Exception as e:
+            print(f"MCP tool call error for {tool_name}: {e}")
+            return {"error": str(e)}
+
     def _find_management_company_id(self, management_company_name: str) -> str:
         """
         Finds the HubSpot company ID for a management company name.
@@ -160,8 +203,20 @@ class CompanyManagementAgent(SpecializedAgent):
             management_company_id = self._find_management_company_id(best_manager)
             
             if management_company_id:
-                # This would use the update_company tool to set the parent company
-                # self.tools['update_company'].run(company_id, {"parent_company_id": management_company_id})
+                # Use the update_company tool to set the parent company
+                try:
+                    update_result = self.call_mcp_tool("update_company", {
+                        "company_id": company_id,
+                        "properties": {
+                            "management_company": best_manager,
+                            "parent_company": management_company_id
+                        }
+                    })
+                    print(f"✅ HubSpot updated successfully: {update_result}")
+                    actual_action = "Successfully updated HubSpot"
+                except Exception as e:
+                    print(f"⚠️ HubSpot update failed: {str(e)}")
+                    actual_action = f"Update failed: {str(e)}"
                 
                 print(f"Found match: '{company_name}' is managed by '{best_manager}' (ID: {management_company_id}) with score {best_original_score}.")
                 
@@ -172,7 +227,7 @@ class CompanyManagementAgent(SpecializedAgent):
                     "management_company_id": management_company_id,
                     "match_score": best_original_score,
                     "matched_course": best_match,
-                    "action": "Would update parent_company_id in HubSpot"
+                    "action": actual_action
                 }
             else:
                 print(f"⚠️ Found course match but management company '{best_manager}' not found in HubSpot")
@@ -189,6 +244,15 @@ class CompanyManagementAgent(SpecializedAgent):
             "status": "no_match",
             "company_name": company_name,
             "message": "No management company found."
+        }
+
+    def _get_management_company_context(self) -> Dict[str, Any]:
+        """Get business context for management company field."""
+        return {
+            "purpose": "Identify the management company operating the golf course",
+            "business_value": "Helps understand decision-making hierarchy and potential partnership opportunities",
+            "sales_impact": "Management companies often make technology decisions for multiple properties",
+            "data_source": "Internal database of golf course management companies with fuzzy matching"
         }
 
 

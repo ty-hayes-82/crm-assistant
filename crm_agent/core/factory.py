@@ -89,6 +89,7 @@ class CRMAgentRegistry(AgentRegistry):
         from ..agents.specialized.company_llm_enrichment_agent import create_company_llm_enrichment_agent
         from ..agents.specialized.company_competitor_agent import create_company_competitor_agent
         from ..agents.specialized.company_management_agent import create_company_management_agent
+        from ..agents.specialized.field_mapping_agent import create_field_mapping_agent
         # Note: CRM data quality workflow is created in the CRM workflows module
         
         # Crm Enrichment Agent
@@ -134,6 +135,12 @@ class CRMAgentRegistry(AgentRegistry):
         self.register("company_management_enrichment", create_company_management_agent, {
             "description": "Identifies and sets the management company for golf courses.",
             "capabilities": ["Company data enrichment", "Fuzzy matching"]
+        })
+
+        # Field Mapping Agent
+        self.register("field_mapping", create_field_mapping_agent, {
+            "description": "Maps field names to correct HubSpot internal names using field profiles.",
+            "capabilities": ["Field name mapping", "HubSpot property identification", "Fuzzy matching"]
         })
 
         # CRM Query Builder Agent
