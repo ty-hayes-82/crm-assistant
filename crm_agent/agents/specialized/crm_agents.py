@@ -83,7 +83,13 @@ class WebRetrieverAgent(SpecializedAgent):
             - Recent news/updates
             - Contact information
             
-            OUTPUT FORMAT: List of structured findings with source URLs and confidence
+            PROVENANCE REQUIREMENTS:
+            - MUST capture source_urls for every extracted fact
+            - MUST record last_verified_at timestamp for each finding
+            - Include confidence scores and extraction method
+            - Maintain chain of evidence for audit trail
+            
+            OUTPUT FORMAT: List of structured findings with REQUIRED source URLs, timestamps, and confidence scores
             """,
             **kwargs
         )
@@ -400,14 +406,16 @@ class CRMDataQualityAgent(SpecializedAgent):
             1. Load current CRM contact/company data
             2. Validate against required field policies
             3. Check data consistency and format compliance
-            4. Identify normalization opportunities
-            5. Generate quality report and improvement suggestions
+            4. Enforce provenance requirements (source_urls + last_verified_at)
+            5. Identify normalization opportunities
+            6. Generate quality report and improvement suggestions
             
             VALIDATION RULES:
             - Required fields: email, company, industry (configurable)
             - Format validation: email syntax, phone numbers, URLs
             - Taxonomy compliance: standardized industry values
             - Consistency checks: contact-company relationships
+            - PROVENANCE ENFORCEMENT: All enrichment results MUST have source_urls and last_verified_at
             
             QUALITY METRICS:
             - Field completeness percentage
@@ -415,6 +423,12 @@ class CRMDataQualityAgent(SpecializedAgent):
             - Format compliance score
             - Taxonomy standardization
             - Duplicate risk assessment
+            - Provenance compliance score
+            
+            PROVENANCE GATE:
+            - REJECT any enrichment result without source_urls
+            - REJECT any enrichment result without last_verified_at
+            - Log provenance failures for audit
             
             OUTPUT FORMAT: Quality report with specific improvement recommendations
             """,

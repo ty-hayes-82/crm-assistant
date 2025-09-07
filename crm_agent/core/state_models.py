@@ -10,13 +10,14 @@ import uuid
 
 
 class CRMEnrichmentResult(BaseModel):
-    """Result from CRM data enrichment process."""
+    """Result from CRM data enrichment process with required provenance."""
     field_name: str
     current_value: Optional[Any] = None
     proposed_value: Optional[Any] = None
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
     source: str = ""
-    source_url: Optional[str] = None
+    source_urls: List[str] = Field(default_factory=list, description="Required: URLs where data was found")
+    last_verified_at: Optional[datetime] = Field(default_factory=datetime.now, description="Required: When data was last verified")
     extracted_at: datetime = Field(default_factory=datetime.now)
 
 
@@ -169,4 +170,77 @@ def create_initial_crm_state(
         company_domain=company_domain,
         session_id=session_id or str(uuid.uuid4())
     )
+
+
+def validate_enrichment_result_provenance(result: CRMEnrichmentResult) -> bool:
+    """
+    Validate that an enrichment result has required provenance fields.
+    
+    Args:
+        result: CRMEnrichmentResult to validate
+        
+    Returns:
+        True if provenance is valid, False otherwise
+        
+    Raises:
+        ValueError: If provenance requirements are not met
+    """
+    errors = []
+    
+    if not result.source_urls:
+        errors.append(f"Field '{result.field_name}' missing required source_urls")
+    
+    if not result.last_verified_at:
+        errors.append(f"Field '{result.field_name}' missing required last_verified_at")
+        
+    # Validate source URLs are properly formatted
+    for url in result.source_urls:
+        if not url.startswith(('http://', 'https://')):
+            errors.append(f"Field '{result.field_name}' has invalid source URL: {url}")
+    
+    if errors:
+        raise ValueError("Provenance validation failed: " + "; ".join(errors))
+    
+    return True
+
+
+def create_enrichment_result_with_provenance(
+    field_name: str,
+    proposed_value: Any,
+    source_urls: List[str],
+    confidence: float = 1.0,
+    source: str = "",
+    current_value: Optional[Any] = None
+) -> CRMEnrichmentResult:
+    """
+    Create a CRMEnrichmentResult with proper provenance validation.
+    
+    Args:
+        field_name: Name of the field being enriched
+        proposed_value: New value for the field
+        source_urls: List of URLs where data was found (required)
+        confidence: Confidence score (0.0-1.0)
+        source: Description of the data source
+        current_value: Current value in CRM (if any)
+        
+    Returns:
+        Validated CRMEnrichmentResult
+        
+    Raises:
+        ValueError: If provenance requirements are not met
+    """
+    result = CRMEnrichmentResult(
+        field_name=field_name,
+        current_value=current_value,
+        proposed_value=proposed_value,
+        confidence=confidence,
+        source=source,
+        source_urls=source_urls,
+        last_verified_at=datetime.now()
+    )
+    
+    # Validate provenance before returning
+    validate_enrichment_result_provenance(result)
+    
+    return result
 
