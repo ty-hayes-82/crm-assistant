@@ -14,6 +14,9 @@ import random
 import time
 from typing import Dict, Any, List, Tuple
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'scripts'))
 from web_search_agent import create_web_search_agent
 
 # MCP server configuration

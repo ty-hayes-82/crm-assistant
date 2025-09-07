@@ -23,6 +23,9 @@ requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
 
+# Fuzzy string matching
+thefuzz>=0.20.0
+
 # Optional: LinkedIn/company data providers
 # clearbit-python>=0.1.7
 # python-linkedin-v2>=0.9.0

@@ -86,7 +86,7 @@ async def list_tools() -> List[Tool]:
                         "type": "array",
                         "items": {"type": "string"},
                         "description": "List of properties to retrieve",
-                        "default": ["name", "domain", "industry", "city", "state", "country", "website", "phone", "description"]
+                        "default": ["name", "domain", "city", "state", "country", "website", "phone", "description", "company_type", "club_type", "competitor"]
                     }
                 },
                 "required": ["company_id"]
@@ -129,6 +129,25 @@ async def list_tools() -> List[Tool]:
                     }
                 },
                 "required": ["contact_id"]
+            }
+        ),
+        Tool(
+            name="get_associated_contacts",
+            description="Get all contacts associated with a specific company ID from HubSpot CRM",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "company_id": {
+                        "type": "string",
+                        "description": "HubSpot company ID"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum number of results to return",
+                        "default": 100
+                    }
+                },
+                "required": ["company_id"]
             }
         ),
         Tool(
@@ -220,10 +239,18 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
             "limit": limit,
             "sorts": [{"propertyName": "createdate", "direction": "DESCENDING"}],
             "properties": [
-                "name", "domain", "industry", "city", "state", "country", "website", "phone", "description", "hs_object_id",
-                "annualrevenue", "company_type", "ngf_category", "competitor", "lifecyclestage", "hs_lead_status",
-                "club_type", "club_info", "management_company", "state_region_code", "email_pattern", "market",
-                "has_pool", "has_tennis_courts", "postal_code", "street_address", "number_of_holes"
+                # Primary company identification
+                "name", "domain", "website", "phone", "description", "hs_object_id",
+                # Location fields
+                "city", "state", "country", "postal_code", "street_address",
+                # Company classification (removed "industry" per request)
+                "company_type", "club_type", "lifecyclestage", "hs_lead_status",
+                # Financial and business data
+                "annualrevenue", "competitor", "ngf_category", "management_company",
+                # Regional and market data
+                "state_region_code", "market", "email_pattern",
+                # Club-specific amenities
+                "club_info", "has_pool", "has_tennis_courts", "number_of_holes"
             ]
         }
         
@@ -237,10 +264,18 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
     elif name == "get_company":
         company_id = arguments.get("company_id")
         properties = arguments.get("properties", [
-            "name", "domain", "industry", "city", "state", "country", "website", "phone", "description",
-            "annualrevenue", "company_type", "ngf_category", "competitor", "lifecyclestage", "hs_lead_status",
-            "club_type", "club_info", "management_company", "state_region_code", "email_pattern", "market",
-            "has_pool", "has_tennis_courts", "postal_code", "street_address", "number_of_holes"
+            # Primary company identification
+            "name", "domain", "website", "phone", "description",
+            # Location fields  
+            "city", "state", "country", "postal_code", "street_address",
+            # Company classification (removed "industry" per request)
+            "company_type", "club_type", "lifecyclestage", "hs_lead_status",
+            # Financial and business data
+            "annualrevenue", "competitor", "ngf_category", "management_company", 
+            # Regional and market data
+            "state_region_code", "market", "email_pattern",
+            # Club-specific amenities
+            "club_info", "has_pool", "has_tennis_courts", "number_of_holes"
         ])
         
         params = {"properties": ",".join(properties)}
@@ -280,7 +315,38 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
             type="text",
             text=json.dumps(result, indent=2)
         )]
-    
+
+    elif name == "get_associated_contacts":
+        company_id = arguments.get("company_id")
+        limit = arguments.get("limit", 100)
+        
+        # This endpoint gets the IDs of associated contacts
+        association_endpoint = f"/crm/v4/objects/company/{company_id}/associations/contact"
+        association_result = await make_hubspot_request("GET", association_endpoint, params={"limit": limit})
+
+        if "results" not in association_result:
+            return [TextContent(type="text", text=json.dumps({"contacts": [], "error": "No associated contacts found or API error."}))]
+
+        contact_ids = [item['toObjectId'] for item in association_result['results']]
+        
+        if not contact_ids:
+            return [TextContent(type="text", text=json.dumps({"contacts": []}))]
+
+        # Now, batch-read the details for these contacts
+        batch_read_endpoint = "/crm/v3/objects/contacts/batch/read"
+        properties = ["firstname", "lastname", "email", "phone", "jobtitle", "company"]
+        batch_payload = {
+            "inputs": [{"id": contact_id} for contact_id in contact_ids],
+            "properties": properties
+        }
+        
+        contacts_details = await make_hubspot_request("POST", batch_read_endpoint, data=batch_payload)
+
+        return [TextContent(
+            type="text",
+            text=json.dumps(contacts_details, indent=2)
+        )]
+
     elif name == "update_company":
         company_id = arguments.get("company_id")
         properties = arguments.get("properties", {})

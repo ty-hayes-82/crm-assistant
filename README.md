@@ -62,16 +62,16 @@ Should return: `{"status": "healthy", "hubspot_token_configured": true}`
 conda activate adk
 
 # 🎯 RECOMMENDED: Targeted enrichment (fixes competitors, adds missing fields)
-python targeted_enrichment.py
+python scripts/targeted_enrichment.py
 
 # 🎯 CURRENT: Field enrichment system (recommended)
-python crm_agent/field_enrichment_demo.py --demo-mode
+python demos/field_enrichment_demo.py --demo-mode
 
 # 🤖 Multi-agent coordinator
 python crm_agent/coordinator_main.py
 
 # 📊 Simple CRM assistant interface
-python crm_assistant.py
+python scripts/crm_assistant.py
 ```
 
 ### Step 4: Ask Questions About Any Company

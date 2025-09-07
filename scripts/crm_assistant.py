@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath('.'))
 import requests
 import json
 from typing import Dict, Any
-from web_search_agent import create_web_search_agent
+from .web_search_agent import create_web_search_agent
 
 # MCP server configuration
 MCP_URL = "http://localhost:8081/mcp"

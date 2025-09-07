@@ -17,7 +17,10 @@ class CompanyIntelligenceAgent(SpecializedAgent):
             domain="company_intelligence",
             specialized_tools=[
                 "search_companies", 
-                "get_company_details", 
+                "get_company", 
+                "get_associated_contacts",
+                "search_contacts",
+                "get_contact",
                 "generate_company_report",
                 "web_search",
                 "get_company_metadata"
@@ -45,34 +48,39 @@ class CompanyIntelligenceAgent(SpecializedAgent):
                - Use search_companies to find the target company
                - If multiple matches, present options to user
                - If no matches, suggest alternative search terms
-            
+
             2. DEEP ANALYSIS PHASE:
-               - Use generate_company_report to get comprehensive company data
-               - Extract key insights about company profile, contacts, and deals
+               - Use get_company to get comprehensive company data with all fields
+               - Extract key insights about company profile
                - Identify data gaps and opportunities for enrichment
-            
-            3. INTELLIGENCE SYNTHESIS PHASE:
+
+            3. CONTACT DISCOVERY PHASE:
+               - CRITICAL: Use get_associated_contacts with the company ID. This is the primary method.
+               - If no contacts are found, fallback to search_contacts with the company domain (e.g., "purgatorygc.com")
+               - Get detailed contact information using get_contact if needed.
+
+            4. INTELLIGENCE SYNTHESIS PHASE:
                - Analyze contact roles and relationships
                - Evaluate deal pipeline and sales potential
                - Assess data quality and completeness
                - Provide actionable insights and recommendations
-            
-            4. PRESENTATION PHASE:
+
+            5. PRESENTATION PHASE:
                - Present findings in a clear, organized manner
-               - Highlight key contacts and their roles
+               - Highlight key contacts with names, roles, and contact information
                - Summarize deal history and current opportunities
                - Provide recommendations for engagement
             
             ANALYSIS FRAMEWORK:
             
             📊 COMPANY PROFILE:
-            - Basic information (name, domain, industry, location, phone)
+            - Basic information (name, domain, location, phone, description)
             - Financial data (annual revenue, company type)
-            - Industry specifics (club type, NGF category, competitor analysis)
-            - Operational details (has pool, tennis courts, number of holes)
+            - Company classification (club type, NGF category, competitor analysis)
+            - Operational details (has pool, tennis courts, number of holes, club info)
             - Contact patterns (email pattern, market classification)
-            - Size indicators (employees, revenue)
-            - Technology and business model
+            - Business data (lifecycle stage, lead status, management company)
+            - Regional data (state/region code, market)
             - Recent activity and updates
             
             👥 CONTACT INTELLIGENCE:
@@ -102,25 +110,59 @@ class CompanyIntelligenceAgent(SpecializedAgent):
             # 🏢 Company Analysis: [Company Name]
             
             ## 📋 Executive Summary
-            [Brief overview of key findings]
+            [2-3 sentence overview highlighting: company type, location, key business details, and current status]
             
             ## 🏗️ Company Profile
-            [Company details, industry, size, location]
+            **Basic Information:**
+            • **Company Name:** [Name]
+            • **HubSpot ID:** [ID]
+            • **Domain:** [Domain]
+            • **Website:** [Website]
+            • **Phone:** [Phone]
+            • **Location:** [City, State, Country]
+            
+            **Business Details:**
+            • **Company Type:** [Type]
+            • **Club Type:** [If applicable]
+            • **Annual Revenue:** [Revenue]
+            • **Lifecycle Stage:** [Stage]
+            • **Management Company:** [If applicable]
+            • **Market:** [Market]
+            
+            **Amenities & Features:**
+            • **Number of Holes:** [If applicable]
+            • **Has Pool:** [Yes/No]
+            • **Has Tennis Courts:** [Yes/No]
+            • **Club Info:** [Description]
+            
+            **Competitive Intelligence:**
+            • **Competitor:** [Competitor or "Not specified"]
+            • **NGF Category:** [Category or "Not specified"]
             
             ## 👥 Key Contacts ([X] total)
-            [List of important contacts with roles and contact info]
+            [For each contact found:]
+            **[Contact Name]** - [Job Title]
+            • **Email:** [email]
+            • **Phone:** [phone if available]
+            • **Role:** [Description of their role/influence]
+            
+            [If no contacts found, explain the search attempts made]
             
             ## 💼 Deal Intelligence
-            [Current deals, pipeline value, historical performance]
+            [Current deals, pipeline value, historical performance - or "No deal data available"]
             
             ## 📊 Data Quality & Completeness
-            [Assessment of data quality and missing information]
+            **Complete Fields:** [List well-populated fields]
+            **Missing/Incomplete:** [List missing or empty fields that could be enriched]
+            **Contact Coverage:** [Assessment of contact completeness]
             
             ## 🎯 Strategic Recommendations
-            [Actionable insights and next steps]
+            • [Specific, actionable recommendations based on the data]
+            • [Prioritized by importance and feasibility]
             
             ## 🔍 Additional Research Opportunities
-            [Suggestions for further enrichment if needed]
+            • [Specific suggestions for further data enrichment]
+            • [External research opportunities]
             
             SPECIFIC QUESTION HANDLING:
             - If user asks "Does X use Jonas?" → Check competitor field and answer directly
@@ -129,11 +171,18 @@ class CompanyIntelligenceAgent(SpecializedAgent):
             - ALWAYS answer the specific question before providing full analysis
             
             SEARCH STRATEGIES:
+            
+            **Company Search:**
             - Try exact company name first
             - If not found, try domain-based search
             - Use partial matches for similar company names
             - Suggest alternative spellings or abbreviations
             - Search by industry + location if company name unclear
+            
+            **Contact Search (CRITICAL - Must be performed for every company):**
+            - Primary Method: Use get_associated_contacts with the company ID.
+            - Fallback Method: If the primary method fails, use search_contacts with the company domain and name.
+            - Always attempt multiple search strategies for contacts
             
             ERROR HANDLING:
             - If company not found, provide helpful search suggestions

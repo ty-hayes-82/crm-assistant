@@ -86,6 +86,9 @@ class CRMAgentRegistry(AgentRegistry):
         from ..agents.specialized.contact_intelligence_agent import create_contact_intelligence_agent
         from ..agents.specialized.crm_enrichment_agent import create_agent as create_crm_enrichment_agent
         from ..agents.specialized.field_enrichment_manager_agent import FieldEnrichmentManagerAgent
+        from ..agents.specialized.company_llm_enrichment_agent import create_company_llm_enrichment_agent
+        from ..agents.specialized.company_competitor_agent import create_company_competitor_agent
+        from ..agents.specialized.company_management_agent import create_company_management_agent
         # Note: CRM data quality workflow is created in the CRM workflows module
         
         # Crm Enrichment Agent
@@ -104,9 +107,8 @@ class CRMAgentRegistry(AgentRegistry):
 
         # Contact Intelligence Agent
         self.register("contact_intelligence", create_contact_intelligence_agent, {
-            "description": "Provides comprehensive contact analysis and intelligence.",
-            "domain": "contact_intelligence",
-            "tools": ["search_contacts", "get_contact_details", "generate_contact_report", "web_search"]
+            "description": "Provides comprehensive analysis of contacts",
+            "capabilities": ["Contact analysis", "Relationship mapping", "Data enrichment"]
         })
 
         # Field Enrichment Manager Agent
@@ -114,6 +116,24 @@ class CRMAgentRegistry(AgentRegistry):
             "description": "Manages systematic field enrichment, validation, and quality improvement for top 10 Swoop sales fields",
             "domain": "field_enrichment_management",
             "tools": ["search_companies", "search_contacts", "generate_company_report", "generate_contact_report", "web_search", "get_company_metadata"]
+        })
+
+        # Company LLM Enrichment Agent
+        self.register("company_llm_enrichment", create_company_llm_enrichment_agent, {
+            "description": "Provides LLM-powered data enrichment for companies",
+            "capabilities": ["Company data enrichment", "LLM-based analysis", "Web scraping"]
+        })
+
+        # Company Competitor Agent
+        self.register("company_competitor", create_company_competitor_agent, {
+            "description": "Identifies competitors for a given company.",
+            "capabilities": ["Competitor analysis", "Company data enrichment"]
+        })
+
+        # Company Management Agent
+        self.register("company_management_enrichment", create_company_management_agent, {
+            "description": "Identifies and sets the management company for golf courses.",
+            "capabilities": ["Company data enrichment", "Fuzzy matching"]
         })
 
         # CRM Query Builder Agent
@@ -252,6 +272,21 @@ def create_crm_enrichment_agent(**kwargs) -> BaseAgent:
 def create_field_enrichment_manager_agent(**kwargs) -> BaseAgent:
     """Create a Field Enrichment Manager agent."""
     return crm_agent_registry.create_agent("field_enrichment_manager", **kwargs)
+
+
+def create_company_competitor_agent(**kwargs) -> BaseAgent:
+    """Create a Company Competitor agent."""
+    return crm_agent_registry.create_agent("company_competitor", **kwargs)
+
+
+def create_company_llm_enrichment_agent(**kwargs) -> BaseAgent:
+    """Create a Company LLM Enrichment agent."""
+    return crm_agent_registry.create_agent("company_llm_enrichment", **kwargs)
+
+
+def create_company_management_agent(**kwargs) -> BaseAgent:
+    """Create a Company Management agent."""
+    return crm_agent_registry.create_agent("company_management_enrichment", **kwargs)
 
 
 # Export the main CRM agent creation function
