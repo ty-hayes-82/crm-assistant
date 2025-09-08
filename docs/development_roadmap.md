@@ -154,19 +154,23 @@ $env:HUBSPOT_TEST_PORTAL="1"; python demos/houston_national_demo.py
   - ✅ HubSpot engagement creation with proper associations
   - ✅ Safety measures: drafts only, approval workflows, compliance checks
 
-### Phase 8 — Role taxonomy, policy, and provenance enforcement
+### ✅ Phase 8 — Role taxonomy, policy, and provenance enforcement (COMPLETED)
 - **goal**: Make roles consistent, safe, and auditable.
 - **scope**:
   - Centralize title→role synonyms in `crm_agent/configs/` and load at startup; emit `role_confidence`.
   - ADK policy callbacks: robots.txt, throttling, no paywall bypass, avoid email scraping; PII tagging.
-  - “If role_confidence < threshold, open review task instead of write.”
+  - "If role_confidence < threshold, open review task instead of write."
 - **how to test**:
   - Unit tests for title normalization.
   - Negative tests: restricted sites are skipped; low‑confidence opens review tasks.
 - **acceptance**:
-  - Role labels accurate; unsafe or low‑confidence paths diverted to human review.
+  - ✅ Role labels accurate; unsafe or low‑confidence paths diverted to human review.
+  - ✅ Centralized role taxonomy configuration with confidence scoring
+  - ✅ Policy enforcement system with robots.txt, paywall bypass, email scraping prevention
+  - ✅ Review task creation for low-confidence role assignments
+  - ✅ Comprehensive unit tests for role classification and policy enforcement
 
-### Phase 9 — Observability, idempotency, and session/state
+### ✅ Phase 9 — Observability, idempotency, and session/state (COMPLETED)
 - **goal**: Make it production‑ready and support reliable retries.
 - **scope**:
   - Structured logging with `trace_id` and session/job IDs end‑to‑end.
@@ -174,10 +178,15 @@ $env:HUBSPOT_TEST_PORTAL="1"; python demos/houston_national_demo.py
   - Replace in‑memory session with pluggable store (e.g., Redis) behind current interface.
   - Audit trail: before/after + evidence URLs for each applied change.
 - **how to test**:
-  - Simulate partial failures; verify retries don’t duplicate.
+  - Simulate partial failures; verify retries don't duplicate.
   - Restart mid‑task; confirm resume via session store.
 - **acceptance**:
-  - Traces link every tool call; repeated runs are safe; state survives process restarts.
+  - ✅ Traces link every tool call; repeated runs are safe; state survives process restarts.
+  - ✅ Structured logging system with trace_id and session/job IDs end-to-end
+  - ✅ Idempotency key generation and management for all HubSpot writes
+  - ✅ Pluggable session store with in-memory and Redis backends
+  - ✅ Comprehensive audit trail system with before/after states and evidence URLs
+  - ✅ Full test coverage for partial failure recovery and session persistence
 
 
 ### Notes on sequencing and cutlines
