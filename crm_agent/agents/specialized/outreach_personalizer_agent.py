@@ -23,13 +23,6 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         if config_path is None:
             config_path = Path(__file__).parent.parent.parent / "configs" / "outreach_personalization_config.json"
         
-        # Initialize observability system (Phase 9)
-        from ...core.observability import get_logger
-        self.logger = get_logger("outreach_personalizer")
-        
-        # Initialize role taxonomy service
-        self.role_taxonomy = create_role_taxonomy_service()
-        
         super().__init__(
             name="OutreachPersonalizerAgent",
             domain="outreach_personalization",
@@ -102,6 +95,16 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         # Load configuration after super().__init__
         self._config = self._load_config(config_path)
     
+    def _get_logger(self):
+        """Get logger instance for this agent."""
+        from ...core.observability import get_logger
+        return get_logger("outreach_personalizer")
+    
+    def _get_role_taxonomy(self):
+        """Get role taxonomy service instance."""
+        from ...core.role_taxonomy import create_role_taxonomy_service
+        return create_role_taxonomy_service()
+    
     def generate_personalized_outreach(self, state: CRMSessionState, outreach_type: str = "cold_outreach") -> Dict[str, Any]:
         """
         Generate personalized outreach content and create HubSpot engagements.
@@ -173,14 +176,14 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         job_title = contact_data.get("jobtitle", "")
         
         # Use centralized role taxonomy service
-        classification_result = self.role_taxonomy.classify_role(
+        classification_result = self._get_role_taxonomy().classify_role(
             job_title=job_title,
             company_context=company_data,
             additional_context=contact_data
         )
         
         # Get messaging strategy for the classified role
-        messaging_strategy = self.role_taxonomy.get_role_messaging_strategy(classification_result.classified_role)
+        messaging_strategy = self._get_role_taxonomy().get_role_messaging_strategy(classification_result.classified_role)
         
         return {
             "original_title": classification_result.original_title,
