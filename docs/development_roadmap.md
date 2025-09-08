@@ -63,7 +63,7 @@ python .\scripts\update_mansion_ridge_direct.py
   - ✅ `create_hubspot_openapi_tool()` factory creates OpenAPI tools for HubSpot CRM v3.
   - ✅ CRM updater agent wired with OpenAPI tools and idempotency key generation.
 
-### Phase 4 — A2A wrapper consolidation + Agent Card expansion
+### ✅ Phase 4 — A2A wrapper consolidation + Agent Card expansion (COMPLETED)
 - **goal**: Single canonical A2A entrypoint with richer, documented skills.
 - **scope**:
   - Deprecate `crm_agent/a2a_wrapper.py`; update imports in callers to `crm_agent.a2a.agent.create_crm_a2a_agent`.
@@ -76,9 +76,11 @@ conda activate adk
 python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; c=build_agent_card(); print(json.dumps(c,indent=2))"
 ```
 - **acceptance**:
-  - No references to legacy wrapper; Agent Card advertises expanded skills.
+  - ✅ No references to legacy wrapper; Agent Card advertises expanded skills.
+  - ✅ Legacy wrapper marked as deprecated with migration guidance.
+  - ✅ Project manager coordinator updated to use canonical A2A import.
 
-### Phase 5 — A2A HTTP server (JSON‑RPC + SSE) and lifecycle
+### ✅ Phase 5 — A2A HTTP server (JSON‑RPC + SSE) and lifecycle (COMPLETED)
 - **goal**: Expose the CRM Agent via a real A2A server with task lifecycle.
 - **scope**:
   - Add minimal HTTP server (JSON‑RPC 2.0) + SSE streaming; wire to `CRMAgentTaskManager` in `crm_agent/a2a/task_manager.py`.
@@ -87,7 +89,9 @@ python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; c=b
 - **how to test**:
   - Start the server; POST a JSON‑RPC request for `course.profile.extract`; stream SSE and validate final result matches Phase 1 schema.
 - **acceptance**:
-  - Requests complete with streaming updates; standardized lifecycle events emitted.
+  - ✅ Requests complete with streaming updates; standardized lifecycle events emitted.
+  - ✅ HTTP server in `crm_agent/a2a/http_server.py` with FastAPI, JSON-RPC 2.0, and SSE.
+  - ✅ Task lifecycle management with queued/running/completed/failed states.
 
 ### Phase 6 — Lead scoring agent
 - **goal**: Compute Fit/Intent and write `swoop_fit_score`, `swoop_intent_score`, `swoop_total_lead_score`.

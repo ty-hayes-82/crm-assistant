@@ -24,7 +24,7 @@ def build_agent_card(host: str = "localhost", port: int = 10000):
         # Minimal JSON stub for environments without A2A libs
         return {
             "name": "CRMCoordinator",
-            "description": "A2A-compatible CRM Coordinator agent (stub)",
+            "description": "A2A-compatible CRM Coordinator agent with expanded skills",
             "url": f"http://{host}:{port}/",
             "version": "1.0.0",
             "defaultInputModes": ["text"],
@@ -32,39 +32,131 @@ def build_agent_card(host: str = "localhost", port: int = 10000):
             "capabilities": {"streaming": True},
             "skills": [
                 {
-                    "id": "CRMCoordinator",
-                    "name": "CRM_Coordinator_Agent",
-                    "description": "Agent to analyze and enrich HubSpot company/contact records.",
-                    "tags": ["crm", "hubspot", "enrichment", "management_company"],
+                    "id": "course.profile.extract",
+                    "name": "Course Profile Extraction",
+                    "description": "Extract comprehensive golf course profiles including management company, amenities, and key personnel.",
+                    "tags": ["crm", "hubspot", "enrichment", "golf", "course-profile"],
                     "examples": [
-                        "Analyze The Golf Club at Mansion Ridge and provide company intelligence",
-                        "Identify the management company for The Golf Club at Mansion Ridge",
+                        "Extract profile for The Golf Club at Mansion Ridge",
+                        "Identify management company and key personnel for Pebble Beach Golf Links",
+                    ],
+                },
+                {
+                    "id": "contact.roles.infer",
+                    "name": "Contact Role Inference",
+                    "description": "Infer contact roles and decision-making tier from job titles and company context.",
+                    "tags": ["crm", "contacts", "roles", "decision-makers"],
+                    "examples": [
+                        "Determine decision-making tier for John Smith, General Manager at Augusta National",
+                        "Infer role taxonomy for Director of Golf Operations",
+                    ],
+                },
+                {
+                    "id": "hubspot.sync",
+                    "name": "HubSpot Synchronization",
+                    "description": "Synchronize enriched data to HubSpot CRM with approval workflow and idempotency.",
+                    "tags": ["crm", "hubspot", "sync", "approval"],
+                    "examples": [
+                        "Sync enriched company data to HubSpot with human approval",
+                        "Update contact properties with role and decision tier",
+                    ],
+                },
+                {
+                    "id": "lead.score.compute",
+                    "name": "Lead Score Computation",
+                    "description": "Compute fit and intent scores for leads based on configurable criteria.",
+                    "tags": ["crm", "scoring", "leads", "qualification"],
+                    "examples": [
+                        "Calculate lead score for private golf club prospects",
+                        "Compute fit score based on course type and management company",
+                    ],
+                },
+                {
+                    "id": "outreach.generate",
+                    "name": "Personalized Outreach Generation",
+                    "description": "Generate grounded, role-aware email drafts and create engagement tasks.",
+                    "tags": ["crm", "outreach", "personalization", "email"],
+                    "examples": [
+                        "Generate personalized email for General Manager at resort golf course",
+                        "Create follow-up task for Director of Golf contact",
                     ],
                 }
             ],
             "supportsAuthenticatedExtendedCard": True,
+            "auth": {
+                "type": "bearer",
+                "description": "Requires HubSpot Private App access token",
+                "environment_variable": "PRIVATE_APP_ACCESS_TOKEN"
+            },
+            "versioning": {
+                "api_version": "v1.0.0",
+                "compatibility": ["adk-2.0+", "a2a-1.0+"]
+            }
         }
 
-    skill = AgentSkill(
-        id="CRMCoordinator",
-        name="CRM_Coordinator_Agent",
-        description="Agent to analyze and enrich HubSpot company/contact records.",
-        tags=["crm", "hubspot", "enrichment", "management_company"],
-        examples=[
-            "Analyze The Golf Club at Mansion Ridge and provide company intelligence",
-            "Identify the management company for The Golf Club at Mansion Ridge",
-        ],
-    )
+    # Create expanded skills for A2A Agent Card
+    skills = [
+        AgentSkill(
+            id="course.profile.extract",
+            name="Course Profile Extraction",
+            description="Extract comprehensive golf course profiles including management company, amenities, and key personnel.",
+            tags=["crm", "hubspot", "enrichment", "golf", "course-profile"],
+            examples=[
+                "Extract profile for The Golf Club at Mansion Ridge",
+                "Identify management company and key personnel for Pebble Beach Golf Links",
+            ],
+        ),
+        AgentSkill(
+            id="contact.roles.infer",
+            name="Contact Role Inference", 
+            description="Infer contact roles and decision-making tier from job titles and company context.",
+            tags=["crm", "contacts", "roles", "decision-makers"],
+            examples=[
+                "Determine decision-making tier for John Smith, General Manager at Augusta National",
+                "Infer role taxonomy for Director of Golf Operations",
+            ],
+        ),
+        AgentSkill(
+            id="hubspot.sync",
+            name="HubSpot Synchronization",
+            description="Synchronize enriched data to HubSpot CRM with approval workflow and idempotency.",
+            tags=["crm", "hubspot", "sync", "approval"],
+            examples=[
+                "Sync enriched company data to HubSpot with human approval",
+                "Update contact properties with role and decision tier",
+            ],
+        ),
+        AgentSkill(
+            id="lead.score.compute",
+            name="Lead Score Computation",
+            description="Compute fit and intent scores for leads based on configurable criteria.",
+            tags=["crm", "scoring", "leads", "qualification"],
+            examples=[
+                "Calculate lead score for private golf club prospects",
+                "Compute fit score based on course type and management company",
+            ],
+        ),
+        AgentSkill(
+            id="outreach.generate",
+            name="Personalized Outreach Generation",
+            description="Generate grounded, role-aware email drafts and create engagement tasks.",
+            tags=["crm", "outreach", "personalization", "email"],
+            examples=[
+                "Generate personalized email for General Manager at resort golf course",
+                "Create follow-up task for Director of Golf contact",
+            ],
+        ),
+    ]
 
     card = AgentCard(
         name="CRMCoordinator",
-        description="A2A-compatible CRM Coordinator agent.",
+        description="A2A-compatible CRM Coordinator agent with expanded skills",
         url=f"http://{host}:{port}/",
         version="1.0.0",
         defaultInputModes=["text"],
         defaultOutputModes=["text"],
         capabilities=AgentCapabilities(streaming=True),
-        skills=[skill],
+        skills=skills,
         supportsAuthenticatedExtendedCard=True,
     )
     return card

@@ -35,7 +35,7 @@ def execute_crm_task_direct(task_description: str, company_name: str = None, com
     """
     try:
         # Use the A2A-compatible CRM agent wrapper
-        from crm_agent.a2a_wrapper import create_crm_a2a_agent
+        from crm_agent.a2a.agent import create_crm_a2a_agent
         import uuid
         
         # Create the A2A-compatible CRM agent

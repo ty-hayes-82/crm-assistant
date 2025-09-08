@@ -1,6 +1,10 @@
 """
 A2A wrapper for CRM agent following Google's A2A framework guide.
 Implements the invoke method pattern for proper agent-to-agent communication.
+
+⚠️  DEPRECATED: This module is deprecated in favor of crm_agent.a2a.agent.
+Please use crm_agent.a2a.agent.create_crm_a2a_agent() instead.
+Will be removed in a future version.
 """
 
 import asyncio
