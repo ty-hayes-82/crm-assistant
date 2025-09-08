@@ -88,6 +88,9 @@ class CRMSessionState(BaseModel):
     # Lead scoring results (Phase 6)
     lead_scores: Dict[str, Any] = Field(default_factory=dict)
     
+    # Outreach personalization results (Phase 7)
+    outreach_results: Dict[str, Any] = Field(default_factory=dict)
+    
     # Quality analysis
     detected_gaps: Dict[str, Any] = Field(default_factory=dict)
     quality_report: Optional[CRMDataQualityReport] = None

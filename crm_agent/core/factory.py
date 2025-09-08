@@ -91,6 +91,7 @@ class CRMAgentRegistry(AgentRegistry):
             create_crm_updater,
         )
         from ..agents.specialized.company_intelligence_agent import create_company_intelligence_agent
+        from ..agents.specialized.outreach_personalizer_agent import create_outreach_personalizer_agent
         from ..agents.specialized.contact_intelligence_agent import create_contact_intelligence_agent
         from ..agents.specialized.crm_enrichment_agent import create_agent as create_crm_enrichment_agent
         from ..agents.specialized.field_enrichment_manager_agent import FieldEnrichmentManagerAgent
@@ -157,6 +158,13 @@ class CRMAgentRegistry(AgentRegistry):
             "description": "Computes Fit and Intent scores for leads and writes swoop_fit_score, swoop_intent_score, swoop_total_lead_score.",
             "domain": "lead_scoring",
             "tools": ["get_hubspot_contact", "get_hubspot_company", "update_company", "update_contact"]
+        })
+
+        # Outreach Personalizer Agent (Phase 7)
+        self.register("outreach_personalizer", create_outreach_personalizer_agent, {
+            "description": "Generates grounded, role-aware outreach drafts and creates Email/Task engagements in HubSpot.",
+            "domain": "outreach_personalization",
+            "tools": ["get_hubspot_contact", "get_hubspot_company", "create_email_engagement", "create_task"]
         })
 
         # CRM Query Builder Agent
@@ -420,6 +428,11 @@ def create_company_management_agent(**kwargs) -> BaseAgent:
 def create_lead_scoring_agent(**kwargs) -> BaseAgent:
     """Create a Lead Scoring agent."""
     return crm_agent_registry.create_agent("lead_scoring", **kwargs)
+
+
+def create_outreach_personalizer_agent(**kwargs) -> BaseAgent:
+    """Create an Outreach Personalizer agent."""
+    return crm_agent_registry.create_agent("outreach_personalizer", **kwargs)
 
 
 # Export the main CRM agent creation function

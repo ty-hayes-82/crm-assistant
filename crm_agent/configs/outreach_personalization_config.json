@@ -1,0 +1,284 @@
+{
+  "version": "1.0.0",
+  "description": "Outreach personalization configuration for golf course CRM prospects",
+  "updated_at": "2024-01-15T00:00:00Z",
+  
+  "outreach_templates": {
+    "cold_outreach": {
+      "description": "Initial contact with prospects",
+      "subject_templates": [
+        "ROI opportunity for {company_name}",
+        "Operational efficiency insights for {company_name}",
+        "Golf course management trends - {company_name}"
+      ],
+      "content_framework": {
+        "opening": "personalized_hook",
+        "value_proposition": "role_specific",
+        "social_proof": "industry_case_studies",
+        "call_to_action": "low_commitment"
+      }
+    },
+    "follow_up": {
+      "description": "Follow-up communication after initial contact",
+      "subject_templates": [
+        "Following up on our conversation - {company_name}",
+        "Additional insights for {company_name}",
+        "Next steps for {company_name}"
+      ],
+      "content_framework": {
+        "opening": "reference_previous_interaction",
+        "value_add": "relevant_content",
+        "next_steps": "clear_action_items",
+        "call_to_action": "medium_commitment"
+      }
+    },
+    "demo_invitation": {
+      "description": "Personalized demo requests",
+      "subject_templates": [
+        "Custom demo for {company_name}",
+        "See how {similar_company} increased efficiency",
+        "15-minute demo tailored for {company_name}"
+      ],
+      "content_framework": {
+        "opening": "specific_use_case",
+        "demo_preview": "relevant_features",
+        "time_investment": "minimal_commitment",
+        "call_to_action": "schedule_demo"
+      }
+    },
+    "content_sharing": {
+      "description": "Sharing relevant content and resources",
+      "subject_templates": [
+        "Relevant case study for {company_name}",
+        "ROI calculator for golf course management",
+        "Industry report - {specific_topic}"
+      ],
+      "content_framework": {
+        "opening": "content_relevance",
+        "content_summary": "key_insights",
+        "application": "specific_to_prospect",
+        "call_to_action": "discuss_application"
+      }
+    }
+  },
+  
+  "role_messaging": {
+    "general_manager": {
+      "focus_areas": ["ROI", "operational_efficiency", "member_satisfaction", "revenue_growth"],
+      "pain_points": ["declining_membership", "operational_costs", "staff_turnover", "technology_gaps"],
+      "value_propositions": [
+        "Increase operational efficiency by 25%",
+        "Improve member satisfaction scores",
+        "Reduce administrative overhead by 30%",
+        "Streamline staff management processes"
+      ],
+      "messaging_tone": "strategic",
+      "decision_authority": "high",
+      "preferred_content": ["ROI_studies", "executive_summaries", "strategic_case_studies"]
+    },
+    "operations_manager": {
+      "focus_areas": ["process_improvement", "staff_productivity", "cost_savings", "workflow_optimization"],
+      "pain_points": ["manual_processes", "scheduling_conflicts", "maintenance_costs", "staff_coordination"],
+      "value_propositions": [
+        "Automate daily operational tasks",
+        "Improve staff scheduling efficiency",
+        "Reduce manual data entry by 50%",
+        "Streamline maintenance workflows"
+      ],
+      "messaging_tone": "practical",
+      "decision_authority": "medium",
+      "preferred_content": ["process_guides", "operational_case_studies", "efficiency_metrics"]
+    },
+    "fb_manager": {
+      "focus_areas": ["dining_revenue", "event_management", "customer_experience", "inventory_management"],
+      "pain_points": ["food_costs", "event_coordination", "inventory_waste", "seasonal_fluctuations"],
+      "value_propositions": [
+        "Optimize F&B inventory management",
+        "Streamline event booking and coordination",
+        "Improve dining revenue by 15%",
+        "Enhance member dining experience"
+      ],
+      "messaging_tone": "results_focused",
+      "decision_authority": "medium",
+      "preferred_content": ["FB_case_studies", "revenue_optimization", "event_management_guides"]
+    },
+    "golf_professional": {
+      "focus_areas": ["member_engagement", "instruction_programs", "pro_shop_sales", "tournament_management"],
+      "pain_points": ["lesson_scheduling", "equipment_sales", "member_engagement", "tournament_logistics"],
+      "value_propositions": [
+        "Simplify lesson scheduling and management",
+        "Increase pro shop sales through better inventory",
+        "Enhance member engagement programs",
+        "Streamline tournament organization"
+      ],
+      "messaging_tone": "member_focused",
+      "decision_authority": "medium",
+      "preferred_content": ["instruction_case_studies", "member_engagement_guides", "tournament_tools"]
+    },
+    "it_manager": {
+      "focus_areas": ["system_integration", "data_security", "technical_support", "automation"],
+      "pain_points": ["system_integration", "data_silos", "security_concerns", "legacy_systems"],
+      "value_propositions": [
+        "Seamless system integration capabilities",
+        "Enterprise-grade security features",
+        "Reduce IT support tickets by 40%",
+        "Modern API-first architecture"
+      ],
+      "messaging_tone": "technical",
+      "decision_authority": "medium",
+      "preferred_content": ["technical_specifications", "integration_guides", "security_documentation"]
+    },
+    "marketing_sales": {
+      "focus_areas": ["lead_generation", "member_retention", "brand_awareness", "digital_marketing"],
+      "pain_points": ["lead_quality", "conversion_rates", "member_retention", "digital_presence"],
+      "value_propositions": [
+        "Improve lead tracking and conversion",
+        "Enhance member communication programs",
+        "Better analytics for marketing ROI",
+        "Integrated CRM and marketing tools"
+      ],
+      "messaging_tone": "growth_focused",
+      "decision_authority": "low",
+      "preferred_content": ["marketing_case_studies", "lead_generation_guides", "retention_strategies"]
+    }
+  },
+  
+  "personalization_rules": {
+    "company_size_factors": {
+      "small": {
+        "employee_range": "1-25",
+        "messaging_focus": ["cost_efficiency", "simplicity", "quick_implementation"],
+        "concerns": ["budget_constraints", "limited_staff", "learning_curve"]
+      },
+      "medium": {
+        "employee_range": "26-100",
+        "messaging_focus": ["scalability", "process_improvement", "competitive_advantage"],
+        "concerns": ["integration_complexity", "staff_training", "ROI_timeline"]
+      },
+      "large": {
+        "employee_range": "100+",
+        "messaging_focus": ["enterprise_features", "customization", "strategic_partnership"],
+        "concerns": ["compliance_requirements", "data_migration", "change_management"]
+      }
+    },
+    "course_type_messaging": {
+      "Private": {
+        "emphasis": ["exclusivity", "member_experience", "premium_service"],
+        "value_drivers": ["member_satisfaction", "operational_excellence", "brand_reputation"]
+      },
+      "Resort": {
+        "emphasis": ["guest_experience", "revenue_optimization", "seasonal_management"],
+        "value_drivers": ["guest_satisfaction", "booking_efficiency", "revenue_per_guest"]
+      },
+      "Semi-Private": {
+        "emphasis": ["dual_revenue_streams", "member_vs_public_balance", "operational_flexibility"],
+        "value_drivers": ["revenue_diversification", "capacity_optimization", "member_retention"]
+      },
+      "Daily Fee": {
+        "emphasis": ["volume_management", "pricing_optimization", "customer_acquisition"],
+        "value_drivers": ["throughput_efficiency", "dynamic_pricing", "repeat_customers"]
+      },
+      "Municipal": {
+        "emphasis": ["community_service", "budget_efficiency", "accessibility"],
+        "value_drivers": ["cost_management", "community_satisfaction", "operational_efficiency"]
+      }
+    },
+    "management_company_context": {
+      "Troon": {
+        "messaging_angle": "enterprise_standards",
+        "reference_points": ["multi_property_management", "brand_consistency", "operational_excellence"]
+      },
+      "ClubCorp": {
+        "messaging_angle": "member_experience_focus",
+        "reference_points": ["member_satisfaction", "club_culture", "service_quality"]
+      },
+      "Invited": {
+        "messaging_angle": "luxury_positioning",
+        "reference_points": ["premium_experience", "exclusive_amenities", "high_service_standards"]
+      },
+      "Independent": {
+        "messaging_angle": "flexibility_and_control",
+        "reference_points": ["local_decision_making", "unique_identity", "operational_autonomy"]
+      }
+    }
+  },
+  
+  "citation_requirements": {
+    "mandatory_sources": [
+      "company_website",
+      "industry_reports",
+      "news_articles",
+      "social_media_updates"
+    ],
+    "citation_format": {
+      "web_source": "{claim} (Source: {source_name} - {url})",
+      "report_source": "{claim} (Source: {report_name}, {date})",
+      "news_source": "{claim} (Source: {publication}, {date})"
+    },
+    "verification_required": true,
+    "max_age_days": 90
+  },
+  
+  "engagement_settings": {
+    "email_drafts": {
+      "auto_send": false,
+      "require_approval": true,
+      "include_unsubscribe": true,
+      "track_opens": true,
+      "track_clicks": true
+    },
+    "follow_up_tasks": {
+      "default_due_days": {
+        "hot_leads": 1,
+        "warm_leads": 3,
+        "cold_leads": 7,
+        "unqualified": 14
+      },
+      "priority_mapping": {
+        "hot_leads": "HIGH",
+        "warm_leads": "MEDIUM",
+        "cold_leads": "LOW",
+        "unqualified": "LOW"
+      },
+      "task_types": [
+        "EMAIL_FOLLOW_UP",
+        "PHONE_CALL",
+        "DEMO_PREP",
+        "CONTENT_SHARING",
+        "MEETING_FOLLOW_UP"
+      ]
+    },
+    "hubspot_associations": {
+      "required_associations": ["contact", "company"],
+      "optional_associations": ["deal", "ticket"],
+      "metadata_fields": [
+        "outreach_type",
+        "personalization_score",
+        "messaging_strategy",
+        "lead_score_band",
+        "created_by_agent"
+      ]
+    }
+  },
+  
+  "quality_controls": {
+    "content_validation": {
+      "max_email_length": 2000,
+      "min_personalization_score": 60,
+      "required_elements": ["greeting", "value_proposition", "call_to_action"],
+      "prohibited_terms": ["spam", "guaranteed", "free money", "act now"]
+    },
+    "citation_validation": {
+      "min_citations": 1,
+      "max_citation_age_days": 90,
+      "require_url_validation": true,
+      "verify_source_credibility": true
+    },
+    "compliance_checks": {
+      "gdpr_compliance": true,
+      "can_spam_compliance": true,
+      "industry_regulations": ["golf_industry_standards"],
+      "opt_out_handling": true
+    }
+  }
+}

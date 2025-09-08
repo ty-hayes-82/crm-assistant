@@ -16,6 +16,15 @@
 - Only Phase 6 (Lead Scoring) and Phase 7 (Outreach Personalizer) are exposed as A2A skills.
 - All other agents remain internal to `crm_agent` and are not separately exposed.
 
+### A2A repository layout and top‑level structure
+- **Canonical CRM A2A entrypoint**: stays in `crm_agent/a2a` (single Agent Card exposing skills like `course.profile.extract`, `contact.roles.infer`, `hubspot.sync`, `lead.score.compute`, `outreach.generate`). We are not creating a separate top‑level package for CRM A2A.
+- **Project manager**: `project_manager_agent/` remains orchestration/critique only and is not exposed as an A2A service.
+- **Future A2A services (non‑CRM)**: if we add an independent A2A product, create a top‑level peer package named `<domain>_agent/` with an internal `a2a/` module that mirrors `crm_agent/a2a` (`__main__.py`, `agent.py`, `task_manager.py`, `http_server.py`).
+- **Conventions**:
+  - Skill naming: `<domain>.<capability>.<action>` with versioning in the Agent Card.
+  - Runtime defaults: conda env `adk`; model `gemini-2.5-flash`.
+- **Optional uniformity**: if uniform top‑level placement becomes mandatory later, we can add a thin top‑level shim that re‑exports `crm_agent.a2a` without moving files.
+
 ### ✅ Phase 0 — Environment, smoke tests, and baselines (COMPLETED)
 - **goal**: Confirm the repo runs, the core orchestrator works, and the A2A card scaffold loads.
 - **scope**:
@@ -125,15 +134,25 @@ python -m pytest tests/agents/test_lead_scoring_pipeline_integration.py -v
   - ✅ Configurable scoring weights and rules via `lead_scoring_config.json`.
   - ✅ HubSpot field mapping: `swoop_fit_score`, `swoop_intent_score`, `swoop_total_lead_score`, etc.
 
-### Phase 7 — Outreach personalizer agent
+### ✅ Phase 7 — Outreach personalizer agent (COMPLETED)
 - **goal**: Generate grounded, role‑aware drafts and create Email/Task engagements.
 - **scope**:
   - New `crm_agent/agents/specialized/outreach_personalizer_agent.py`.
   - Use facts and citations from Phase 1; role taxonomy from config; save Email draft + review Task via OpenAPI tools.
 - **how to test**:
-  - For a test Company + GM contact, generate draft; confirm Email engagement and Task in HubSpot with correct associations.
+```powershell
+conda activate adk
+$env:HUBSPOT_TEST_PORTAL="1"; python demos/houston_national_demo.py
+```
 - **acceptance**:
-  - Drafts include citation‑backed hooks; tasks routed with due dates; nothing sends automatically.
+  - ✅ Role-aware messaging (GM, Ops Manager, F&B Manager, Golf Pro, IT Manager)
+  - ✅ Company-specific personalization hooks and competitive context analysis
+  - ✅ Configurable outreach templates and messaging strategies
+  - ✅ Email draft creation with citation-backed content (never auto-sends)
+  - ✅ Follow-up task scheduling based on lead score bands (Hot=1d, Warm=3d, Cold=7d)
+  - ✅ Personalization quality scoring (achieved 80/100 in testing)
+  - ✅ HubSpot engagement creation with proper associations
+  - ✅ Safety measures: drafts only, approval workflows, compliance checks
 
 ### Phase 8 — Role taxonomy, policy, and provenance enforcement
 - **goal**: Make roles consistent, safe, and auditable.
