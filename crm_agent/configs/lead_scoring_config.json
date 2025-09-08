@@ -1,0 +1,189 @@
+{
+  "version": "1.0.0",
+  "description": "Lead scoring configuration for golf course CRM prospects",
+  "updated_at": "2024-01-15T00:00:00Z",
+  
+  "fit_scoring": {
+    "description": "Fit score based on prospect characteristics alignment with ICP",
+    "max_score": 100,
+    "weights": {
+      "course_type": 0.25,
+      "management_company": 0.20,
+      "revenue_range": 0.15,
+      "location": 0.10,
+      "employee_count": 0.10,
+      "technology_stack": 0.10,
+      "amenities": 0.10
+    },
+    "rules": {
+      "course_type": {
+        "Private": 100,
+        "Resort": 90,
+        "Semi-Private": 70,
+        "Daily Fee": 50,
+        "Municipal": 30
+      },
+      "management_company": {
+        "Troon": 100,
+        "ClubCorp": 95,
+        "Invited": 90,
+        "KemperSports": 85,
+        "Billy Casper Golf": 80,
+        "Independent": 60,
+        "Unknown": 40
+      },
+      "revenue_range": {
+        "10M+": 100,
+        "5M-10M": 85,
+        "2M-5M": 70,
+        "1M-2M": 55,
+        "500K-1M": 40,
+        "Under 500K": 25,
+        "Unknown": 30
+      },
+      "location": {
+        "California": 95,
+        "Florida": 90,
+        "Texas": 85,
+        "Arizona": 80,
+        "North Carolina": 75,
+        "New York": 70,
+        "Other": 50
+      },
+      "employee_count": {
+        "100+": 100,
+        "50-100": 85,
+        "25-50": 70,
+        "10-25": 55,
+        "5-10": 40,
+        "Under 5": 25,
+        "Unknown": 35
+      },
+      "technology_stack": {
+        "Modern POS + Tee Sheet": 100,
+        "Tee Sheet Software": 80,
+        "POS System": 60,
+        "Basic Systems": 40,
+        "Legacy/Manual": 20,
+        "Unknown": 30
+      },
+      "amenities": {
+        "Full Service (Dining, Events, Pro Shop)": 100,
+        "Dining + Pro Shop": 80,
+        "Pro Shop + Range": 70,
+        "Pro Shop Only": 50,
+        "Basic Facilities": 30,
+        "Unknown": 25
+      }
+    }
+  },
+  
+  "intent_scoring": {
+    "description": "Intent score based on engagement and buying signals",
+    "max_score": 100,
+    "weights": {
+      "website_activity": 0.25,
+      "email_engagement": 0.20,
+      "content_downloads": 0.15,
+      "meeting_requests": 0.15,
+      "technology_research": 0.10,
+      "competitive_mentions": 0.10,
+      "recent_changes": 0.05
+    },
+    "signals": {
+      "website_activity": {
+        "Multiple page visits": 100,
+        "Pricing page visit": 90,
+        "Demo request": 95,
+        "Contact form": 85,
+        "Single page visit": 40,
+        "No activity": 0
+      },
+      "email_engagement": {
+        "Clicked multiple emails": 100,
+        "Opened multiple emails": 80,
+        "Clicked single email": 70,
+        "Opened single email": 50,
+        "No engagement": 0
+      },
+      "content_downloads": {
+        "ROI Calculator": 100,
+        "Case Study": 90,
+        "White Paper": 80,
+        "Blog Subscription": 60,
+        "No downloads": 0
+      },
+      "meeting_requests": {
+        "Demo scheduled": 100,
+        "Discovery call": 95,
+        "Info request": 80,
+        "General inquiry": 60,
+        "No meetings": 0
+      },
+      "technology_research": {
+        "Active RFP process": 100,
+        "Comparing solutions": 90,
+        "Technology evaluation": 80,
+        "General research": 60,
+        "No research": 0
+      },
+      "competitive_mentions": {
+        "Evaluating competitors": 90,
+        "Mentioned competitors": 70,
+        "Asked about alternatives": 60,
+        "No mentions": 0
+      },
+      "recent_changes": {
+        "New management": 80,
+        "Renovation/expansion": 70,
+        "Technology upgrade": 85,
+        "No changes": 0
+      }
+    }
+  },
+  
+  "total_score_calculation": {
+    "description": "Combined fit and intent score calculation",
+    "formula": "weighted_average",
+    "fit_weight": 0.6,
+    "intent_weight": 0.4,
+    "score_bands": {
+      "Hot (80-100)": {
+        "priority": "High",
+        "action": "Immediate outreach",
+        "sla_hours": 4
+      },
+      "Warm (60-79)": {
+        "priority": "Medium",
+        "action": "Personalized follow-up",
+        "sla_hours": 24
+      },
+      "Cold (40-59)": {
+        "priority": "Low",
+        "action": "Nurture campaign",
+        "sla_hours": 72
+      },
+      "Unqualified (0-39)": {
+        "priority": "Very Low",
+        "action": "Long-term nurture",
+        "sla_hours": 168
+      }
+    }
+  },
+  
+  "hubspot_field_mapping": {
+    "swoop_fit_score": "swoop_fit_score",
+    "swoop_intent_score": "swoop_intent_score", 
+    "swoop_total_lead_score": "swoop_total_lead_score",
+    "score_band": "swoop_score_band",
+    "score_updated_at": "swoop_score_updated_at",
+    "scoring_version": "swoop_scoring_version"
+  },
+  
+  "native_hubspot_integration": {
+    "enabled": false,
+    "description": "Optional integration with HubSpot's native lead scoring",
+    "sync_direction": "one_way_to_hubspot",
+    "override_native": false
+  }
+}

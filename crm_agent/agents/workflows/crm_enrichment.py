@@ -16,6 +16,7 @@ from ..specialized.crm_agents import (
     create_crm_updater,
     create_crm_data_quality_agent
 )
+from ..specialized.lead_scoring_agent import create_lead_scoring_agent
 
 
 def create_crm_parallel_retrieval_workflow() -> ParallelAgent:
@@ -85,15 +86,16 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     """
     Create the main CRM enrichment pipeline with sequential steps.
     
-    Implements the 8-step enrichment process:
+    Implements the 9-step enrichment process:
     1. Gap Detection
     2. Query Planning  
     3. Parallel Retrieval
     4. Synthesis
     5. Entity Matching
-    6. Proposal Generation
-    7. Human Approval
-    8. Update Application
+    6. Lead Scoring
+    7. Proposal Generation
+    8. Human Approval
+    9. Update Application
     """
     
     # Step 1: Gap Detection
@@ -150,15 +152,32 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     - Apply field precedence and update policies
     - Generate proposed field mappings with justifications
     - Save mappings using CRMStateKeys.PROPOSED_FIELD_MAP
+    - Proceed to next step: Lead Scoring
+    """
+    
+    # Step 6: Lead Scoring (Phase 6)
+    lead_scorer = create_lead_scoring_agent()
+    lead_scorer.instruction += """
+    
+    📋 PIPELINE STEP 6: LEAD SCORING
+    - Read current contact/company data from HubSpot
+    - Read enriched data from previous steps for enhanced scoring
+    - Calculate Fit score based on ICP alignment (course type, management company, revenue, etc.)
+    - Calculate Intent score based on engagement signals (website activity, email engagement, etc.)
+    - Compute weighted total score (Fit 60% + Intent 40%)
+    - Determine score band: Hot (80-100), Warm (60-79), Cold (40-59), Unqualified (0-39)
+    - Prepare score updates for HubSpot fields: swoop_fit_score, swoop_intent_score, swoop_total_lead_score
+    - Save scoring results using CRMStateKeys.LEAD_SCORES
     - Proceed to next step: Proposal Generation
     """
     
-    # Step 6: Proposal Generation
+    # Step 7: Proposal Generation
     proposal_generator = create_crm_updater()
     proposal_generator.instruction += """
     
-    📋 PIPELINE STEP 6: PROPOSAL GENERATION
+    📋 PIPELINE STEP 7: PROPOSAL GENERATION
     - Read proposed field mappings: {proposed_field_map}
+    - Read lead scores: {lead_scores}
     - Generate detailed change proposals with before/after values
     - Include confidence scores and source attribution
     - Format proposals for human review
@@ -166,12 +185,12 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     - Proceed to next step: Human Approval
     """
     
-    # Step 7: Human Approval (handled by CRMUpdaterAgent)
+    # Step 8: Human Approval (handled by CRMUpdaterAgent)
     approval_handler = create_crm_updater()
     approval_handler.instruction = """
     You are handling the Human Approval step in the CRM enrichment pipeline.
     
-    📋 PIPELINE STEP 7: HUMAN APPROVAL
+    📋 PIPELINE STEP 8: HUMAN APPROVAL
     - Read proposed changes from previous step: {proposed_changes}
     - Format changes for human review in Slack
     - Send approval request with clear options
@@ -186,12 +205,12 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     - Wait for user response before proceeding
     """
     
-    # Step 8: Update Application
+    # Step 9: Update Application
     update_applier = create_crm_updater()
     update_applier.instruction = """
     You are handling the Update Application step in the CRM enrichment pipeline.
     
-    📋 PIPELINE STEP 8: UPDATE APPLICATION
+    📋 PIPELINE STEP 9: UPDATE APPLICATION
     - Read approved changes from previous step: {approved_changes}
     - Apply only approved changes to HubSpot via MCP server
     - Handle API errors gracefully with retries
@@ -216,9 +235,10 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
             parallel_retrieval,     # Step 3: Parallel Retrieval
             synthesizer,            # Step 4: Synthesis
             entity_matcher,         # Step 5: Entity Matching
-            proposal_generator,     # Step 6: Proposal Generation
-            approval_handler,       # Step 7: Human Approval
-            update_applier          # Step 8: Update Application
+            lead_scorer,            # Step 6: Lead Scoring
+            proposal_generator,     # Step 7: Proposal Generation
+            approval_handler,       # Step 8: Human Approval
+            update_applier          # Step 9: Update Application
         ]
     )
 

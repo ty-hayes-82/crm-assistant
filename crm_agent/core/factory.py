@@ -98,6 +98,7 @@ class CRMAgentRegistry(AgentRegistry):
         from ..agents.specialized.company_competitor_agent import create_company_competitor_agent
         from ..agents.specialized.company_management_agent import create_company_management_agent
         from ..agents.specialized.field_mapping_agent import create_field_mapping_agent
+        from ..agents.specialized.lead_scoring_agent import create_lead_scoring_agent
         # Note: CRM data quality workflow is created in the CRM workflows module
         
         # Crm Enrichment Agent
@@ -149,6 +150,13 @@ class CRMAgentRegistry(AgentRegistry):
         self.register("field_mapping", create_field_mapping_agent, {
             "description": "Maps field names to correct HubSpot internal names using field profiles.",
             "capabilities": ["Field name mapping", "HubSpot property identification", "Fuzzy matching"]
+        })
+
+        # Lead Scoring Agent (Phase 6)
+        self.register("lead_scoring", create_lead_scoring_agent, {
+            "description": "Computes Fit and Intent scores for leads and writes swoop_fit_score, swoop_intent_score, swoop_total_lead_score.",
+            "domain": "lead_scoring",
+            "tools": ["get_hubspot_contact", "get_hubspot_company", "update_company", "update_contact"]
         })
 
         # CRM Query Builder Agent
@@ -407,6 +415,11 @@ def create_company_llm_enrichment_agent(**kwargs) -> BaseAgent:
 def create_company_management_agent(**kwargs) -> BaseAgent:
     """Create a Company Management agent."""
     return crm_agent_registry.create_agent("company_management_enrichment", **kwargs)
+
+
+def create_lead_scoring_agent(**kwargs) -> BaseAgent:
+    """Create a Lead Scoring agent."""
+    return crm_agent_registry.create_agent("lead_scoring", **kwargs)
 
 
 # Export the main CRM agent creation function

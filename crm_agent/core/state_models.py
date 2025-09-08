@@ -85,6 +85,8 @@ class CRMSessionState(BaseModel):
     # Processed insights
     normalized_insights: Dict[str, Any] = Field(default_factory=dict)
     enrichment_results: List[CRMEnrichmentResult] = Field(default_factory=list)
+    # Lead scoring results (Phase 6)
+    lead_scores: Dict[str, Any] = Field(default_factory=dict)
     
     # Quality analysis
     detected_gaps: Dict[str, Any] = Field(default_factory=dict)
@@ -210,6 +212,7 @@ class CRMStateKeys:
     # Processing
     NORMALIZED_INSIGHTS = "normalized_insights"
     ENRICHMENT_RESULTS = "enrichment_results"
+    LEAD_SCORES = "lead_scores"
     
     # Quality
     DETECTED_GAPS = "detected_gaps"

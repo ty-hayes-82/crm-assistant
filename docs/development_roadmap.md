@@ -4,6 +4,18 @@
 - **default model**: `gemini-2.5-flash` across agents/workflows.
 - **principle**: Each phase is independently completable and testable; phases build progressively.
 
+### Module ownership and agent placement
+- Keep all existing agents and workflows inside `crm_agent`.
+- Only the new agents in Phases 6 and 7 will be exposed as their own A2A agents:
+  - Lead Scoring Agent → A2A skill `lead.score.compute`
+  - Outreach Personalizer Agent → A2A skill `outreach.generate`
+- Project orchestration and critique remain in `project_manager_agent`.
+- No other modules are moved out of `crm_agent`.
+
+### A2A exposure policy
+- Only Phase 6 (Lead Scoring) and Phase 7 (Outreach Personalizer) are exposed as A2A skills.
+- All other agents remain internal to `crm_agent` and are not separately exposed.
+
 ### ✅ Phase 0 — Environment, smoke tests, and baselines (COMPLETED)
 - **goal**: Confirm the repo runs, the core orchestrator works, and the A2A card scaffold loads.
 - **scope**:
@@ -93,17 +105,25 @@ python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; c=b
   - ✅ HTTP server in `crm_agent/a2a/http_server.py` with FastAPI, JSON-RPC 2.0, and SSE.
   - ✅ Task lifecycle management with queued/running/completed/failed states.
 
-### Phase 6 — Lead scoring agent
+### ✅ Phase 6 — Lead scoring agent (COMPLETED)
 - **goal**: Compute Fit/Intent and write `swoop_fit_score`, `swoop_intent_score`, `swoop_total_lead_score`.
 - **scope**:
   - New `crm_agent/agents/specialized/lead_scoring_agent.py` with versioned JSON config (weights, rules).
   - Integrate into enrichment pipeline before updater.
-  - Add toggle to seed HubSpot’s native/AI Scoring (no hard dependency).
+  - Add toggle to seed HubSpot's native/AI Scoring (no hard dependency).
 - **how to test**:
-  - Unit tests: deterministic inputs → expected scores.
-  - E2E: pipeline writes scores into HubSpot via Phase 3 tools.
+```powershell
+conda activate adk
+python -m pytest tests/agents/test_lead_scoring_agent.py -v
+python -m pytest tests/agents/test_lead_scoring_pipeline_integration.py -v
+```
 - **acceptance**:
-  - Scores appear on Companies/Deals; re‑runs stable given same inputs.
+  - ✅ Scores computed using configurable fit/intent rules with detailed rationale.
+  - ✅ Unit tests validate deterministic scoring with 10 test cases covering all scenarios.
+  - ✅ E2E integration tests verify pipeline integration and HubSpot field mapping.
+  - ✅ Lead scoring agent integrated into enrichment pipeline at Step 6.
+  - ✅ Configurable scoring weights and rules via `lead_scoring_config.json`.
+  - ✅ HubSpot field mapping: `swoop_fit_score`, `swoop_intent_score`, `swoop_total_lead_score`, etc.
 
 ### Phase 7 — Outreach personalizer agent
 - **goal**: Generate grounded, role‑aware drafts and create Email/Task engagements.
@@ -140,25 +160,6 @@ python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; c=b
 - **acceptance**:
   - Traces link every tool call; repeated runs are safe; state survives process restarts.
 
-### Phase 10 — HubSpot CRM UI Extension (card)
-- **goal**: Surface facts, citations, roles, and scores inside HubSpot.
-- **scope**:
-  - Add `docs/hubspot_ui_extension/` scaffold; implement minimal card that reads from Company/Contact properties.
-  - Display: course facts + source links + last verified, role chips, lead score, “Suggested opener” action.
-- **how to test**:
-  - Install extension in a sandbox portal; open a test Company; validate data renders correctly.
-- **acceptance**:
-  - Card loads quickly; shows expected properties with links and timestamps.
-
-### Phase 11 — Remote A2A partner integrations (optional)
-- **goal**: Consume external A2A agents (e.g., address/phone verification, event intel).
-- **scope**:
-  - Add `RemoteA2aAgent` abstraction; feature‑flagged usage in coordinator.
-  - Extend Agent Card to include dependency declarations/versioning constraints.
-- **how to test**:
-  - Mock remote agent and a real one where available; verify fallbacks and error mapping to lifecycle.
-- **acceptance**:
-  - Remote calls degrade gracefully; provenance and policy still enforced.
 
 ### Notes on sequencing and cutlines
 - **shipping points**: Value after Phase 3 (basic sync); major value after Phases 6–7 (lead scoring + outreach).
