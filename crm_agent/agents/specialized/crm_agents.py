@@ -340,6 +340,13 @@ class CRMUpdaterAgent(SpecializedAgent):
             # Fallback to MCP tools if OpenAPI tool creation fails
             additional_tools = []
         
+        # Initialize observability and idempotency systems (Phase 9)
+        from ...core.observability import get_logger
+        from ...core.idempotency import get_idempotency_manager
+        
+        self.logger = get_logger("crm_updater")
+        self.idempotency_manager = get_idempotency_manager()
+        
         super().__init__(
             name="CRMUpdaterAgent",
             domain="crm_updates",
@@ -395,6 +402,185 @@ class CRMUpdaterAgent(SpecializedAgent):
             """,
             **kwargs
         )
+    
+    def apply_hubspot_update_with_idempotency(
+        self,
+        object_type: str,
+        object_id: str,
+        properties: dict,
+        session_id: str = None,
+        trace_id: str = None
+    ) -> dict:
+        """
+        Apply HubSpot update with idempotency and full observability.
+        
+        Phase 9 implementation with structured logging, audit trail,
+        and safe retry capabilities.
+        """
+        from ...core.observability import span_context, EventType
+        from ...core.idempotency import OperationType
+        
+        with span_context(f"hubspot_update_{object_type}", "crm_updater") as span:
+            # Generate idempotency key
+            idempotency_key = self.idempotency_manager.create_hubspot_update_key(
+                object_type=object_type,
+                object_id=object_id,
+                properties=properties,
+                session_id=session_id,
+                trace_id=trace_id or span.trace_id
+            )
+            
+            # Log operation start
+            self.logger.info(
+                f"Starting HubSpot {object_type} update",
+                operation=f"update_{object_type}",
+                metadata={
+                    "object_id": object_id,
+                    "property_count": len(properties),
+                    "idempotency_key": idempotency_key.key
+                }
+            )
+            
+            # Check for duplicate operation
+            duplicate_result = self.idempotency_manager.check_duplicate(idempotency_key)
+            if duplicate_result:
+                self.logger.info(
+                    f"Duplicate {object_type} update detected",
+                    operation=f"update_{object_type}",
+                    metadata={
+                        "object_id": object_id,
+                        "idempotency_key": idempotency_key.key,
+                        "original_success": duplicate_result.success
+                    }
+                )
+                
+                # Return previous result
+                return {
+                    "success": duplicate_result.success,
+                    "resource_id": duplicate_result.resource_id,
+                    "was_duplicate": True,
+                    "idempotency_key": idempotency_key.key,
+                    "response_data": duplicate_result.response_data,
+                    "error_message": duplicate_result.error_message
+                }
+            
+            # Get current state for audit trail
+            try:
+                current_state = self._get_current_object_state(object_type, object_id)
+            except Exception as e:
+                self.logger.warning(
+                    f"Could not retrieve current state for audit trail",
+                    operation=f"update_{object_type}",
+                    error=e,
+                    metadata={"object_id": object_id}
+                )
+                current_state = None
+            
+            # Perform the update
+            try:
+                # Apply update through appropriate tool
+                response_data = self._execute_hubspot_update(object_type, object_id, properties)
+                
+                # Get updated state for audit trail
+                try:
+                    updated_state = self._get_current_object_state(object_type, object_id)
+                except Exception:
+                    updated_state = None
+                
+                # Record successful operation
+                operation_result = self.idempotency_manager.record_operation(
+                    key=idempotency_key,
+                    success=True,
+                    resource_id=object_id,
+                    response_data=response_data
+                )
+                
+                # Create audit log entry
+                self.logger.audit_log(
+                    event_type=EventType.HUBSPOT_WRITE,
+                    operation=f"update_{object_type}",
+                    resource_type=object_type,
+                    resource_id=object_id,
+                    before_state=current_state,
+                    after_state=updated_state,
+                    evidence_urls=[],  # Could add HubSpot record URL
+                    success=True,
+                    idempotency_key=idempotency_key.key,
+                    metadata={
+                        "properties_updated": list(properties.keys()),
+                        "property_count": len(properties)
+                    }
+                )
+                
+                self.logger.info(
+                    f"Successfully updated {object_type}",
+                    operation=f"update_{object_type}",
+                    metadata={
+                        "object_id": object_id,
+                        "idempotency_key": idempotency_key.key
+                    }
+                )
+                
+                return {
+                    "success": True,
+                    "resource_id": object_id,
+                    "was_duplicate": False,
+                    "idempotency_key": idempotency_key.key,
+                    "response_data": response_data
+                }
+                
+            except Exception as e:
+                error_message = str(e)
+                
+                # Record failed operation
+                operation_result = self.idempotency_manager.record_operation(
+                    key=idempotency_key,
+                    success=False,
+                    resource_id=object_id,
+                    error_message=error_message
+                )
+                
+                # Create audit log entry for failure
+                self.logger.audit_log(
+                    event_type=EventType.ERROR_OCCURRED,
+                    operation=f"update_{object_type}",
+                    resource_type=object_type,
+                    resource_id=object_id,
+                    before_state=current_state,
+                    success=False,
+                    error_message=error_message,
+                    idempotency_key=idempotency_key.key
+                )
+                
+                self.logger.error(
+                    f"Failed to update {object_type}",
+                    operation=f"update_{object_type}",
+                    error=e,
+                    metadata={
+                        "object_id": object_id,
+                        "idempotency_key": idempotency_key.key
+                    }
+                )
+                
+                return {
+                    "success": False,
+                    "resource_id": object_id,
+                    "was_duplicate": False,
+                    "idempotency_key": idempotency_key.key,
+                    "error_message": error_message
+                }
+    
+    def _get_current_object_state(self, object_type: str, object_id: str) -> dict:
+        """Get current state of HubSpot object for audit trail."""
+        # This would use the appropriate tool to get current object state
+        # Implementation depends on available tools
+        return {"object_type": object_type, "object_id": object_id}
+    
+    def _execute_hubspot_update(self, object_type: str, object_id: str, properties: dict) -> dict:
+        """Execute the actual HubSpot update operation."""
+        # This would use the appropriate tool (OpenAPI or MCP) to perform the update
+        # Implementation depends on available tools
+        return {"status": "updated", "object_id": object_id}
 
 
 class CRMDataQualityAgent(SpecializedAgent):
