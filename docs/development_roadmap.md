@@ -4,7 +4,7 @@
 - **default model**: `gemini-2.5-flash` across agents/workflows.
 - **principle**: Each phase is independently completable and testable; phases build progressively.
 
-### Phase 0 — Environment, smoke tests, and baselines
+### ✅ Phase 0 — Environment, smoke tests, and baselines (COMPLETED)
 - **goal**: Confirm the repo runs, the core orchestrator works, and the A2A card scaffold loads.
 - **scope**:
   - Verify `.env` and Private App token plumbing exists (no HubSpot write yet).
@@ -18,9 +18,9 @@ python -c "from crm_agent.a2a.agent import create_crm_a2a_agent; a=create_crm_a2
 python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; print(json.dumps(build_agent_card(), indent=2))"
 ```
 - **acceptance**:
-  - Objects construct without errors; Agent Card prints valid JSON stub.
+  - ✅ Objects construct without errors; Agent Card prints valid JSON stub.
 
-### Phase 1 — Discovery + quick lookup + data quality gate (offline)
+### ✅ Phase 1 — Discovery + quick lookup + data quality gate (offline) (COMPLETED)
 - **goal**: Produce grounded company facts (no HubSpot writes), enforce provenance.
 - **scope**:
   - Use `create_crm_quick_lookup_workflow()` and `create_crm_parallel_retrieval_workflow()` in `crm_agent/agents/workflows/crm_enrichment.py`.
@@ -30,9 +30,10 @@ python -c "from crm_agent.a2a.__main__ import build_agent_card; import json; pri
   - Feed 3–5 public course domains/names; verify JSON includes citations and timestamps.
   - Add a unit test to fail when any field lacks `source_urls` or `last_verified_at`.
 - **acceptance**:
-  - For each input, returns structured JSON with citations; DQ fails on missing provenance.
+  - ✅ For each input, returns structured JSON with citations; DQ fails on missing provenance.
+  - ✅ Unit tests in `tests/enrichment/test_provenance_gate.py` validate provenance enforcement.
 
-### Phase 2 — HubSpot connectivity (direct script; safe dry run)
+### ✅ Phase 2 — HubSpot connectivity (direct script; safe dry run) (COMPLETED)
 - **goal**: Prove HubSpot auth and payloads with an isolated script.
 - **scope**:
   - Use `scripts/update_mansion_ridge_direct.py` as reference.
@@ -45,19 +46,22 @@ $env:DRY_RUN="1"
 python .\scripts\update_mansion_ridge_direct.py
 ```
 - **acceptance**:
-  - Auth succeeds; payloads validate; dry‑run logs the exact requests without mutating HubSpot.
+  - ✅ Auth succeeds; payloads validate; dry‑run logs the exact requests without mutating HubSpot.
+  - ✅ HUBSPOT_TEST_PORTAL guard prevents writes to production portals.
 
-### Phase 3 — HubSpot tools via ADK OpenAPI (replace placeholders)
+### ✅ Phase 3 — HubSpot tools via ADK OpenAPI (replace placeholders) (COMPLETED)
 - **goal**: Shift from ad‑hoc calls to generated tools; wire into `crm_updater`.
 - **scope**:
   - In `crm_agent/core/factory.py`, add ADK `OpenApiTool` for HubSpot (Companies/Contacts/Associations/Emails/Tasks).
   - In `crm_agent/agents/specialized/crm_agents.py`, make `create_crm_updater()` call those tools.
   - Add idempotency key scaffolding for writes (per object + field set).
 - **how to test**:
-  - Run an “offline → approve → apply” loop: Phase 1 output feeds `crm_updater` in a sandbox portal.
+  - Run an "offline → approve → apply" loop: Phase 1 output feeds `crm_updater` in a sandbox portal.
   - Create a test Company with minimal props and associations; verify results in HubSpot.
 - **acceptance**:
-  - One command applies updates through OpenAPI tools; repeated run is idempotent.
+  - ✅ One command applies updates through OpenAPI tools; repeated run is idempotent.
+  - ✅ `create_hubspot_openapi_tool()` factory creates OpenAPI tools for HubSpot CRM v3.
+  - ✅ CRM updater agent wired with OpenAPI tools and idempotency key generation.
 
 ### Phase 4 — A2A wrapper consolidation + Agent Card expansion
 - **goal**: Single canonical A2A entrypoint with richer, documented skills.

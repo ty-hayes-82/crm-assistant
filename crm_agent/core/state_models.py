@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Optional, Any
 from datetime import datetime
 import uuid
+import hashlib
 
 
 class CRMEnrichmentResult(BaseModel):
@@ -16,8 +17,32 @@ class CRMEnrichmentResult(BaseModel):
     proposed_value: Optional[Any] = None
     confidence: float = Field(default=0.0, ge=0.0, le=1.0)
     source: str = ""
-    source_url: Optional[str] = None
-    extracted_at: datetime = Field(default_factory=datetime.now)
+    source_urls: List[str] = Field(default_factory=list)  # Phase 1: Required for provenance
+    last_verified_at: Optional[datetime] = Field(default_factory=datetime.now)  # Phase 1: Required for provenance
+    
+    def validate_provenance(self) -> bool:
+        """
+        Phase 1: Validate that enrichment result has required provenance.
+        
+        Returns:
+            True if result has source_urls and last_verified_at
+        """
+        return (
+            len(self.source_urls) > 0 and 
+            self.last_verified_at is not None and
+            self.source != ""
+        )
+    
+    def get_provenance_errors(self) -> List[str]:
+        """Get list of provenance validation errors."""
+        errors = []
+        if not self.source_urls:
+            errors.append("Missing source_urls")
+        if not self.source:
+            errors.append("Missing source")
+        if self.last_verified_at is None:
+            errors.append("Missing last_verified_at")
+        return errors
 
 
 class CRMDataQualityReport(BaseModel):
@@ -87,6 +112,9 @@ class CRMSessionState(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
     last_updated: datetime = Field(default_factory=datetime.now)
     
+    # Idempotency tracking for Phase 3
+    idempotency_keys: Dict[str, str] = Field(default_factory=dict)
+    
     def update_timestamp(self):
         """Update the last_updated timestamp."""
         self.last_updated = datetime.now()
@@ -120,6 +148,43 @@ class CRMSessionState(BaseModel):
         """Add an enrichment result."""
         self.enrichment_results.append(result)
         self.update_timestamp()
+    
+    def generate_idempotency_key(self, object_type: str, object_id: str, field_set: List[str]) -> str:
+        """
+        Generate an idempotency key for HubSpot operations.
+        
+        Args:
+            object_type: 'company' or 'contact'
+            object_id: HubSpot object ID
+            field_set: List of fields being updated
+            
+        Returns:
+            Unique idempotency key
+        """
+        # Create deterministic key based on operation parameters
+        key_components = [
+            object_type,
+            object_id,
+            "|".join(sorted(field_set)),
+            self.session_id
+        ]
+        key_string = ":".join(key_components)
+        
+        # Generate SHA-256 hash for consistent, unique key
+        key_hash = hashlib.sha256(key_string.encode()).hexdigest()[:16]
+        idempotency_key = f"{object_type}_{object_id}_{key_hash}"
+        
+        # Store in session state for tracking
+        operation_key = f"{object_type}:{object_id}"
+        self.idempotency_keys[operation_key] = idempotency_key
+        self.update_timestamp()
+        
+        return idempotency_key
+    
+    def get_idempotency_key(self, object_type: str, object_id: str) -> Optional[str]:
+        """Get existing idempotency key for an operation."""
+        operation_key = f"{object_type}:{object_id}"
+        return self.idempotency_keys.get(operation_key)
 
 
 class CRMStateKeys:

@@ -34,6 +34,19 @@ def get_token() -> str:
     sys.exit(1)
 
 
+def is_dry_run() -> bool:
+    """Return True if DRY_RUN env flag is enabled."""
+    val = (os.getenv("DRY_RUN") or "").strip().lower()
+    return val in {"1", "true", "yes", "on"}
+
+
+def is_test_portal_guard_ok() -> bool:
+    """Require an explicit HUBSPOT_TEST_PORTAL guard for write operations."""
+    val = (os.getenv("HUBSPOT_TEST_PORTAL") or "").strip().lower()
+    # Accept explicit truthy flag or a numeric sandbox portal id
+    return val in {"1", "true", "yes", "sandbox"} or val.isdigit()
+
+
 def hubspot_headers(token: str):
     return {
         "Authorization": f"Bearer {token}",
@@ -98,6 +111,14 @@ def update_company(token: str, company_id: str, properties: dict):
         display_value = value if len(str(value)) <= 50 else str(value)[:47] + "..."
         print(f"   • {key}: {display_value}")
     
+    # Respect DRY_RUN and test portal guard
+    if is_dry_run() or not is_test_portal_guard_ok():
+        print("\n🧪 DRY RUN: Would PATCH company with the following request (no write performed):")
+        print(json.dumps({"url": url, "headers": {k: ("<redacted>" if k.lower()=="authorization" else v) for k, v in headers.items()}, "body": body}, indent=2))
+        if not is_test_portal_guard_ok():
+            print("⚠️ Write blocked: Set HUBSPOT_TEST_PORTAL to a sandbox portal id or '1' to enable writes.")
+        return {"dry_run": True, "company_id": company_id, "properties": properties}
+
     r = requests.patch(url, headers=headers, json=body)
     try:
         r.raise_for_status()
@@ -302,7 +323,10 @@ def main():
 
     # 3) Apply update
     update_company(token, company_id, props)
-    print("\n🎉 ENRICHMENT COMPLETE - Refresh HubSpot to verify fields are populated.")
+    if is_dry_run():
+        print("\n🎉 DRY RUN COMPLETE - Payload logged; HubSpot not mutated.")
+    else:
+        print("\n🎉 ENRICHMENT COMPLETE - Refresh HubSpot to verify fields are populated.")
 
 
 if __name__ == "__main__":

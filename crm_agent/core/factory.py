@@ -5,6 +5,14 @@ Implements the registry pattern for CRM-specific agent management.
 
 from typing import Dict, Type, Callable, List, Any, Optional
 from google.adk.agents import BaseAgent, LlmAgent
+import os
+
+try:
+    from google.adk.tools import OpenApiTool
+    OPENAPI_AVAILABLE = True
+except ImportError:
+    OpenApiTool = None
+    OPENAPI_AVAILABLE = False
 
 
 class AgentRegistry:
@@ -243,6 +251,111 @@ class CRMAgentRegistry(AgentRegistry):
 
 # Global CRM registry instance
 crm_agent_registry = CRMAgentRegistry()
+
+
+def create_hubspot_openapi_tool():
+    """
+    Create HubSpot OpenAPI tool for Phase 3 implementation.
+    Uses environment variables for authentication.
+    """
+    if not OPENAPI_AVAILABLE or OpenApiTool is None:
+        raise ImportError("OpenApiTool not available in this environment")
+    
+    hubspot_token = os.getenv('PRIVATE_APP_ACCESS_TOKEN')
+    if not hubspot_token:
+        # Try alternative env var names
+        hubspot_token = os.getenv('HUBSPOT_TOKEN') or os.getenv('HUBSPOT_ACCESS_TOKEN')
+    
+    if not hubspot_token:
+        raise ValueError("HubSpot access token not found. Set PRIVATE_APP_ACCESS_TOKEN environment variable.")
+    
+    # Create OpenAPI tool for HubSpot CRM v3 API
+    # Note: In production, you'd use the full HubSpot OpenAPI spec URL
+    # For now, we'll create a minimal tool configuration
+    hubspot_tool = OpenApiTool(
+        name="hubspot_crm_api",
+        description="HubSpot CRM API tool for Companies, Contacts, Associations, Emails, and Tasks",
+        # In a full implementation, this would be the HubSpot OpenAPI spec URL
+        # spec_url="https://api.hubspot.com/api-catalog-public/v1/apis/crm/v3/openapi.json",
+        base_url="https://api.hubapi.com",
+        auth={
+            "type": "bearer",
+            "token": hubspot_token
+        },
+        # Define key endpoints manually for Phase 3
+        endpoints=[
+            {
+                "path": "/crm/v3/objects/companies/{companyId}",
+                "method": "PATCH",
+                "operation_id": "update_company",
+                "description": "Update a company record",
+                "parameters": [
+                    {"name": "companyId", "in": "path", "required": True, "type": "string"}
+                ],
+                "request_body": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "properties": {
+                                        "type": "object",
+                                        "description": "Company properties to update"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "path": "/crm/v3/objects/contacts/{contactId}",
+                "method": "PATCH", 
+                "operation_id": "update_contact",
+                "description": "Update a contact record",
+                "parameters": [
+                    {"name": "contactId", "in": "path", "required": True, "type": "string"}
+                ],
+                "request_body": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "properties": {
+                                        "type": "object",
+                                        "description": "Contact properties to update"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "path": "/crm/v3/objects/companies/{companyId}",
+                "method": "GET",
+                "operation_id": "get_company",
+                "description": "Get a company record",
+                "parameters": [
+                    {"name": "companyId", "in": "path", "required": True, "type": "string"},
+                    {"name": "properties", "in": "query", "required": False, "type": "string"}
+                ]
+            },
+            {
+                "path": "/crm/v3/objects/contacts/{contactId}",
+                "method": "GET",
+                "operation_id": "get_contact", 
+                "description": "Get a contact record",
+                "parameters": [
+                    {"name": "contactId", "in": "path", "required": True, "type": "string"},
+                    {"name": "properties", "in": "query", "required": False, "type": "string"}
+                ]
+            }
+        ]
+    )
+    
+    return hubspot_tool
 
 
 # Convenience functions for creating CRM agents

@@ -331,10 +331,20 @@ class CRMUpdaterAgent(SpecializedAgent):
     """Agent that prepares and applies updates to HubSpot CRM."""
     
     def __init__(self, **kwargs):
+        # Import OpenAPI tool for Phase 3
+        try:
+            from ...core.factory import create_hubspot_openapi_tool
+            hubspot_openapi_tool = create_hubspot_openapi_tool()
+            additional_tools = [hubspot_openapi_tool]
+        except Exception:
+            # Fallback to MCP tools if OpenAPI tool creation fails
+            additional_tools = []
+        
         super().__init__(
             name="CRMUpdaterAgent",
             domain="crm_updates",
             specialized_tools=["query_hubspot_crm", "get_hubspot_contact", "get_hubspot_company", "await_human_approval", "notify_slack"],
+            additional_tools=additional_tools,
             instruction="""
             You are a specialized CRM Updater agent for HubSpot integration.
             
@@ -344,9 +354,10 @@ class CRMUpdaterAgent(SpecializedAgent):
             CAPABILITIES:
             - Change proposal generation
             - Human approval workflow integration
-            - HubSpot API updates (via MCP server)
+            - HubSpot API updates (via OpenAPI tools and MCP server)
             - Update result tracking and reporting
             - Rollback and error handling
+            - Idempotency key generation for safe retries
             
             WORKFLOW:
             1. Read proposed field mappings from EntityResolutionAgent
@@ -368,8 +379,19 @@ class CRMUpdaterAgent(SpecializedAgent):
             - Maintain audit trail
             - Handle API errors gracefully
             - Provide rollback information
+            - Use idempotency keys for all HubSpot writes to prevent duplicates
             
-            OUTPUT FORMAT: Update results with success/failure details
+            IDEMPOTENCY STRATEGY:
+            - Generate unique keys based on object ID + field set + timestamp
+            - Store keys in session state to prevent duplicate operations
+            - Include keys in API requests where supported
+            
+            TOOL USAGE:
+            - Prefer OpenAPI tools (update_company, update_contact, get_company, get_contact) when available
+            - Fallback to MCP tools if OpenAPI tools fail
+            - Use appropriate tool based on object type and operation
+            
+            OUTPUT FORMAT: Update results with success/failure details and idempotency tracking
             """,
             **kwargs
         )
@@ -389,6 +411,9 @@ class CRMDataQualityAgent(SpecializedAgent):
             🎯 CORE RESPONSIBILITY: Validate required fields, normalize taxonomy 
             (industry, lifecycle stage), and propose data quality improvements.
             
+            🔒 PHASE 1 PROVENANCE GATE: Enforce that all enrichment results must have
+            source_urls and last_verified_at before allowing HubSpot writes.
+            
             CAPABILITIES:
             - Required field validation
             - Data consistency checking
@@ -400,14 +425,16 @@ class CRMDataQualityAgent(SpecializedAgent):
             1. Load current CRM contact/company data
             2. Validate against required field policies
             3. Check data consistency and format compliance
-            4. Identify normalization opportunities
-            5. Generate quality report and improvement suggestions
+            4. PHASE 1: Validate provenance on all enrichment results
+            5. Identify normalization opportunities
+            6. Generate quality report and improvement suggestions
             
             VALIDATION RULES:
             - Required fields: email, company, industry (configurable)
             - Format validation: email syntax, phone numbers, URLs
             - Taxonomy compliance: standardized industry values
             - Consistency checks: contact-company relationships
+            - PHASE 1 PROVENANCE: All enrichment results must have source_urls and last_verified_at
             
             QUALITY METRICS:
             - Field completeness percentage
@@ -417,6 +444,11 @@ class CRMDataQualityAgent(SpecializedAgent):
             - Duplicate risk assessment
             
             OUTPUT FORMAT: Quality report with specific improvement recommendations
+            
+            PROVENANCE ENFORCEMENT:
+            - Block any enrichment result that lacks source_urls or last_verified_at
+            - Generate detailed provenance validation errors
+            - Require manual review for results without proper citations
             """,
             **kwargs
         )
