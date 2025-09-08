@@ -271,8 +271,8 @@ crm_agent_registry = CRMAgentRegistry()
 
 def create_hubspot_openapi_tool():
     """
-    Create HubSpot OpenAPI tool for Phase 3 implementation.
-    Uses environment variables for authentication.
+    Create HubSpot OpenAPI tool using local spec files.
+    Uses pinned OpenAPI specifications for stability.
     """
     if not OPENAPI_AVAILABLE or OpenApiTool is None:
         raise ImportError("OpenApiTool not available in this environment")
@@ -285,93 +285,224 @@ def create_hubspot_openapi_tool():
     if not hubspot_token:
         raise ValueError("HubSpot access token not found. Set PRIVATE_APP_ACCESS_TOKEN environment variable.")
     
-    # Create OpenAPI tool for HubSpot CRM v3 API
-    # Note: In production, you'd use the full HubSpot OpenAPI spec URL
-    # For now, we'll create a minimal tool configuration
-    hubspot_tool = OpenApiTool(
-        name="hubspot_crm_api",
-        description="HubSpot CRM API tool for Companies, Contacts, Associations, Emails, and Tasks",
-        # In a full implementation, this would be the HubSpot OpenAPI spec URL
-        # spec_url="https://api.hubspot.com/api-catalog-public/v1/apis/crm/v3/openapi.json",
-        base_url="https://api.hubapi.com",
-        auth={
-            "type": "bearer",
-            "token": hubspot_token
-        },
-        # Define key endpoints manually for Phase 3
-        endpoints=[
-            {
-                "path": "/crm/v3/objects/companies/{companyId}",
-                "method": "PATCH",
-                "operation_id": "update_company",
-                "description": "Update a company record",
-                "parameters": [
-                    {"name": "companyId", "in": "path", "required": True, "type": "string"}
-                ],
-                "request_body": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "properties": {
-                                        "type": "object",
-                                        "description": "Company properties to update"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "path": "/crm/v3/objects/contacts/{contactId}",
-                "method": "PATCH", 
-                "operation_id": "update_contact",
-                "description": "Update a contact record",
-                "parameters": [
-                    {"name": "contactId", "in": "path", "required": True, "type": "string"}
-                ],
-                "request_body": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "properties": {
-                                        "type": "object",
-                                        "description": "Contact properties to update"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "path": "/crm/v3/objects/companies/{companyId}",
-                "method": "GET",
-                "operation_id": "get_company",
-                "description": "Get a company record",
-                "parameters": [
-                    {"name": "companyId", "in": "path", "required": True, "type": "string"},
-                    {"name": "properties", "in": "query", "required": False, "type": "string"}
-                ]
-            },
-            {
-                "path": "/crm/v3/objects/contacts/{contactId}",
-                "method": "GET",
-                "operation_id": "get_contact", 
-                "description": "Get a contact record",
-                "parameters": [
-                    {"name": "contactId", "in": "path", "required": True, "type": "string"},
-                    {"name": "properties", "in": "query", "required": False, "type": "string"}
-                ]
+    # Use local pinned OpenAPI spec for stability
+    import json
+    from pathlib import Path
+    
+    spec_dir = Path(__file__).parent.parent / "configs" / "hubspot_specs"
+    companies_spec_path = spec_dir / "companies.json"
+    
+    if companies_spec_path.exists():
+        # Load from local spec file
+        with open(companies_spec_path, 'r') as f:
+            spec_data = json.load(f)
+        
+        hubspot_tool = OpenApiTool(
+            name="hubspot_crm_api",
+            description="HubSpot CRM API tool for Companies, Contacts, Associations, Emails, and Tasks",
+            spec_data=spec_data,
+            base_url="https://api.hubapi.com",
+            auth={
+                "type": "bearer",
+                "token": hubspot_token
             }
-        ]
-    )
+        )
+    else:
+        # Fallback to manual endpoint definitions if spec file not available
+        hubspot_tool = OpenApiTool(
+            name="hubspot_crm_api",
+            description="HubSpot CRM API tool for Companies, Contacts, Associations, Emails, and Tasks",
+            base_url="https://api.hubapi.com",
+            auth={
+                "type": "bearer",
+                "token": hubspot_token
+            },
+            # Define key endpoints manually as fallback
+            endpoints=[
+                {
+                    "path": "/crm/v3/objects/companies/{companyId}",
+                    "method": "PATCH",
+                    "operation_id": "update_company",
+                    "description": "Update a company record",
+                    "parameters": [
+                        {"name": "companyId", "in": "path", "required": True, "type": "string"}
+                    ],
+                    "request_body": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "properties": {
+                                            "type": "object",
+                                            "description": "Company properties to update"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "path": "/crm/v3/objects/contacts/{contactId}",
+                    "method": "PATCH", 
+                    "operation_id": "update_contact",
+                    "description": "Update a contact record",
+                    "parameters": [
+                        {"name": "contactId", "in": "path", "required": True, "type": "string"}
+                    ],
+                    "request_body": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "properties": {
+                                            "type": "object",
+                                            "description": "Contact properties to update"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "path": "/crm/v3/objects/companies/{companyId}",
+                    "method": "GET",
+                    "operation_id": "get_company",
+                    "description": "Get a company record",
+                    "parameters": [
+                        {"name": "companyId", "in": "path", "required": True, "type": "string"},
+                        {"name": "properties", "in": "query", "required": False, "type": "string"}
+                    ]
+                },
+                {
+                    "path": "/crm/v3/objects/contacts/{contactId}",
+                    "method": "GET",
+                    "operation_id": "get_contact", 
+                    "description": "Get a contact record",
+                    "parameters": [
+                        {"name": "contactId", "in": "path", "required": True, "type": "string"},
+                        {"name": "properties", "in": "query", "required": False, "type": "string"}
+                    ]
+                }
+            ]
+        )
     
     return hubspot_tool
+
+
+def create_hubspot_typed_wrappers(openapi_tool=None):
+    """
+    Create typed wrapper functions for common HubSpot CRM operations.
+    Provides fallback to hubspot_safe_connector if OpenAPI tool unavailable.
+    """
+    if openapi_tool is None:
+        try:
+            openapi_tool = create_hubspot_openapi_tool()
+        except (ImportError, ValueError):
+            # Fallback to safe connector
+            from ...scripts.hubspot_safe_connector import HubSpotSafeConnector
+            connector = HubSpotSafeConnector()
+            
+            def hubspot_upsert_company(company_id: str, properties: Dict[str, Any]) -> Dict[str, Any]:
+                """Update or create a company using safe connector fallback."""
+                return connector.update_company(company_id, properties)
+            
+            def hubspot_create_task(properties: Dict[str, Any]) -> Dict[str, Any]:
+                """Create a task using safe connector fallback."""
+                return connector.create_task(properties)
+            
+            def hubspot_get_company(company_id: str, properties: Optional[List[str]] = None) -> Dict[str, Any]:
+                """Get a company using safe connector fallback."""
+                return connector.get_company(company_id, properties)
+            
+            def hubspot_get_contact(contact_id: str, properties: Optional[List[str]] = None) -> Dict[str, Any]:
+                """Get a contact using safe connector fallback."""
+                return connector.get_contact(contact_id, properties)
+            
+            return {
+                'upsert_company': hubspot_upsert_company,
+                'create_task': hubspot_create_task,
+                'get_company': hubspot_get_company,
+                'get_contact': hubspot_get_contact
+            }
+    
+    # Create typed wrappers using OpenAPI tool
+    def hubspot_upsert_company(company_id: str, properties: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Update or create a company record with typed payload construction.
+        
+        Args:
+            company_id: HubSpot company ID
+            properties: Dictionary of company properties to update
+            
+        Returns:
+            Updated company record
+        """
+        payload = {"properties": properties}
+        return openapi_tool.call_operation("update_company", 
+                                         path_params={"companyId": company_id},
+                                         body=payload)
+    
+    def hubspot_create_task(properties: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Create a task engagement with typed payload construction.
+        
+        Args:
+            properties: Task properties including subject, body, due_date, etc.
+            
+        Returns:
+            Created task record
+        """
+        payload = {"properties": properties}
+        return openapi_tool.call_operation("create_task", body=payload)
+    
+    def hubspot_get_company(company_id: str, properties: Optional[List[str]] = None) -> Dict[str, Any]:
+        """
+        Get a company record with optional property filtering.
+        
+        Args:
+            company_id: HubSpot company ID
+            properties: Optional list of properties to retrieve
+            
+        Returns:
+            Company record
+        """
+        query_params = {}
+        if properties:
+            query_params["properties"] = ",".join(properties)
+        
+        return openapi_tool.call_operation("get_company",
+                                         path_params={"companyId": company_id},
+                                         query_params=query_params)
+    
+    def hubspot_get_contact(contact_id: str, properties: Optional[List[str]] = None) -> Dict[str, Any]:
+        """
+        Get a contact record with optional property filtering.
+        
+        Args:
+            contact_id: HubSpot contact ID
+            properties: Optional list of properties to retrieve
+            
+        Returns:
+            Contact record
+        """
+        query_params = {}
+        if properties:
+            query_params["properties"] = ",".join(properties)
+        
+        return openapi_tool.call_operation("get_contact",
+                                         path_params={"contactId": contact_id},
+                                         query_params=query_params)
+    
+    return {
+        'upsert_company': hubspot_upsert_company,
+        'create_task': hubspot_create_task,
+        'get_company': hubspot_get_company,
+        'get_contact': hubspot_get_contact
+    }
 
 
 # Convenience functions for creating CRM agents

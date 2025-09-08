@@ -1,0 +1,290 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lead Scoring Configuration Schema",
+  "description": "Schema for lead scoring agent configuration",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration version for reproducibility"
+    },
+    "fit_scoring": {
+      "type": "object",
+      "properties": {
+        "max_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "weights": {
+          "type": "object",
+          "properties": {
+            "course_type": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "management_company": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "revenue_range": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "location": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "employee_count": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "technology_stack": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "amenities": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "rules": {
+          "type": "object",
+          "properties": {
+            "course_type_scores": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            },
+            "management_company_scores": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "required": ["max_score", "weights", "rules"],
+      "additionalProperties": false
+    },
+    "intent_scoring": {
+      "type": "object",
+      "properties": {
+        "max_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "weights": {
+          "type": "object",
+          "properties": {
+            "website_activity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "email_engagement": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "content_downloads": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "meeting_requests": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "technology_research": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "signals": {
+          "type": "object",
+          "properties": {
+            "demo_request": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "pricing_page_visits": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "multiple_email_opens": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "case_study_downloads": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "required": ["max_score", "weights", "signals"],
+      "additionalProperties": false
+    },
+    "total_score_calculation": {
+      "type": "object",
+      "properties": {
+        "fit_weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "intent_weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": ["fit_weight", "intent_weight"],
+      "additionalProperties": false
+    },
+    "score_bands": {
+      "type": "object",
+      "properties": {
+        "hot": {
+          "type": "object",
+          "properties": {
+            "min_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "sla_hours": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": ["min_score", "max_score", "sla_hours"]
+        },
+        "warm": {
+          "type": "object",
+          "properties": {
+            "min_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "sla_hours": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": ["min_score", "max_score", "sla_hours"]
+        },
+        "cold": {
+          "type": "object",
+          "properties": {
+            "min_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "sla_hours": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": ["min_score", "max_score", "sla_hours"]
+        },
+        "unqualified": {
+          "type": "object",
+          "properties": {
+            "min_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "sla_hours": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": ["min_score", "max_score", "sla_hours"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "hubspot_field_mapping": {
+      "type": "object",
+      "properties": {
+        "swoop_fit_score": {
+          "type": "string"
+        },
+        "swoop_intent_score": {
+          "type": "string"
+        },
+        "swoop_total_lead_score": {
+          "type": "string"
+        },
+        "score_band": {
+          "type": "string"
+        },
+        "score_updated_at": {
+          "type": "string"
+        },
+        "scoring_version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["version", "fit_scoring", "intent_scoring", "total_score_calculation"],
+  "additionalProperties": false
+}
+

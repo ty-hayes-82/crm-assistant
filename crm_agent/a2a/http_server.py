@@ -86,6 +86,11 @@ class CRMA2AHttpServer:
             version="1.0.0"
         )
         
+        # Initialize observability system (Phase 9)
+        from ..core.observability import get_logger, TraceContext
+        self.logger = get_logger("a2a_http_server")
+        self.TraceContext = TraceContext
+        
         # Add CORS middleware for cross-origin requests
         self.app.add_middleware(
             CORSMiddleware,

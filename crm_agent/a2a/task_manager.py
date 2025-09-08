@@ -26,10 +26,33 @@ from .agent import CRMA2AAgent
 class CRMAgentTaskManager(AgentExecutor):
     def __init__(self) -> None:
         self.agent = CRMA2AAgent()
+        
+        # Initialize observability system (Phase 9)
+        from ..core.observability import get_logger, TraceContext
+        self.logger = get_logger("a2a_task_manager")
+        self.TraceContext = TraceContext
 
     async def execute(self, context: "RequestContext", event_queue: "EventQueue") -> None:
+        # Generate trace context for task lifecycle tracking (Phase 9)
+        trace_context = self.TraceContext.new_trace(
+            session_id=getattr(context, 'session_id', None),
+            job_id=getattr(context, 'job_id', None)
+        )
+        
         query = context.get_user_input() if hasattr(context, "get_user_input") else ""
         task = context.current_task or new_task(getattr(context, "message", None))
+        
+        self.logger.info(
+            f"Starting task execution: {task.id}",
+            operation="task_execution",
+            metadata={
+                "task_id": task.id,
+                "context_id": task.contextId,
+                "trace_id": trace_context.trace_id,
+                "query": query[:100] + "..." if len(query) > 100 else query
+            }
+        )
+        
         await event_queue.enqueue_event(task)  # type: ignore[attr-defined]
         updater = TaskUpdater(event_queue, task.id, task.contextId)
 

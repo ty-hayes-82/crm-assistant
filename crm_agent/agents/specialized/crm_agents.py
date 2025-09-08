@@ -340,13 +340,6 @@ class CRMUpdaterAgent(SpecializedAgent):
             # Fallback to MCP tools if OpenAPI tool creation fails
             additional_tools = []
         
-        # Initialize observability and idempotency systems (Phase 9)
-        from ...core.observability import get_logger
-        from ...core.idempotency import get_idempotency_manager
-        
-        self.logger = get_logger("crm_updater")
-        self.idempotency_manager = get_idempotency_manager()
-        
         super().__init__(
             name="CRMUpdaterAgent",
             domain="crm_updates",
@@ -403,11 +396,22 @@ class CRMUpdaterAgent(SpecializedAgent):
             **kwargs
         )
     
+    def _get_logger(self):
+        """Get logger instance for this agent."""
+        from ...core.observability import get_logger
+        return get_logger("crm_updater")
+    
+    def _get_idempotency_manager(self):
+        """Get idempotency manager instance."""
+        from ...core.idempotency import get_idempotency_manager
+        return get_idempotency_manager()
+    
     def apply_hubspot_update_with_idempotency(
         self,
         object_type: str,
         object_id: str,
         properties: dict,
+        enrichment_results: List = None,
         session_id: str = None,
         trace_id: str = None
     ) -> dict:
@@ -416,13 +420,43 @@ class CRMUpdaterAgent(SpecializedAgent):
         
         Phase 9 implementation with structured logging, audit trail,
         and safe retry capabilities.
+        
+        PHASE 1 PROVENANCE GATE: Validates that all enrichment results have
+        source_urls and last_verified_at before allowing HubSpot writes.
         """
         from ...core.observability import span_context, EventType
         from ...core.idempotency import OperationType
         
+        # PHASE 1 PROVENANCE GATE: Validate all enrichment results before write
+        if enrichment_results:
+            provenance_errors = []
+            for result in enrichment_results:
+                if hasattr(result, 'validate_provenance') and not result.validate_provenance():
+                    errors = result.get_provenance_errors() if hasattr(result, 'get_provenance_errors') else ["Missing provenance data"]
+                    provenance_errors.append(f"Field '{result.field_name}': {', '.join(errors)}")
+            
+            if provenance_errors:
+                error_message = f"Provenance validation failed: {'; '.join(provenance_errors)}"
+                self._get_logger().error(
+                    f"HubSpot write blocked due to provenance validation failure",
+                    operation=f"update_{object_type}",
+                    metadata={
+                        "object_id": object_id,
+                        "provenance_errors": provenance_errors,
+                        "fields_attempted": list(properties.keys())
+                    }
+                )
+                return {
+                    "success": False,
+                    "error_type": "provenance_validation_failed",
+                    "error_message": error_message,
+                    "provenance_errors": provenance_errors,
+                    "blocked_write": True
+                }
+        
         with span_context(f"hubspot_update_{object_type}", "crm_updater") as span:
             # Generate idempotency key
-            idempotency_key = self.idempotency_manager.create_hubspot_update_key(
+            idempotency_key = self._get_idempotency_manager().create_hubspot_update_key(
                 object_type=object_type,
                 object_id=object_id,
                 properties=properties,
@@ -431,7 +465,7 @@ class CRMUpdaterAgent(SpecializedAgent):
             )
             
             # Log operation start
-            self.logger.info(
+            self._get_logger().info(
                 f"Starting HubSpot {object_type} update",
                 operation=f"update_{object_type}",
                 metadata={
@@ -442,9 +476,9 @@ class CRMUpdaterAgent(SpecializedAgent):
             )
             
             # Check for duplicate operation
-            duplicate_result = self.idempotency_manager.check_duplicate(idempotency_key)
+            duplicate_result = self._get_idempotency_manager().check_duplicate(idempotency_key)
             if duplicate_result:
-                self.logger.info(
+                self._get_logger().info(
                     f"Duplicate {object_type} update detected",
                     operation=f"update_{object_type}",
                     metadata={
@@ -468,7 +502,7 @@ class CRMUpdaterAgent(SpecializedAgent):
             try:
                 current_state = self._get_current_object_state(object_type, object_id)
             except Exception as e:
-                self.logger.warning(
+                self._get_logger().warning(
                     f"Could not retrieve current state for audit trail",
                     operation=f"update_{object_type}",
                     error=e,
@@ -488,7 +522,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                     updated_state = None
                 
                 # Record successful operation
-                operation_result = self.idempotency_manager.record_operation(
+                operation_result = self._get_idempotency_manager().record_operation(
                     key=idempotency_key,
                     success=True,
                     resource_id=object_id,
@@ -496,7 +530,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                 )
                 
                 # Create audit log entry
-                self.logger.audit_log(
+                self._get_logger().audit_log(
                     event_type=EventType.HUBSPOT_WRITE,
                     operation=f"update_{object_type}",
                     resource_type=object_type,
@@ -512,7 +546,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                     }
                 )
                 
-                self.logger.info(
+                self._get_logger().info(
                     f"Successfully updated {object_type}",
                     operation=f"update_{object_type}",
                     metadata={
@@ -533,7 +567,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                 error_message = str(e)
                 
                 # Record failed operation
-                operation_result = self.idempotency_manager.record_operation(
+                operation_result = self._get_idempotency_manager().record_operation(
                     key=idempotency_key,
                     success=False,
                     resource_id=object_id,
@@ -541,7 +575,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                 )
                 
                 # Create audit log entry for failure
-                self.logger.audit_log(
+                self._get_logger().audit_log(
                     event_type=EventType.ERROR_OCCURRED,
                     operation=f"update_{object_type}",
                     resource_type=object_type,
@@ -552,7 +586,7 @@ class CRMUpdaterAgent(SpecializedAgent):
                     idempotency_key=idempotency_key.key
                 )
                 
-                self.logger.error(
+                self._get_logger().error(
                     f"Failed to update {object_type}",
                     operation=f"update_{object_type}",
                     error=e,

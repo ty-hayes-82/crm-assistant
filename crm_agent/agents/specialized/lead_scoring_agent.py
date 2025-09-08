@@ -22,6 +22,10 @@ class LeadScoringAgent(SpecializedAgent):
         if config_path is None:
             config_path = Path(__file__).parent.parent.parent / "configs" / "lead_scoring_config.json"
         
+        # Initialize observability system (Phase 9)
+        from ...core.observability import get_logger
+        self.logger = get_logger("lead_scoring")
+        
         super().__init__(
             name="LeadScoringAgent",
             domain="lead_scoring",

@@ -23,6 +23,10 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         if config_path is None:
             config_path = Path(__file__).parent.parent.parent / "configs" / "outreach_personalization_config.json"
         
+        # Initialize observability system (Phase 9)
+        from ...core.observability import get_logger
+        self.logger = get_logger("outreach_personalizer")
+        
         # Initialize role taxonomy service
         self.role_taxonomy = create_role_taxonomy_service()
         
@@ -289,13 +293,34 @@ Sources and References:
             }
         }
         
+        # PHASE 1 PROVENANCE GATE: Validate citations before creating engagement
+        citations = personalization.get('citations', [])
+        citation_requirements = self._config.get('citation_requirements', {})
+        
+        if citation_requirements.get('required', True):
+            missing_citations = []
+            for claim_type in citation_requirements.get('required_for', ['company_facts', 'statistics', 'claims']):
+                if not any(cite.get('type') == claim_type for cite in citations):
+                    missing_citations.append(claim_type)
+            
+            if missing_citations:
+                error_message = f"Citation validation failed: Missing citations for {', '.join(missing_citations)}"
+                return {
+                    "status": "blocked_by_provenance",
+                    "error_type": "citation_validation_failed",
+                    "error_message": error_message,
+                    "missing_citations": missing_citations,
+                    "blocked_write": True
+                }
+        
         # Note: In production, this would call HubSpot API via OpenAPI tools
         # For now, return the structured data that would be sent
         return {
             "status": "draft_created",
             "email_data": email_data,
             "engagement_id": f"draft_{datetime.utcnow().timestamp()}",
-            "message": "Email draft created successfully (not sent)"
+            "message": "Email draft created successfully (not sent)",
+            "citations_validated": len(citations)
         }
     
     def _create_follow_up_task(self, contact_data: Dict[str, Any], company_data: Dict[str, Any],

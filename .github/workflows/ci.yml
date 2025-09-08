@@ -1,0 +1,112 @@
+name: CRM Assistant CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: 3.11
+        environment-file: environment.yml
+        activate-environment: adk
+        auto-activate-base: false
+    
+    - name: Install dependencies
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        pip install -r requirements.txt
+        pip install pytest pytest-asyncio pytest-cov ruff jsonschema
+    
+    - name: Lint with ruff
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        ruff check . --output-format=github
+        ruff format --check .
+    
+    - name: Validate configurations
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        python -m crm_agent.core.config_validator
+    
+    - name: Run tests
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        pytest --cov=crm_agent --cov-report=xml --cov-report=term-missing
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: 3.11
+        environment-file: environment.yml
+        activate-environment: adk
+        auto-activate-base: false
+    
+    - name: Install dependencies
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        pip install -r requirements.txt
+        pip install pytest pytest-asyncio
+    
+    - name: Run integration tests
+      shell: bash -el {0}
+      env:
+        HUBSPOT_TEST_PORTAL: "1"
+        DRY_RUN: "1"
+      run: |
+        conda activate adk
+        pytest tests/infrastructure/ tests/enrichment/test_provenance_gate_integration.py -v
+    
+    - name: Test A2A server startup
+      shell: bash -el {0}
+      run: |
+        conda activate adk
+        timeout 30s python -m crm_agent.a2a || [ $? -eq 124 ]  # 124 is timeout exit code
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Bandit Security Linter
+      uses: securecodewarrior/github-action-bandit@v1
+      with:
+        args: '-r crm_agent/ -f json -o bandit-report.json'
+    
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: bandit-report
+        path: bandit-report.json
