@@ -1,0 +1,502 @@
+{
+  "version": "1.0.0",
+  "description": "Centralized role taxonomy for golf course industry contacts with confidence scoring",
+  "updated_at": "2024-01-15T00:00:00Z",
+  "confidence_threshold": 0.75,
+  
+  "role_categories": {
+    "executive": {
+      "description": "C-level executives and senior leadership",
+      "decision_authority": "high",
+      "typical_influence": "strategic",
+      "roles": [
+        "general_manager",
+        "president", 
+        "ceo",
+        "coo",
+        "owner"
+      ]
+    },
+    "operations": {
+      "description": "Operations and facility management",
+      "decision_authority": "medium",
+      "typical_influence": "operational",
+      "roles": [
+        "operations_manager",
+        "assistant_general_manager",
+        "superintendent",
+        "facilities_manager"
+      ]
+    },
+    "hospitality": {
+      "description": "Food, beverage, and hospitality services",
+      "decision_authority": "medium",
+      "typical_influence": "departmental",
+      "roles": [
+        "fb_manager",
+        "chef",
+        "catering_manager",
+        "banquet_manager",
+        "restaurant_manager"
+      ]
+    },
+    "golf_operations": {
+      "description": "Golf-specific operations and instruction",
+      "decision_authority": "medium", 
+      "typical_influence": "departmental",
+      "roles": [
+        "golf_professional",
+        "head_golf_professional",
+        "assistant_golf_professional",
+        "golf_course_superintendent",
+        "starter"
+      ]
+    },
+    "technology": {
+      "description": "IT and technology management",
+      "decision_authority": "medium",
+      "typical_influence": "technical",
+      "roles": [
+        "it_manager",
+        "technology_director",
+        "systems_administrator",
+        "it_coordinator"
+      ]
+    },
+    "sales_marketing": {
+      "description": "Sales, marketing, and membership",
+      "decision_authority": "low",
+      "typical_influence": "departmental",
+      "roles": [
+        "marketing_sales",
+        "membership_director",
+        "sales_manager",
+        "marketing_coordinator",
+        "events_coordinator"
+      ]
+    },
+    "finance_admin": {
+      "description": "Finance, accounting, and administration",
+      "decision_authority": "medium",
+      "typical_influence": "financial",
+      "roles": [
+        "controller",
+        "accountant",
+        "office_manager",
+        "administrative_assistant",
+        "bookkeeper"
+      ]
+    },
+    "maintenance": {
+      "description": "Grounds and facility maintenance",
+      "decision_authority": "low",
+      "typical_influence": "operational",
+      "roles": [
+        "grounds_crew",
+        "maintenance_supervisor",
+        "equipment_manager",
+        "irrigation_specialist"
+      ]
+    }
+  },
+
+  "title_synonyms": {
+    "general_manager": {
+      "exact_matches": [
+        "general manager",
+        "gm",
+        "club manager",
+        "managing director"
+      ],
+      "partial_matches": [
+        "general mgr",
+        "gen manager",
+        "club mgr"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "president": {
+      "exact_matches": [
+        "president",
+        "club president", 
+        "board president"
+      ],
+      "partial_matches": [
+        "pres",
+        "club pres"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "ceo": {
+      "exact_matches": [
+        "ceo",
+        "chief executive officer",
+        "chief executive"
+      ],
+      "partial_matches": [
+        "c.e.o",
+        "chief exec"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "coo": {
+      "exact_matches": [
+        "coo",
+        "chief operating officer",
+        "chief operations officer"
+      ],
+      "partial_matches": [
+        "c.o.o",
+        "chief ops"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "owner": {
+      "exact_matches": [
+        "owner",
+        "proprietor",
+        "principal"
+      ],
+      "partial_matches": [
+        "co-owner",
+        "part owner"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "operations_manager": {
+      "exact_matches": [
+        "operations manager",
+        "ops manager",
+        "director of operations",
+        "operations director"
+      ],
+      "partial_matches": [
+        "ops mgr",
+        "operations mgr",
+        "dir of ops",
+        "superintendent"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "assistant_general_manager": {
+      "exact_matches": [
+        "assistant general manager",
+        "agm",
+        "assistant gm",
+        "deputy general manager"
+      ],
+      "partial_matches": [
+        "asst gm",
+        "asst general manager",
+        "deputy gm"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "superintendent": {
+      "exact_matches": [
+        "superintendent",
+        "golf course superintendent",
+        "course superintendent"
+      ],
+      "partial_matches": [
+        "super",
+        "supt",
+        "grounds superintendent"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.7
+      }
+    },
+    "facilities_manager": {
+      "exact_matches": [
+        "facilities manager",
+        "facility manager",
+        "director of facilities"
+      ],
+      "partial_matches": [
+        "facilities mgr",
+        "facility mgr",
+        "maintenance manager"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "fb_manager": {
+      "exact_matches": [
+        "f&b manager",
+        "food and beverage manager",
+        "fb manager",
+        "director of food and beverage"
+      ],
+      "partial_matches": [
+        "food manager",
+        "beverage manager",
+        "restaurant manager",
+        "dining manager"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "chef": {
+      "exact_matches": [
+        "chef",
+        "executive chef",
+        "head chef",
+        "culinary director"
+      ],
+      "partial_matches": [
+        "sous chef",
+        "kitchen manager",
+        "culinary manager"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.7
+      }
+    },
+    "catering_manager": {
+      "exact_matches": [
+        "catering manager",
+        "banquet manager",
+        "events manager"
+      ],
+      "partial_matches": [
+        "catering mgr",
+        "banquet mgr",
+        "events mgr"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "golf_professional": {
+      "exact_matches": [
+        "golf professional",
+        "head golf professional",
+        "head pro",
+        "pga professional",
+        "director of golf"
+      ],
+      "partial_matches": [
+        "golf pro",
+        "head golf pro",
+        "golf instructor",
+        "teaching professional"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    },
+    "assistant_golf_professional": {
+      "exact_matches": [
+        "assistant golf professional",
+        "assistant pro",
+        "assistant pga professional"
+      ],
+      "partial_matches": [
+        "asst golf pro",
+        "asst pro",
+        "golf assistant"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "it_manager": {
+      "exact_matches": [
+        "it manager",
+        "information technology manager",
+        "technology manager",
+        "director of it",
+        "it director"
+      ],
+      "partial_matches": [
+        "it mgr",
+        "tech manager",
+        "systems manager",
+        "technology coordinator"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "technology_director": {
+      "exact_matches": [
+        "technology director",
+        "director of technology",
+        "chief technology officer",
+        "cto"
+      ],
+      "partial_matches": [
+        "tech director",
+        "dir of technology",
+        "technology lead"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "marketing_sales": {
+      "exact_matches": [
+        "marketing manager",
+        "sales manager",
+        "director of marketing",
+        "director of sales"
+      ],
+      "partial_matches": [
+        "marketing mgr",
+        "sales mgr",
+        "marketing coordinator",
+        "sales coordinator"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.7
+      }
+    },
+    "membership_director": {
+      "exact_matches": [
+        "membership director",
+        "director of membership",
+        "membership manager"
+      ],
+      "partial_matches": [
+        "membership mgr",
+        "member services manager",
+        "membership coordinator"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "controller": {
+      "exact_matches": [
+        "controller",
+        "financial controller",
+        "chief financial officer",
+        "cfo"
+      ],
+      "partial_matches": [
+        "finance manager",
+        "accounting manager",
+        "finance director"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.8
+      }
+    },
+    "accountant": {
+      "exact_matches": [
+        "accountant",
+        "staff accountant",
+        "senior accountant"
+      ],
+      "partial_matches": [
+        "bookkeeper",
+        "accounting clerk",
+        "finance specialist"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.7
+      }
+    },
+    "office_manager": {
+      "exact_matches": [
+        "office manager",
+        "administrative manager",
+        "operations administrator"
+      ],
+      "partial_matches": [
+        "office mgr",
+        "admin manager",
+        "office administrator"
+      ],
+      "confidence_weights": {
+        "exact_matches": 1.0,
+        "partial_matches": 0.9
+      }
+    }
+  },
+
+  "confidence_scoring": {
+    "factors": {
+      "exact_title_match": 1.0,
+      "partial_title_match": 0.8,
+      "contextual_keywords": 0.6,
+      "company_size_alignment": 0.4,
+      "industry_context": 0.3
+    },
+    "minimum_confidence": 0.5,
+    "review_threshold": 0.75,
+    "auto_assign_threshold": 0.9
+  },
+
+  "role_validation_rules": {
+    "required_review_conditions": [
+      "confidence < 0.75",
+      "conflicting_title_signals",
+      "unknown_title_pattern",
+      "executive_level_assignment"
+    ],
+    "automatic_assignment_conditions": [
+      "confidence >= 0.9",
+      "exact_title_match",
+      "validated_company_context"
+    ]
+  },
+
+  "policy_enforcement": {
+    "data_collection_limits": {
+      "respect_robots_txt": true,
+      "throttle_requests": true,
+      "max_requests_per_minute": 60,
+      "avoid_paywall_bypass": true,
+      "no_email_scraping": true
+    },
+    "pii_handling": {
+      "tag_personal_info": true,
+      "anonymize_sensitive_data": false,
+      "data_retention_days": 365,
+      "consent_required": true
+    },
+    "compliance_checks": {
+      "gdpr_compliance": true,
+      "ccpa_compliance": true,
+      "industry_standards": ["golf_industry_ethics"]
+    }
+  }
+}

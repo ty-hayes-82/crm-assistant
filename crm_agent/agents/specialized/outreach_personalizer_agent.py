@@ -12,6 +12,7 @@ from pathlib import Path
 
 from ...core.base_agents import SpecializedAgent
 from ...core.state_models import CRMSessionState, CRMStateKeys
+from ...core.role_taxonomy import create_role_taxonomy_service
 
 
 class OutreachPersonalizerAgent(SpecializedAgent):
@@ -21,6 +22,9 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         # Load personalization configuration
         if config_path is None:
             config_path = Path(__file__).parent.parent.parent / "configs" / "outreach_personalization_config.json"
+        
+        # Initialize role taxonomy service
+        self.role_taxonomy = create_role_taxonomy_service()
         
         super().__init__(
             name="OutreachPersonalizerAgent",
@@ -111,7 +115,7 @@ class OutreachPersonalizerAgent(SpecializedAgent):
         lead_scores = getattr(state, 'lead_scores', {})
         
         # Analyze contact role and company profile
-        role_analysis = self._analyze_contact_role(contact_data)
+        role_analysis = self._analyze_contact_role(contact_data, company_data)
         company_profile = self._analyze_company_profile(company_data, enrichment_findings)
         
         # Generate personalized content
@@ -160,31 +164,35 @@ class OutreachPersonalizerAgent(SpecializedAgent):
                 "personalization_rules": {}
             }
     
-    def _analyze_contact_role(self, contact_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Analyze contact role and determine messaging strategy."""
-        job_title = contact_data.get("jobtitle", "").lower()
+    def _analyze_contact_role(self, contact_data: Dict[str, Any], company_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Analyze contact role and determine messaging strategy using centralized taxonomy."""
+        job_title = contact_data.get("jobtitle", "")
         
-        # Role classification
-        role_type = "general"
-        if any(term in job_title for term in ["general manager", "gm", "president", "ceo"]):
-            role_type = "general_manager"
-        elif any(term in job_title for term in ["operations", "ops", "superintendent"]):
-            role_type = "operations_manager"
-        elif any(term in job_title for term in ["food", "beverage", "f&b", "restaurant", "dining"]):
-            role_type = "fb_manager"
-        elif any(term in job_title for term in ["golf", "professional", "pga", "head pro"]):
-            role_type = "golf_professional"
-        elif any(term in job_title for term in ["it", "technology", "systems", "tech"]):
-            role_type = "it_manager"
-        elif any(term in job_title for term in ["marketing", "sales", "membership"]):
-            role_type = "marketing_sales"
+        # Use centralized role taxonomy service
+        classification_result = self.role_taxonomy.classify_role(
+            job_title=job_title,
+            company_context=company_data,
+            additional_context=contact_data
+        )
+        
+        # Get messaging strategy for the classified role
+        messaging_strategy = self.role_taxonomy.get_role_messaging_strategy(classification_result.classified_role)
         
         return {
-            "original_title": contact_data.get("jobtitle", ""),
-            "role_type": role_type,
-            "messaging_focus": self._get_role_messaging_focus(role_type),
-            "decision_authority": self._assess_decision_authority(role_type),
-            "pain_points": self._get_role_pain_points(role_type)
+            "original_title": classification_result.original_title,
+            "role_type": classification_result.classified_role,
+            "role_category": classification_result.role_category,
+            "confidence": classification_result.confidence,
+            "requires_review": classification_result.requires_review,
+            "messaging_focus": self._get_role_messaging_focus(classification_result.classified_role),
+            "decision_authority": classification_result.decision_authority,
+            "pain_points": self._get_role_pain_points(classification_result.classified_role),
+            "classification_metadata": {
+                "matched_synonyms": classification_result.matched_synonyms,
+                "confidence_factors": classification_result.confidence_factors,
+                "classification_timestamp": classification_result.classification_timestamp.isoformat(),
+                "classification_version": classification_result.classification_version
+            }
         }
     
     def _analyze_company_profile(self, company_data: Dict[str, Any], enrichment_findings: Dict[str, Any]) -> Dict[str, Any]:
