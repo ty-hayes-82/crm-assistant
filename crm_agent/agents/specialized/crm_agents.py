@@ -624,7 +624,7 @@ class CRMDataQualityAgent(SpecializedAgent):
         super().__init__(
             name="CRMDataQualityAgent",
             domain="crm_data_quality",
-            specialized_tools=["get_hubspot_contact", "get_hubspot_company"],
+            specialized_tools=["get_hubspot_contact", "get_hubspot_company", "normalize_company_data", "determine_company_type_with_gemini", "detect_competitors_from_website", "generate_club_info_with_gemini", "update_crm_state"],
             instruction="""
             You are a specialized CRM Data Quality agent for validation and cleanup.
             

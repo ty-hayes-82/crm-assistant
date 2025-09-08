@@ -1,0 +1,169 @@
+# Development Docker Compose configuration
+version: '3.8'
+
+services:
+  # CRM Coordinator Development Service
+  crm-coordinator-dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "10000:10000"    # A2A HTTP server
+      - "8081:8081"      # MCP server
+      - "9090:9090"      # Metrics
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - HUBSPOT__ACCESS_TOKEN=${HUBSPOT_TOKEN}
+      - HUBSPOT__TEST_PORTAL=true
+      - HUBSPOT__DRY_RUN=true
+      - A2A__HOST=0.0.0.0
+      - A2A__PORT=10000
+      - A2A__ENABLE_SECURITY=false  # Disabled for easier development
+      - REDIS__HOST=redis-dev
+      - DATABASE__HOST=postgres-dev
+      - OBSERVABILITY__LOG_LEVEL=DEBUG
+      - OBSERVABILITY__LOG_TO_CONSOLE=true
+      - OBSERVABILITY__ENABLE_TRACING=true
+      - OBSERVABILITY__ENABLE_METRICS=true
+    volumes:
+      # Mount source code for hot reloading
+      - .:/app
+      - ./configs:/app/configs
+      - ./logs:/app/logs
+      # Exclude node_modules and cache directories
+      - /app/__pycache__
+      - /app/.pytest_cache
+    depends_on:
+      - redis-dev
+      - postgres-dev
+    restart: unless-stopped
+    command: >
+      sh -c "
+        # Install development dependencies if not present
+        pip install -e . &&
+        # Start the A2A server with auto-reload
+        python -m crm_agent.a2a.http_server --host 0.0.0.0 --port 10000 --reload
+      "
+    networks:
+      - crm-dev-network
+
+  # Redis for development
+  redis-dev:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"  # Different port to avoid conflicts
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    networks:
+      - crm-dev-network
+
+  # PostgreSQL for development
+  postgres-dev:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"  # Different port to avoid conflicts
+    environment:
+      - POSTGRES_DB=crm_assistant_dev
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_password
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./docker/postgres/init-dev.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    networks:
+      - crm-dev-network
+
+  # Jupyter notebook for development and testing
+  jupyter:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-development}
+    volumes:
+      - .:/app
+      - ./notebooks:/app/notebooks
+    command: >
+      sh -c "
+        pip install jupyter jupyterlab &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='${JUPYTER_TOKEN:-development}'
+      "
+    profiles:
+      - jupyter
+    networks:
+      - crm-dev-network
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@crm-assistant.dev
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-admin}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres-dev
+    profiles:
+      - database-tools
+    networks:
+      - crm-dev-network
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - "8082:8081"
+    environment:
+      - REDIS_HOSTS=local:redis-dev:6379
+    depends_on:
+      - redis-dev
+    profiles:
+      - database-tools
+    networks:
+      - crm-dev-network
+
+  # Test runner service
+  test-runner:
+    build:
+      context: .
+      target: development
+    environment:
+      - ENVIRONMENT=testing
+      - HUBSPOT__ACCESS_TOKEN=${HUBSPOT_TOKEN}
+      - HUBSPOT__DRY_RUN=true
+      - REDIS__HOST=redis-dev
+      - DATABASE__HOST=postgres-dev
+    volumes:
+      - .:/app
+    depends_on:
+      - redis-dev
+      - postgres-dev
+    command: >
+      sh -c "
+        # Wait for services to be ready
+        sleep 10 &&
+        # Run tests
+        python -m pytest tests/ -v --cov=crm_agent --cov-report=html --cov-report=term
+      "
+    profiles:
+      - testing
+    networks:
+      - crm-dev-network
+
+# Development volumes
+volumes:
+  postgres_dev_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+# Development network
+networks:
+  crm-dev-network:
+    driver: bridge

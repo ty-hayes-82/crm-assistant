@@ -115,7 +115,7 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     query_planner.instruction += """
     
     📋 PIPELINE STEP 2: QUERY PLANNING
-    - Read detected gaps from previous step: {detected_gaps}
+    - Read detected gaps from previous step using CRMStateKeys.DETECTED_GAPS
     - Craft targeted search queries for each identified gap
     - Create prioritized search plan with confidence estimates
     - Save search plan using CRMStateKeys.SEARCH_PLAN
@@ -130,11 +130,11 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     synthesizer.instruction += """
     
     📋 PIPELINE STEP 4: SYNTHESIS
-    - Read findings from parallel retrieval:
-      * Web findings: {web_findings}
-      * LinkedIn findings: {li_findings}
-      * Company findings: {company_findings}
-      * Email validation: {email_validation}
+    - Read findings from parallel retrieval using session state keys:
+      * Web findings: CRMStateKeys.WEB_FINDINGS
+      * LinkedIn findings: CRMStateKeys.LI_FINDINGS
+      * Company findings: CRMStateKeys.COMPANY_FINDINGS
+      * Email validation: CRMStateKeys.EMAIL_VALIDATION
     - Normalize and deduplicate all findings
     - Resolve conflicts using source reliability
     - Generate confidence scores for each insight
@@ -147,7 +147,7 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     entity_matcher.instruction += """
     
     📋 PIPELINE STEP 5: ENTITY MATCHING
-    - Read normalized insights from previous step: {normalized_insights}
+    - Read normalized insights from previous step using CRMStateKeys.NORMALIZED_INSIGHTS
     - Map insights to specific HubSpot CRM fields
     - Apply field precedence and update policies
     - Generate proposed field mappings with justifications
@@ -176,8 +176,8 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     proposal_generator.instruction += """
     
     📋 PIPELINE STEP 7: PROPOSAL GENERATION
-    - Read proposed field mappings: {proposed_field_map}
-    - Read lead scores: {lead_scores}
+    - Read proposed field mappings using CRMStateKeys.PROPOSED_FIELD_MAP
+    - Read lead scores using CRMStateKeys.LEAD_SCORES
     - Generate detailed change proposals with before/after values
     - Include confidence scores and source attribution
     - Format proposals for human review
@@ -191,7 +191,7 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     You are handling the Human Approval step in the CRM enrichment pipeline.
     
     📋 PIPELINE STEP 8: HUMAN APPROVAL
-    - Read proposed changes from previous step: {proposed_changes}
+    - Read proposed changes from previous step using CRMStateKeys.PROPOSED_CHANGES
     - Format changes for human review in Slack
     - Send approval request with clear options
     - Process user response (approve all, selected, or none)
@@ -211,7 +211,7 @@ def create_crm_enrichment_pipeline() -> SequentialAgent:
     You are handling the Update Application step in the CRM enrichment pipeline.
     
     📋 PIPELINE STEP 9: UPDATE APPLICATION
-    - Read approved changes from previous step: {approved_changes}
+    - Read approved changes from previous step using CRMStateKeys.APPROVED_CHANGES
     - Apply only approved changes to HubSpot via MCP server
     - Handle API errors gracefully with retries
     - Track success/failure for each update
@@ -318,7 +318,7 @@ def create_crm_data_quality_workflow() -> SequentialAgent:
     You are planning CRM data quality improvements.
     
     📋 QUALITY WORKFLOW STEP 2: IMPROVEMENT PLANNING
-    - Read quality report from previous step: {quality_report}
+    - Read quality report from previous step using CRMStateKeys.QUALITY_REPORT
     - Identify high-impact, low-effort improvements
     - Create action plan for data quality enhancement
     - Prioritize fixes by business impact

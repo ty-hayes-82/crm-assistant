@@ -50,7 +50,7 @@ class BaseAgent(LlmAgent):
                         command='python',
                         args=['-m', 'crm_fastmcp_server.stdio_server'],
                     ),
-                    timeout=30,
+                    timeout=60,
                 ),
             )
         

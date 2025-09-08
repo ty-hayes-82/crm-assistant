@@ -1,0 +1,147 @@
+version: '3.8'
+
+services:
+  # CRM Coordinator A2A Service
+  crm-coordinator:
+    build:
+      context: .
+      target: production
+    ports:
+      - "10000:10000"    # A2A HTTP server
+      - "9090:9090"      # Metrics (if enabled)
+    environment:
+      - ENVIRONMENT=production
+      - HUBSPOT__ACCESS_TOKEN=${HUBSPOT_TOKEN}
+      - A2A__HOST=0.0.0.0
+      - A2A__PORT=10000
+      - A2A__ENABLE_SECURITY=true
+      - REDIS__HOST=redis
+      - DATABASE__HOST=postgres
+      - OBSERVABILITY__LOG_LEVEL=INFO
+      - OBSERVABILITY__ENABLE_METRICS=true
+      - OBSERVABILITY__METRICS_PORT=9090
+    volumes:
+      - ./configs:/app/configs:ro
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+      - postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - crm-network
+
+  # Redis for session storage and caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - crm-network
+
+  # PostgreSQL for persistent data storage
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=crm_assistant
+      - POSTGRES_USER=crm_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-crm_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm_user -d crm_assistant"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - crm-network
+
+  # Nginx reverse proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - crm-coordinator
+    restart: unless-stopped
+    profiles:
+      - production
+    networks:
+      - crm-network
+
+  # Prometheus for metrics collection (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    profiles:
+      - monitoring
+    networks:
+      - crm-network
+
+  # Grafana for metrics visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    profiles:
+      - monitoring
+    networks:
+      - crm-network
+
+# Named volumes for data persistence
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+# Custom network for service communication
+networks:
+  crm-network:
+    driver: bridge
